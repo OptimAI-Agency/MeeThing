@@ -1,7 +1,10 @@
 
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const MinimalHero = () => {
+  const navigate = useNavigate();
+
   return <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Nature Background */}
       <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
@@ -19,7 +22,13 @@ const MinimalHero = () => {
           </span>
         </h1>
         
-        <Button size="lg" className="backdrop-blur-sm border border-white/20 text-lg px-12 py-4 rounded-full transition-all duration-300 hover:scale-105 bg-slate-50 text-green-800 font-extrabold">Let's go for a walk</Button>
+        <Button 
+          size="lg" 
+          className="backdrop-blur-sm border border-white/20 text-lg px-12 py-4 rounded-full transition-all duration-300 hover:scale-105 bg-slate-50 text-green-800 font-extrabold"
+          onClick={() => navigate('/calendar')}
+        >
+          Let's go for a walk
+        </Button>
       </div>
     </section>;
 };
