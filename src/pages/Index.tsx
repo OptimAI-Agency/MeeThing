@@ -9,7 +9,7 @@ const Index = () => {
       {/* Trademark text at bottom */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20">
         <p className="text-white/70 text-sm font-medium">
-          MeeThing™
+          2025 MeeThing TM ~ All rights reserved.
         </p>
       </div>
     </div>
