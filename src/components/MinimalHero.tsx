@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 
 const MinimalHero = () => {
@@ -19,7 +18,9 @@ const MinimalHero = () => {
           </span>
         </h1>
         
-        <p className="text-xl sm:text-2xl mb-12 max-w-2xl mx-auto leading-relaxed text-yellow-500 bg-black/30 backdrop-blur-sm rounded-lg px-6 py-3">Healthier digital meetings with AI-mindful scheduling.</p>
+        <p className="text-xl sm:text-2xl mb-12 max-w-2xl mx-auto leading-relaxed text-white font-medium bg-black/40 backdrop-blur-md rounded-2xl px-8 py-6 border border-white/20 shadow-2xl">
+          Healthier digital meetings with AI-mindful scheduling.
+        </p>
         
         <Button size="lg" className="backdrop-blur-sm border border-white/20 text-lg px-12 py-4 rounded-full transition-all duration-300 hover:scale-105 bg-slate-50 text-green-800 font-extrabold">Let's go for a walk</Button>
       </div>
