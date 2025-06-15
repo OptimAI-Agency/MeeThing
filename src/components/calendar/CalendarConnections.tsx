@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Calendar } from "lucide-react";
+import { CheckCircle, Calendar, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface CalendarConnection {
@@ -54,7 +54,6 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
   const handleConnect = async (providerId: string) => {
     setConnecting(providerId);
     
-    // Simulate OAuth flow - in real implementation, this would redirect to provider's OAuth
     setTimeout(() => {
       setConnectedCalendars([...connectedCalendars, providerId]);
       setConnecting(null);
@@ -79,41 +78,44 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
   };
 
   return (
-    <div className="space-y-6">
-      <Card className="border-0 shadow-none bg-transparent">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-gray-800">
-            <Calendar className="w-5 h-5" />
-            Calendar Connections
-          </CardTitle>
-          <CardDescription className="text-gray-600">
-            Connect your calendar providers to sync meetings and events
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {calendarProviders.map((provider) => {
-            const isConnected = connectedCalendars.includes(provider.id);
-            const isConnecting = connecting === provider.id;
+    <div className="space-y-8">
+      {/* Header Section */}
+      <div className="text-center space-y-3">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 mb-4">
+          <Calendar className="w-8 h-8 text-white" />
+        </div>
+        <h2 className="text-2xl font-semibold text-gray-900 tracking-tight">Calendar Connections</h2>
+        <p className="text-gray-600 text-base max-w-md mx-auto leading-relaxed">
+          Connect your calendar providers to sync meetings and events seamlessly
+        </p>
+      </div>
 
-            return (
-              <div
-                key={provider.id}
-                className="flex items-center justify-between p-4 border rounded-lg hover:bg-white/50 transition-colors bg-white/30 backdrop-blur-sm"
-              >
+      {/* Connection Cards */}
+      <div className="space-y-4">
+        {calendarProviders.map((provider) => {
+          const isConnected = connectedCalendars.includes(provider.id);
+          const isConnecting = connecting === provider.id;
+
+          return (
+            <div
+              key={provider.id}
+              className="group relative bg-white/80 backdrop-blur-xl rounded-2xl border border-white/20 p-6 hover:bg-white/90 transition-all duration-300 hover:shadow-xl hover:shadow-black/5"
+            >
+              <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                  <div className={`w-12 h-12 ${provider.color} rounded-lg flex items-center justify-center text-white text-xl`}>
+                  <div className={`w-14 h-14 ${provider.color} rounded-xl flex items-center justify-center text-white text-2xl shadow-lg`}>
                     {provider.icon}
                   </div>
-                  <div>
-                    <h3 className="font-medium text-gray-900">{provider.name}</h3>
-                    <p className="text-sm text-gray-600">{provider.description}</p>
+                  <div className="space-y-1">
+                    <h3 className="font-medium text-gray-900 text-lg">{provider.name}</h3>
+                    <p className="text-gray-600 text-sm leading-relaxed max-w-xs">{provider.description}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-3">
                   {isConnected && (
-                    <Badge variant="secondary" className="bg-green-100 text-green-800">
-                      <CheckCircle className="w-3 h-3 mr-1" />
+                    <Badge className="bg-green-100 text-green-800 border-green-200 font-medium px-3 py-1">
+                      <CheckCircle className="w-3 h-3 mr-1.5" />
                       Connected
                     </Badge>
                   )}
@@ -123,7 +125,7 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
                       variant="outline"
                       size="sm"
                       onClick={() => handleDisconnect(provider.id)}
-                      className="border-gray-300 hover:bg-red-50 hover:border-red-300"
+                      className="border-gray-200 hover:border-red-300 hover:bg-red-50 hover:text-red-700 transition-all duration-200 rounded-xl px-4 py-2"
                     >
                       Disconnect
                     </Button>
@@ -131,43 +133,56 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
                     <Button
                       onClick={() => handleConnect(provider.id)}
                       disabled={isConnecting}
-                      className="bg-green-600 hover:bg-green-700 text-white"
+                      className="bg-black hover:bg-gray-800 text-white border-0 rounded-xl px-6 py-2 font-medium transition-all duration-200 group-hover:scale-105 shadow-lg"
                     >
-                      {isConnecting ? "Connecting..." : "Connect"}
+                      {isConnecting ? (
+                        <div className="flex items-center space-x-2">
+                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          <span>Connecting...</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center space-x-2">
+                          <span>Connect</span>
+                          <ArrowRight className="w-4 h-4" />
+                        </div>
+                      )}
                     </Button>
                   )}
                 </div>
               </div>
-            );
-          })}
-        </CardContent>
-      </Card>
-
-      {connectedCalendars.length > 0 && (
-        <Card className="border-0 shadow-none bg-white/30 backdrop-blur-sm">
-          <CardHeader>
-            <CardTitle className="text-gray-800">Next Steps</CardTitle>
-            <CardDescription className="text-gray-600">
-              Your calendars are connected! Here's what happens next:
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3 text-sm text-gray-700">
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span>Events will sync automatically every 15 minutes</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span>Meeting reminders will include wellness tips</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span>View all your meetings in the Overview tab</span>
-              </div>
             </div>
-          </CardContent>
-        </Card>
+          );
+        })}
+      </div>
+
+      {/* Success State */}
+      {connectedCalendars.length > 0 && (
+        <div className="bg-green-50/80 backdrop-blur-xl rounded-2xl border border-green-200/50 p-6 space-y-4">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+              <CheckCircle className="w-5 h-5 text-green-600" />
+            </div>
+            <div>
+              <h3 className="font-medium text-green-900">All Set!</h3>
+              <p className="text-green-700 text-sm">Your calendars are connected and ready to sync</p>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+            <div className="flex items-center space-x-2 text-sm text-green-700">
+              <div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+              <span>Auto-sync every 15 minutes</span>
+            </div>
+            <div className="flex items-center space-x-2 text-sm text-green-700">
+              <div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+              <span>Wellness tips included</span>
+            </div>
+            <div className="flex items-center space-x-2 text-sm text-green-700">
+              <div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+              <span>View in Overview tab</span>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
