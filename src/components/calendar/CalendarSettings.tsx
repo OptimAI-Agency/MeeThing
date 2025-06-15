@@ -1,11 +1,10 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Settings, Bell, Sync } from "lucide-react";
+import { Settings, Bell, RefreshCw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const CalendarSettings = () => {
@@ -34,7 +33,7 @@ const CalendarSettings = () => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Sync className="w-5 h-5" />
+            <RefreshCw className="w-5 h-5" />
             Sync Preferences
           </CardTitle>
           <CardDescription>
