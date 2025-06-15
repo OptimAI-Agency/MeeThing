@@ -17,9 +17,9 @@ const MinimalHero = () => {
       {/* Content */}
       <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight">
-          Transform Your Meetings with
+          Redefine your digital meetings.
           <span className="block bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
-            Wellness Focus
+            Make it your MeeThing
           </span>
         </h1>
         
