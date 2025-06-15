@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 
 const MinimalHero = () => {
@@ -11,16 +12,12 @@ const MinimalHero = () => {
       
       {/* Content */}
       <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl text-white mb-8 leading-tight px-0 font-extrabold">
+        <h1 className="text-5xl sm:text-6xl lg:text-7xl text-white mb-12 leading-tight px-0 font-extrabold">
           Redefine your digital meetings.
           <span className="block bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
             Make it your MeeThing
           </span>
         </h1>
-        
-        <p className="text-xl sm:text-2xl mb-12 max-w-2xl mx-auto leading-relaxed text-white font-medium bg-black/40 backdrop-blur-md rounded-2xl px-8 py-6 border border-white/20 shadow-2xl">
-          Healthier digital meetings with AI-mindful scheduling.
-        </p>
         
         <Button size="lg" className="backdrop-blur-sm border border-white/20 text-lg px-12 py-4 rounded-full transition-all duration-300 hover:scale-105 bg-slate-50 text-green-800 font-extrabold">Let's go for a walk</Button>
       </div>
