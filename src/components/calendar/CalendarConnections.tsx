@@ -80,13 +80,13 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
 
   return (
     <div className="space-y-6">
-      <Card>
+      <Card className="border-0 shadow-none bg-transparent">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-gray-800">
             <Calendar className="w-5 h-5" />
             Calendar Connections
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-gray-600">
             Connect your calendar providers to sync meetings and events
           </CardDescription>
         </CardHeader>
@@ -98,7 +98,7 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
             return (
               <div
                 key={provider.id}
-                className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+                className="flex items-center justify-between p-4 border rounded-lg hover:bg-white/50 transition-colors bg-white/30 backdrop-blur-sm"
               >
                 <div className="flex items-center space-x-4">
                   <div className={`w-12 h-12 ${provider.color} rounded-lg flex items-center justify-center text-white text-xl`}>
@@ -106,7 +106,7 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
                   </div>
                   <div>
                     <h3 className="font-medium text-gray-900">{provider.name}</h3>
-                    <p className="text-sm text-gray-500">{provider.description}</p>
+                    <p className="text-sm text-gray-600">{provider.description}</p>
                   </div>
                 </div>
 
@@ -123,6 +123,7 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
                       variant="outline"
                       size="sm"
                       onClick={() => handleDisconnect(provider.id)}
+                      className="border-gray-300 hover:bg-red-50 hover:border-red-300"
                     >
                       Disconnect
                     </Button>
@@ -130,7 +131,7 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
                     <Button
                       onClick={() => handleConnect(provider.id)}
                       disabled={isConnecting}
-                      className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600"
+                      className="bg-green-600 hover:bg-green-700 text-white"
                     >
                       {isConnecting ? "Connecting..." : "Connect"}
                     </Button>
@@ -143,15 +144,15 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
       </Card>
 
       {connectedCalendars.length > 0 && (
-        <Card>
+        <Card className="border-0 shadow-none bg-white/30 backdrop-blur-sm">
           <CardHeader>
-            <CardTitle>Next Steps</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-gray-800">Next Steps</CardTitle>
+            <CardDescription className="text-gray-600">
               Your calendars are connected! Here's what happens next:
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3 text-sm text-gray-600">
+            <div className="space-y-3 text-sm text-gray-700">
               <div className="flex items-center space-x-2">
                 <CheckCircle className="w-4 h-4 text-green-500" />
                 <span>Events will sync automatically every 15 minutes</span>

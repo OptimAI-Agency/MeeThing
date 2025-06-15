@@ -41,13 +41,13 @@ const mockMeetings = [
 const MeetingsList = () => {
   return (
     <div className="space-y-6">
-      <Card>
+      <Card className="border-0 shadow-none bg-transparent">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-gray-800">
             <Calendar className="w-5 h-5" />
             Today's Meetings
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-gray-600">
             Your upcoming meetings with wellness-focused insights
           </CardDescription>
         </CardHeader>
@@ -55,13 +55,13 @@ const MeetingsList = () => {
           {mockMeetings.map((meeting) => (
             <div
               key={meeting.id}
-              className="flex items-center justify-between p-4 border rounded-lg hover:shadow-md transition-shadow"
+              className="flex items-center justify-between p-4 border rounded-lg hover:shadow-md transition-shadow bg-white/30 backdrop-blur-sm"
             >
               <div className="flex items-center space-x-4">
                 <div className={`w-3 h-12 ${meeting.color} rounded-full`}></div>
                 <div>
                   <h3 className="font-medium text-gray-900">{meeting.title}</h3>
-                  <div className="flex items-center space-x-4 mt-1 text-sm text-gray-500">
+                  <div className="flex items-center space-x-4 mt-1 text-sm text-gray-600">
                     <div className="flex items-center">
                       <Clock className="w-4 h-4 mr-1" />
                       {meeting.time} • {meeting.duration}
@@ -71,7 +71,7 @@ const MeetingsList = () => {
                       {meeting.attendees} attendees
                     </div>
                   </div>
-                  <p className="text-xs text-gray-400 mt-1">from {meeting.calendar}</p>
+                  <p className="text-xs text-gray-500 mt-1">from {meeting.calendar}</p>
                 </div>
               </div>
 
@@ -86,7 +86,7 @@ const MeetingsList = () => {
                   <Badge className="bg-green-100 text-green-800">Wellness</Badge>
                 )}
                 
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="border-gray-300 hover:bg-white/50">
                   View Details
                 </Button>
               </div>
@@ -95,7 +95,7 @@ const MeetingsList = () => {
         </CardContent>
       </Card>
 
-      <Card className="bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
+      <Card className="border-0 shadow-none bg-green-100/50 backdrop-blur-sm border-green-200">
         <CardHeader>
           <CardTitle className="text-green-800">Wellness Tip</CardTitle>
         </CardHeader>

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -30,24 +31,24 @@ const CalendarSettings = () => {
 
   return (
     <div className="space-y-6">
-      <Card>
+      <Card className="border-0 shadow-none bg-white/30 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-gray-800">
             <RefreshCw className="w-5 h-5" />
             Sync Preferences
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-gray-600">
             Configure how often your calendars sync and update
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="sync-frequency">Sync Frequency</Label>
+            <Label htmlFor="sync-frequency" className="text-gray-800">Sync Frequency</Label>
             <Select
               value={settings.syncFrequency}
               onValueChange={(value) => updateSetting("syncFrequency", value)}
             >
-              <SelectTrigger>
+              <SelectTrigger className="bg-white/50">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -61,21 +62,21 @@ const CalendarSettings = () => {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="border-0 shadow-none bg-white/30 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-gray-800">
             <Bell className="w-5 h-5" />
             Notifications
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-gray-600">
             Manage your meeting reminders and wellness notifications
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label>Meeting Notifications</Label>
-              <p className="text-sm text-gray-500">Get notified about upcoming meetings</p>
+              <Label className="text-gray-800">Meeting Notifications</Label>
+              <p className="text-sm text-gray-600">Get notified about upcoming meetings</p>
             </div>
             <Switch
               checked={settings.notifications}
@@ -85,8 +86,8 @@ const CalendarSettings = () => {
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label>Wellness Tips</Label>
-              <p className="text-sm text-gray-500">Receive wellness tips before meetings</p>
+              <Label className="text-gray-800">Wellness Tips</Label>
+              <p className="text-sm text-gray-600">Receive wellness tips before meetings</p>
             </div>
             <Switch
               checked={settings.wellnessTips}
@@ -96,8 +97,8 @@ const CalendarSettings = () => {
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label>Auto Wellness Breaks</Label>
-              <p className="text-sm text-gray-500">Automatically schedule breaks between meetings</p>
+              <Label className="text-gray-800">Auto Wellness Breaks</Label>
+              <p className="text-sm text-gray-600">Automatically schedule breaks between meetings</p>
             </div>
             <Switch
               checked={settings.autoBreaks}
@@ -107,12 +108,12 @@ const CalendarSettings = () => {
 
           {settings.notifications && (
             <div className="space-y-2">
-              <Label htmlFor="reminder-time">Reminder Time</Label>
+              <Label htmlFor="reminder-time" className="text-gray-800">Reminder Time</Label>
               <Select
                 value={settings.reminderTime}
                 onValueChange={(value) => updateSetting("reminderTime", value)}
               >
-                <SelectTrigger>
+                <SelectTrigger className="bg-white/50">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -127,7 +128,7 @@ const CalendarSettings = () => {
         </CardContent>
       </Card>
 
-      <Card className="bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
+      <Card className="border-0 shadow-none bg-green-100/50 backdrop-blur-sm border-green-200">
         <CardHeader>
           <CardTitle className="text-green-800">Wellness Integration</CardTitle>
           <CardDescription className="text-green-600">
@@ -147,7 +148,7 @@ const CalendarSettings = () => {
       <div className="flex justify-end">
         <Button
           onClick={handleSave}
-          className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600"
+          className="bg-green-600 hover:bg-green-700 text-white"
         >
           <Settings className="w-4 h-4 mr-2" />
           Save Settings
