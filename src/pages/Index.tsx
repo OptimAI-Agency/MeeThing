@@ -1,16 +1,12 @@
 
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import Features from "@/components/Features";
-import Footer from "@/components/Footer";
+import MinimalHero from "@/components/MinimalHero";
+import MinimalFooter from "@/components/MinimalFooter";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <Hero />
-      <Features />
-      <Footer />
+    <div className="min-h-screen">
+      <MinimalHero />
+      <MinimalFooter />
     </div>
   );
 };

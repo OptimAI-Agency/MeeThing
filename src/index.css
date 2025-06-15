@@ -46,13 +46,15 @@
     --sidebar-border: 226 232 240;
     --sidebar-ring: 34 120 95;
 
-    /* Custom nature-inspired colors */
+    /* Enhanced nature-inspired colors */
     --forest-green: 34 120 95;
     --ocean-blue: 30 144 185;
     --sky-blue: 135 206 235;
     --mint-green: 152 251 152;
     --sage-green: 159 175 148;
     --soft-blue: 173 216 230;
+    --nature-white: 250 250 250;
+    --earth-brown: 139 117 102;
   }
 
   .dark {
@@ -118,4 +120,36 @@
   .wellness-shadow {
     box-shadow: 0 4px 20px rgba(34, 120, 95, 0.1);
   }
+
+  .zen-gradient {
+    background: linear-gradient(135deg, rgba(152, 251, 152, 0.8) 0%, rgba(173, 216, 230, 0.8) 100%);
+  }
+
+  .mindful-blur {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .nature-text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Wellness-focused animations */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes gentle-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-breathe {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+.animate-gentle-float {
+  animation: gentle-float 6s ease-in-out infinite;
 }
