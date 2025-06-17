@@ -5,14 +5,8 @@ import { useNavigate } from "react-router-dom";
 const MinimalHero = () => {
   const navigate = useNavigate();
 
-  return <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Nature Background */}
-      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
-      backgroundImage: `url('https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=1920&h=1080&fit=crop&auto=format')`
-    }}>
-        <div className="absolute inset-0 bg-black/30"></div>
-      </div>
-      
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Content */}
       <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         <h1 className="text-5xl sm:text-6xl lg:text-7xl text-white mb-12 leading-tight px-0 font-extrabold">
@@ -30,7 +24,8 @@ const MinimalHero = () => {
           Let's go for a walk
         </Button>
       </div>
-    </section>;
+    </section>
+  );
 };
 
 export default MinimalHero;
