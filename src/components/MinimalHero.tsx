@@ -10,14 +10,18 @@ const MinimalHero = () => {
       <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
       backgroundImage: `url('https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=1920&h=1080&fit=crop&auto=format')`
     }}>
-        <div className="absolute inset-0 bg-black/30"></div>
+        <div className="absolute inset-0 bg-black/40"></div>
       </div>
       
       {/* Content */}
       <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl text-white mb-12 leading-tight px-0 font-extrabold">
+        <h1 className="text-5xl sm:text-6xl lg:text-7xl text-white mb-12 leading-tight px-0 font-extrabold nature-text-shadow">
           Redefine your digital meetings.
-          <span className="block bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
+          <span className="block bg-gradient-to-r from-green-300 via-emerald-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-2xl filter brightness-110 contrast-125" 
+                style={{
+                  textShadow: '0 0 20px rgba(34, 197, 94, 0.5), 0 0 40px rgba(34, 197, 94, 0.3), 0 4px 8px rgba(0, 0, 0, 0.8)',
+                  WebkitTextStroke: '1px rgba(255, 255, 255, 0.2)'
+                }}>
             Make it your MeeThing
           </span>
         </h1>
