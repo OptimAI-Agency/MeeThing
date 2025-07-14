@@ -10,7 +10,9 @@ const MinimalHero = () => {
       {/* Content */}
       <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         <h1 className="text-5xl sm:text-6xl lg:text-7xl text-white mb-12 leading-tight px-0 font-extrabold">
-          <span className="whitespace-nowrap">Redefine digital meetings.</span>
+          <span className="whitespace-nowrap animate-gentle-float nature-text-shadow bg-gradient-to-r from-white via-white to-blue-100 bg-clip-text text-transparent drop-shadow-lg">
+            Redefine digital meetings.
+          </span>
           <span className="block bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
             Make it your MeeThing
           </span>
