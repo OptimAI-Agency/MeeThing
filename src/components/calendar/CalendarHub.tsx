@@ -41,7 +41,7 @@ const CalendarHub = () => {
         {/* Content */}
         <div className="max-w-4xl mx-auto">
           {activeTab === "overview" && <div className="space-y-6">
-              {connectedCalendars.length === 0 ? <Card className="text-center py-16 backdrop-blur-sm bg-white/90 border-white/20 wellness-shadow">
+              {connectedCalendars.length === 0 ? <Card className="text-center py-16 backdrop-blur-sm bg-white/90 border-white/20 wellness-shadow rounded-3xl ">
                   <CardHeader>
                     <CardTitle className="text-3xl text-gray-800 mb-4">
                       Welcome to Calendar Integration
