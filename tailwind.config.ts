@@ -61,21 +61,7 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				},
-				/* Wellness color palette */
-				wellness: {
-					sage: 'hsl(var(--sage-green))',
-					beige: 'hsl(var(--warm-beige))',
-					clay: 'hsl(var(--soft-clay))',
-					rose: 'hsl(var(--dusty-rose))',
-					lavender: 'hsl(var(--muted-lavender))',
-					cream: 'hsl(var(--cream-white))',
-					brown: 'hsl(var(--earth-brown))',
-					gray: 'hsl(var(--gentle-gray))'
 				}
-			},
-			fontFamily: {
-				'wellness': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

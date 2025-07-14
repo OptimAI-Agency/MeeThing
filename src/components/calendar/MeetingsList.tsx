@@ -40,58 +40,57 @@ const mockMeetings = [
 
 const MeetingsList = () => {
   return (
-    <div className="space-y-10">
+    <div className="space-y-8">
       {/* Header Section */}
-      <div className="text-center space-y-4">
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-primary/10 mb-6 animate-breathe">
-          <Calendar className="w-10 h-10 text-primary" />
+      <div className="text-center space-y-3">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-teal-600 mb-4">
+          <Calendar className="w-8 h-8 text-white" />
         </div>
-        <h2 className="text-3xl text-foreground text-wellness-heading">Today's Mindful Schedule</h2>
-        <p className="text-muted-foreground text-wellness-body max-w-lg mx-auto">
-          Your upcoming meetings crafted with intention and wellness in mind
+        <h2 className="text-2xl font-semibold text-gray-900 tracking-tight">Today's Meetings</h2>
+        <p className="text-gray-600 text-base max-w-md mx-auto leading-relaxed">
+          Your upcoming meetings with wellness-focused insights
         </p>
       </div>
 
       {/* Meetings List */}
-      <div className="space-y-6">
-        {mockMeetings.map((meeting, index) => (
+      <div className="space-y-4">
+        {mockMeetings.map((meeting) => (
           <div
             key={meeting.id}
-            className="group bg-card/60 wellness-blur rounded-3xl border border-border/50 p-8 hover:bg-card/80 transition-all duration-500 wellness-shadow-gentle hover:wellness-shadow-soft animate-subtle-fade-in"
-            style={{ animationDelay: `${index * 0.1}s` }}
+            className="group bg-white/80 backdrop-blur-xl rounded-2xl border border-white/20 p-6 hover:bg-white/90 transition-all duration-300 hover:shadow-xl hover:shadow-black/5"
           >
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-6">
-                <div className={`w-2 h-20 ${meeting.color} rounded-full opacity-60`}></div>
-                <div className="space-y-3">
-                  <h3 className="text-xl text-card-foreground text-wellness-heading">{meeting.title}</h3>
-                  <div className="flex items-center space-x-8 text-muted-foreground text-wellness-body">
-                    <div className="flex items-center space-x-3">
-                      <Clock className="w-5 h-5" />
+              <div className="flex items-center space-x-4">
+                <div className={`w-1 h-16 ${meeting.color} rounded-full`}></div>
+                <div className="space-y-2">
+                  <h3 className="font-medium text-gray-900 text-lg">{meeting.title}</h3>
+                  <div className="flex items-center space-x-6 text-sm text-gray-600">
+                    <div className="flex items-center space-x-2">
+                      <Clock className="w-4 h-4" />
                       <span>{meeting.time} • {meeting.duration}</span>
                     </div>
-                    <div className="flex items-center space-x-3">
-                      <Users className="w-5 h-5" />
+                    <div className="flex items-center space-x-2">
+                      <Users className="w-4 h-4" />
                       <span>{meeting.attendees} attendees</span>
                     </div>
                   </div>
-                  <p className="text-sm text-muted-foreground/70">from {meeting.calendar}</p>
+                  <p className="text-xs text-gray-500">from {meeting.calendar}</p>
                 </div>
               </div>
 
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-3">
                 {meeting.type === "important" && (
-                  <Badge className="bg-destructive/10 text-destructive border-destructive/20 px-4 py-2 rounded-2xl text-wellness-body">
+                  <Badge className="bg-red-100 text-red-800 border-red-200 font-medium px-3 py-1">
                     Important
                   </Badge>
                 )}
                 {meeting.type === "recurring" && (
-                  <Badge className="bg-muted text-muted-foreground border-border px-4 py-2 rounded-2xl text-wellness-body">
+                  <Badge className="bg-gray-100 text-gray-800 border-gray-200 font-medium px-3 py-1">
                     Recurring
                   </Badge>
                 )}
                 {meeting.type === "personal" && (
-                  <Badge className="bg-primary/10 text-primary border-primary/20 px-4 py-2 rounded-2xl text-wellness-body">
+                  <Badge className="bg-green-100 text-green-800 border-green-200 font-medium px-3 py-1">
                     Wellness
                   </Badge>
                 )}
@@ -99,7 +98,7 @@ const MeetingsList = () => {
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="border-border hover:border-border/80 hover:bg-muted/50 rounded-2xl px-6 py-3 transition-all duration-300 group-hover:scale-105 text-wellness-body"
+                  className="border-gray-200 hover:border-gray-300 hover:bg-gray-50 rounded-xl px-4 py-2 transition-all duration-200 group-hover:scale-105"
                 >
                   View Details
                 </Button>
@@ -110,15 +109,15 @@ const MeetingsList = () => {
       </div>
 
       {/* Wellness Tip */}
-      <div className="wellness-gradient-neutral rounded-3xl border border-border/30 p-8 wellness-shadow-gentle animate-gentle-float">
-        <div className="flex items-start space-x-6">
-          <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center flex-shrink-0 animate-soft-pulse">
-            <Lightbulb className="w-7 h-7 text-primary" />
+      <div className="bg-gradient-to-br from-blue-50/80 to-indigo-50/80 backdrop-blur-xl rounded-2xl border border-blue-200/50 p-6">
+        <div className="flex items-start space-x-4">
+          <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            <Lightbulb className="w-5 h-5 text-blue-600" />
           </div>
-          <div className="space-y-3">
-            <h3 className="text-lg text-card-foreground text-wellness-heading">Today's Wellness Insight</h3>
-            <p className="text-muted-foreground text-wellness-body">
-              Create gentle transitions between meetings with 3-minute mindful breathing exercises. This simple practice can enhance focus, reduce stress, and bring more presence to your day.
+          <div className="space-y-2">
+            <h3 className="font-medium text-blue-900">Wellness Tip</h3>
+            <p className="text-blue-800 leading-relaxed">
+              Consider scheduling 5-minute breathing breaks between meetings to maintain focus and reduce stress.
             </p>
           </div>
         </div>

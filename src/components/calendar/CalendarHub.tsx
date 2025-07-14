@@ -15,52 +15,52 @@ const CalendarHub = () => {
     <div className="min-h-screen flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-6xl">
         {/* Header */}
-        <div className="text-center mb-16 animate-subtle-fade-in">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white mb-8 text-wellness-heading wellness-text-soft">
+        <div className="text-center mb-12">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl text-white mb-6 leading-tight font-extrabold nature-text-shadow">
             Calendar Integration
           </h1>
-          <p className="text-lg text-white/95 max-w-2xl mx-auto text-wellness-body wellness-text-soft">
-            Connect your calendars and embrace a mindful approach to meeting management with gentle, wellness-focused insights.
+          <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed nature-text-shadow">
+            Connect your calendars and streamline your meeting management with MeeThing's wellness-focused approach.
           </p>
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex justify-center mb-12">
-          <div className="wellness-blur border border-white/30 rounded-3xl p-2 bg-white/15 wellness-shadow-gentle">
+        <div className="flex justify-center mb-8">
+          <div className="backdrop-blur-sm border border-white/20 rounded-full p-1 bg-white/10">
             <Button
               variant={activeTab === "overview" ? "default" : "ghost"}
               onClick={() => setActiveTab("overview")}
-              className={`rounded-2xl px-8 py-3 transition-all duration-300 ${
+              className={`rounded-full px-6 ${
                 activeTab === "overview" 
-                  ? "bg-white/95 text-wellness-sage shadow-sm font-medium" 
-                  : "text-white/90 hover:bg-white/20 hover:text-white"
+                  ? "bg-white text-green-800 hover:bg-white/90" 
+                  : "text-white hover:bg-white/20"
               }`}
             >
-              <Calendar className="w-4 h-4 mr-3" />
+              <Calendar className="w-4 h-4 mr-2" />
               Overview
             </Button>
             <Button
               variant={activeTab === "connections" ? "default" : "ghost"}
               onClick={() => setActiveTab("connections")}
-              className={`rounded-2xl px-8 py-3 transition-all duration-300 ${
+              className={`rounded-full px-6 ${
                 activeTab === "connections" 
-                  ? "bg-white/95 text-wellness-sage shadow-sm font-medium" 
-                  : "text-white/90 hover:bg-white/20 hover:text-white"
+                  ? "bg-white text-green-800 hover:bg-white/90" 
+                  : "text-white hover:bg-white/20"
               }`}
             >
-              <Plus className="w-4 h-4 mr-3" />
+              <Plus className="w-4 h-4 mr-2" />
               Connections
             </Button>
             <Button
               variant={activeTab === "settings" ? "default" : "ghost"}
               onClick={() => setActiveTab("settings")}
-              className={`rounded-2xl px-8 py-3 transition-all duration-300 ${
+              className={`rounded-full px-6 ${
                 activeTab === "settings" 
-                  ? "bg-white/95 text-wellness-sage shadow-sm font-medium" 
-                  : "text-white/90 hover:bg-white/20 hover:text-white"
+                  ? "bg-white text-green-800 hover:bg-white/90" 
+                  : "text-white hover:bg-white/20"
               }`}
             >
-              <Settings className="w-4 h-4 mr-3" />
+              <Settings className="w-4 h-4 mr-2" />
               Settings
             </Button>
           </div>
@@ -69,30 +69,30 @@ const CalendarHub = () => {
         {/* Content */}
         <div className="max-w-4xl mx-auto">
           {activeTab === "overview" && (
-            <div className="space-y-8">
+            <div className="space-y-6">
               {connectedCalendars.length === 0 ? (
-                <Card className="text-center py-20 px-12 wellness-blur bg-white/95 border-white/40 wellness-shadow-soft rounded-3xl animate-subtle-fade-in">
+                <Card className="text-center py-16 backdrop-blur-sm bg-white/90 border-white/20 wellness-shadow">
                   <CardHeader>
-                    <CardTitle className="text-3xl text-foreground mb-6 text-wellness-heading">
-                      Welcome to Your Wellness Calendar
+                    <CardTitle className="text-3xl text-gray-800 mb-4">
+                      Welcome to Calendar Integration
                     </CardTitle>
-                    <CardDescription className="text-lg text-muted-foreground text-wellness-body max-w-md mx-auto">
-                      Begin your mindful meeting journey by connecting your calendars for a more balanced approach to time management.
+                    <CardDescription className="text-lg text-gray-600">
+                      Connect your calendars to get started with seamless meeting management.
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <Button
                       onClick={() => setActiveTab("connections")}
                       size="lg"
-                      className="text-lg px-12 py-4 rounded-2xl transition-all duration-300 hover:scale-105 bg-primary hover:bg-primary/90 text-primary-foreground wellness-shadow-gentle font-medium"
+                      className="backdrop-blur-sm border border-white/20 text-lg px-12 py-4 rounded-full transition-all duration-300 hover:scale-105 bg-green-600 hover:bg-green-700 text-white font-extrabold"
                     >
-                      <Plus className="w-5 h-5 mr-3" />
+                      <Plus className="w-5 h-5 mr-2" />
                       Connect Your First Calendar
                     </Button>
                   </CardContent>
                 </Card>
               ) : (
-                <div className="wellness-blur bg-white/95 rounded-3xl p-8 wellness-shadow-soft">
+                <div className="backdrop-blur-sm bg-white/90 rounded-lg p-6">
                   <MeetingsList />
                 </div>
               )}
@@ -100,7 +100,7 @@ const CalendarHub = () => {
           )}
 
           {activeTab === "connections" && (
-            <div className="wellness-blur bg-white/95 rounded-3xl p-8 wellness-shadow-soft animate-subtle-fade-in">
+            <div className="backdrop-blur-sm bg-white/90 rounded-lg p-6">
               <CalendarConnections
                 connectedCalendars={connectedCalendars}
                 setConnectedCalendars={setConnectedCalendars}
@@ -109,7 +109,7 @@ const CalendarHub = () => {
           )}
 
           {activeTab === "settings" && (
-            <div className="wellness-blur bg-white/95 rounded-3xl p-8 wellness-shadow-soft animate-subtle-fade-in">
+            <div className="backdrop-blur-sm bg-white/90 rounded-lg p-6">
               <CalendarSettings />
             </div>
           )}
