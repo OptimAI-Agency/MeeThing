@@ -5,6 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Calendar, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import googleCalendarLogo from "@/assets/google-calendar-logo.png";
+import microsoftOutlookLogo from "@/assets/microsoft-outlook-logo.png";
+import appleCalendarLogo from "@/assets/apple-calendar-logo.png";
 
 interface CalendarConnection {
   id: string;
@@ -20,24 +23,24 @@ const calendarProviders: CalendarConnection[] = [
     id: "google",
     name: "Google Calendar",
     provider: "google",
-    color: "bg-red-500",
-    icon: "🗓️",
+    color: "bg-white",
+    icon: googleCalendarLogo,
     description: "Connect your Google Calendar to sync events and meetings"
   },
   {
     id: "microsoft",
     name: "Microsoft Outlook",
     provider: "microsoft",
-    color: "bg-blue-600",
-    icon: "📅",
+    color: "bg-white",
+    icon: microsoftOutlookLogo,
     description: "Sync your Outlook calendar and Office 365 events"
   },
   {
     id: "apple",
     name: "Apple Calendar",
     provider: "apple",
-    color: "bg-gray-700",
-    icon: "🍎",
+    color: "bg-white",
+    icon: appleCalendarLogo,
     description: "Connect your iCloud calendar for seamless Apple ecosystem integration"
   }
 ];
@@ -103,8 +106,8 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                  <div className={`w-14 h-14 ${provider.color} rounded-xl flex items-center justify-center text-white text-2xl shadow-lg`}>
-                    {provider.icon}
+                  <div className={`w-14 h-14 ${provider.color} rounded-xl flex items-center justify-center shadow-lg border border-gray-200 p-2`}>
+                    <img src={provider.icon} alt={`${provider.name} logo`} className="w-full h-full object-contain" />
                   </div>
                   <div className="space-y-1">
                     <h3 className="font-medium text-gray-900 text-lg">{provider.name}</h3>
