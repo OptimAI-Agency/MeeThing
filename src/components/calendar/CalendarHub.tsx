@@ -11,30 +11,44 @@ const CalendarHub = () => {
   return <div className="min-h-screen flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-6xl">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl text-white mb-6 leading-tight font-extrabold nature-text-shadow">
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-white mb-4 sm:mb-6 leading-tight font-extrabold nature-text-shadow px-2">
             Calendar Integration
           </h1>
-          <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed nature-text-shadow">
+          <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed nature-text-shadow px-4">
             Connect your calendars and streamline your meeting management with MeeThing's wellness-focused approach.
           </p>
         </div>
 
-        {/* Navigation Tabs */}
-        <div className="flex justify-center mb-8">
-          <div className="backdrop-blur-sm border border-white/20 rounded-full p-1 bg-white/10">
-            <Button variant={activeTab === "overview" ? "default" : "ghost"} onClick={() => setActiveTab("overview")} className={`rounded-full px-6 ${activeTab === "overview" ? "bg-white text-green-800 hover:bg-white/90" : "text-white hover:bg-white/20"}`}>
-              <Calendar className="w-4 h-4 mr-2" />
-              Overview
-            </Button>
-            <Button variant={activeTab === "connections" ? "default" : "ghost"} onClick={() => setActiveTab("connections")} className={`rounded-full px-6 ${activeTab === "connections" ? "bg-white text-green-800 hover:bg-white/90" : "text-white hover:bg-white/20"}`}>
-              <Plus className="w-4 h-4 mr-2" />
-              Connections
-            </Button>
-            <Button variant={activeTab === "settings" ? "default" : "ghost"} onClick={() => setActiveTab("settings")} className={`rounded-full px-6 ${activeTab === "settings" ? "bg-white text-green-800 hover:bg-white/90" : "text-white hover:bg-white/20"}`}>
-              <Settings className="w-4 h-4 mr-2" />
-              Settings
-            </Button>
+        {/* Navigation Tabs - Mobile First */}
+        <div className="flex justify-center mb-8 px-2">
+          <div className="backdrop-blur-sm border border-white/20 rounded-2xl sm:rounded-full p-1 bg-white/10 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-0">
+              <Button 
+                variant={activeTab === "overview" ? "default" : "ghost"} 
+                onClick={() => setActiveTab("overview")} 
+                className={`rounded-xl sm:rounded-full px-6 py-3 min-h-[44px] justify-start sm:justify-center ${activeTab === "overview" ? "bg-white text-green-800 hover:bg-white/90" : "text-white hover:bg-white/20"}`}
+              >
+                <Calendar className="w-4 h-4 mr-2" />
+                Overview
+              </Button>
+              <Button 
+                variant={activeTab === "connections" ? "default" : "ghost"} 
+                onClick={() => setActiveTab("connections")} 
+                className={`rounded-xl sm:rounded-full px-6 py-3 min-h-[44px] justify-start sm:justify-center ${activeTab === "connections" ? "bg-white text-green-800 hover:bg-white/90" : "text-white hover:bg-white/20"}`}
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Connections
+              </Button>
+              <Button 
+                variant={activeTab === "settings" ? "default" : "ghost"} 
+                onClick={() => setActiveTab("settings")} 
+                className={`rounded-xl sm:rounded-full px-6 py-3 min-h-[44px] justify-start sm:justify-center ${activeTab === "settings" ? "bg-white text-green-800 hover:bg-white/90" : "text-white hover:bg-white/20"}`}
+              >
+                <Settings className="w-4 h-4 mr-2" />
+                Settings
+              </Button>
+            </div>
           </div>
         </div>
 

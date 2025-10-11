@@ -20,22 +20,22 @@ const BackgroundSettings = () => {
       </div>
 
       <div className="space-y-4">
-        <Label className="text-gray-800 font-medium">Background Scene</Label>
+        <Label className="text-gray-800 font-medium text-sm sm:text-base">Background Scene</Label>
         <RadioGroup
           value={selectedBackground}
           onValueChange={(value) => updateBackground(value as BackgroundOption)}
           className="space-y-3"
         >
           {Object.entries(backgroundOptions).map(([key, option]) => (
-            <div key={key} className="flex items-center space-x-3 p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
-              <RadioGroupItem value={key} id={key} />
-              <div className="flex-1">
-                <Label htmlFor={key} className="text-gray-900 font-medium cursor-pointer">
+            <div key={key} className="flex items-center space-x-3 p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors min-h-[56px] cursor-pointer">
+              <RadioGroupItem value={key} id={key} className="flex-shrink-0" />
+              <div className="flex-1 min-w-0">
+                <Label htmlFor={key} className="text-gray-900 font-medium cursor-pointer text-sm sm:text-base">
                   {option.name}
                 </Label>
               </div>
               <div 
-                className="w-16 h-10 rounded-md bg-cover bg-center border border-gray-200"
+                className="w-16 sm:w-20 h-10 sm:h-12 rounded-md bg-cover bg-center border border-gray-200 flex-shrink-0"
                 style={{ backgroundImage: `url(${option.url})` }}
               />
             </div>

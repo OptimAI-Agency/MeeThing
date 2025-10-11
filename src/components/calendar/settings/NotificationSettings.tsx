@@ -38,39 +38,39 @@ const NotificationSettings = ({
       </div>
 
       <div className="space-y-6">
-        <div className="flex items-center justify-between py-2">
-          <div className="space-y-1">
-            <Label className="text-gray-900 font-medium">Meeting Notifications</Label>
-            <p className="text-sm text-gray-600">Get notified about upcoming meetings</p>
+        <div className="flex items-center justify-between gap-4 py-2 min-h-[60px]">
+          <div className="space-y-1 flex-1">
+            <Label className="text-gray-900 font-medium text-sm sm:text-base">Meeting Notifications</Label>
+            <p className="text-xs sm:text-sm text-gray-600">Get notified about upcoming meetings</p>
           </div>
           <Switch
             checked={notifications}
             onCheckedChange={onNotificationsChange}
-            className="data-[state=checked]:bg-blue-600"
+            className="data-[state=checked]:bg-blue-600 flex-shrink-0"
           />
         </div>
 
-        <div className="flex items-center justify-between py-2">
-          <div className="space-y-1">
-            <Label className="text-gray-900 font-medium">Wellness Tips</Label>
-            <p className="text-sm text-gray-600">Receive wellness tips before meetings</p>
+        <div className="flex items-center justify-between gap-4 py-2 min-h-[60px]">
+          <div className="space-y-1 flex-1">
+            <Label className="text-gray-900 font-medium text-sm sm:text-base">Wellness Tips</Label>
+            <p className="text-xs sm:text-sm text-gray-600">Receive wellness tips before meetings</p>
           </div>
           <Switch
             checked={wellnessTips}
             onCheckedChange={onWellnessTipsChange}
-            className="data-[state=checked]:bg-green-600"
+            className="data-[state=checked]:bg-green-600 flex-shrink-0"
           />
         </div>
 
-        <div className="flex items-center justify-between py-2">
-          <div className="space-y-1">
-            <Label className="text-gray-900 font-medium">Auto Wellness Breaks</Label>
-            <p className="text-sm text-gray-600">Automatically schedule breaks between meetings</p>
+        <div className="flex items-center justify-between gap-4 py-2 min-h-[60px]">
+          <div className="space-y-1 flex-1">
+            <Label className="text-gray-900 font-medium text-sm sm:text-base">Auto Wellness Breaks</Label>
+            <p className="text-xs sm:text-sm text-gray-600">Automatically schedule breaks between meetings</p>
           </div>
           <Switch
             checked={autoBreaks}
             onCheckedChange={onAutoBreaksChange}
-            className="data-[state=checked]:bg-purple-600"
+            className="data-[state=checked]:bg-purple-600 flex-shrink-0"
           />
         </div>
 

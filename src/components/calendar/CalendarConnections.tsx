@@ -83,12 +83,12 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
   return (
     <div className="space-y-8">
       {/* Header Section */}
-      <div className="text-center space-y-3">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 mb-4">
-          <Calendar className="w-8 h-8 text-white" />
+      <div className="text-center space-y-3 px-4">
+        <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 mb-2 sm:mb-4">
+          <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
         </div>
-        <h2 className="text-2xl font-semibold text-gray-900 tracking-tight">Calendar Connections</h2>
-        <p className="text-gray-600 text-base max-w-md mx-auto leading-relaxed">
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 tracking-tight">Calendar Connections</h2>
+        <p className="text-gray-600 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
           Connect your calendar providers to sync meetings and events seamlessly
         </p>
       </div>
@@ -102,22 +102,22 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
           return (
             <div
               key={provider.id}
-              className="group relative bg-white/80 backdrop-blur-xl rounded-2xl border border-white/20 p-6 hover:bg-white/90 transition-all duration-300 hover:shadow-xl hover:shadow-black/5"
+              className="group relative bg-white/80 backdrop-blur-xl rounded-2xl border border-white/20 p-4 sm:p-6 hover:bg-white/90 transition-all duration-300 hover:shadow-xl hover:shadow-black/5"
             >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <div className={`w-14 h-14 ${provider.color} rounded-xl flex items-center justify-center shadow-lg border border-gray-200 p-2`}>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                <div className="flex items-start sm:items-center space-x-3 sm:space-x-4 flex-1">
+                  <div className={`w-12 h-12 sm:w-14 sm:h-14 ${provider.color} rounded-xl flex items-center justify-center shadow-lg border border-gray-200 p-2 flex-shrink-0`}>
                     <img src={provider.icon} alt={`${provider.name} logo`} className="w-full h-full object-contain" />
                   </div>
-                  <div className="space-y-1">
-                    <h3 className="font-medium text-gray-900 text-lg">{provider.name}</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed max-w-xs">{provider.description}</p>
+                  <div className="space-y-1 flex-1 min-w-0">
+                    <h3 className="font-medium text-gray-900 text-base sm:text-lg">{provider.name}</h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">{provider.description}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-3">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 sm:flex-shrink-0">
                   {isConnected && (
-                    <Badge className="bg-green-100 text-green-800 border-green-200 font-medium px-3 py-1">
+                    <Badge className="bg-green-100 text-green-800 border-green-200 font-medium px-3 py-1.5 text-center">
                       <CheckCircle className="w-3 h-3 mr-1.5" />
                       Connected
                     </Badge>
@@ -128,7 +128,7 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
                       variant="outline"
                       size="sm"
                       onClick={() => handleDisconnect(provider.id)}
-                      className="border-gray-200 hover:border-red-300 hover:bg-red-50 hover:text-red-700 transition-all duration-200 rounded-xl px-4 py-2"
+                      className="border-gray-200 hover:border-red-300 hover:bg-red-50 hover:text-red-700 transition-all duration-200 rounded-xl px-4 py-2.5 min-h-[44px]"
                     >
                       Disconnect
                     </Button>
@@ -136,7 +136,7 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
                     <Button
                       onClick={() => handleConnect(provider.id)}
                       disabled={isConnecting}
-                      className="bg-black hover:bg-gray-800 text-white border-0 rounded-xl px-6 py-2 font-medium transition-all duration-200 group-hover:scale-105 shadow-lg"
+                      className="bg-black hover:bg-gray-800 text-white border-0 rounded-xl px-6 py-2.5 min-h-[44px] font-medium transition-all duration-200 group-hover:scale-105 shadow-lg"
                     >
                       {isConnecting ? (
                         <div className="flex items-center space-x-2">
@@ -171,17 +171,17 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
             <div className="flex items-center space-x-2 text-sm text-green-700">
-              <div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+              <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0" />
               <span>Auto-sync every 15 minutes</span>
             </div>
             <div className="flex items-center space-x-2 text-sm text-green-700">
-              <div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+              <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0" />
               <span>Wellness tips included</span>
             </div>
             <div className="flex items-center space-x-2 text-sm text-green-700">
-              <div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+              <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0" />
               <span>View in Overview tab</span>
             </div>
           </div>

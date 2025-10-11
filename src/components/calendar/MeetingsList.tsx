@@ -42,12 +42,12 @@ const MeetingsList = () => {
   return (
     <div className="space-y-8">
       {/* Header Section */}
-      <div className="text-center space-y-3">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-teal-600 mb-4">
-          <Calendar className="w-8 h-8 text-white" />
+      <div className="text-center space-y-3 px-4">
+        <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-green-500 to-teal-600 mb-2 sm:mb-4">
+          <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
         </div>
-        <h2 className="text-2xl font-semibold text-gray-900 tracking-tight">Today's Meetings</h2>
-        <p className="text-gray-600 text-base max-w-md mx-auto leading-relaxed">
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 tracking-tight">Today's Meetings</h2>
+        <p className="text-gray-600 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
           Your upcoming meetings with wellness-focused insights
         </p>
       </div>
@@ -57,20 +57,20 @@ const MeetingsList = () => {
         {mockMeetings.map((meeting) => (
           <div
             key={meeting.id}
-            className="group bg-white/80 backdrop-blur-xl rounded-2xl border border-white/20 p-6 hover:bg-white/90 transition-all duration-300 hover:shadow-xl hover:shadow-black/5"
+            className="group bg-white/80 backdrop-blur-xl rounded-2xl border border-white/20 p-4 sm:p-6 hover:bg-white/90 transition-all duration-300 hover:shadow-xl hover:shadow-black/5"
           >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <div className={`w-1 h-16 ${meeting.color} rounded-full`}></div>
-                <div className="space-y-2">
-                  <h3 className="font-medium text-gray-900 text-lg">{meeting.title}</h3>
-                  <div className="flex items-center space-x-6 text-sm text-gray-600">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="flex items-start sm:items-center space-x-3 sm:space-x-4 flex-1">
+                <div className={`w-1 h-16 sm:h-20 ${meeting.color} rounded-full flex-shrink-0`}></div>
+                <div className="space-y-2 flex-1 min-w-0">
+                  <h3 className="font-medium text-gray-900 text-base sm:text-lg">{meeting.title}</h3>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 text-sm text-gray-600">
                     <div className="flex items-center space-x-2">
-                      <Clock className="w-4 h-4" />
+                      <Clock className="w-4 h-4 flex-shrink-0" />
                       <span>{meeting.time} • {meeting.duration}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <Users className="w-4 h-4" />
+                      <Users className="w-4 h-4 flex-shrink-0" />
                       <span>{meeting.attendees} attendees</span>
                     </div>
                   </div>
@@ -78,19 +78,19 @@ const MeetingsList = () => {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-3">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
                 {meeting.type === "important" && (
-                  <Badge className="bg-red-100 text-red-800 border-red-200 font-medium px-3 py-1">
+                  <Badge className="bg-red-100 text-red-800 border-red-200 font-medium px-3 py-1.5 text-center">
                     Important
                   </Badge>
                 )}
                 {meeting.type === "recurring" && (
-                  <Badge className="bg-gray-100 text-gray-800 border-gray-200 font-medium px-3 py-1">
+                  <Badge className="bg-gray-100 text-gray-800 border-gray-200 font-medium px-3 py-1.5 text-center">
                     Recurring
                   </Badge>
                 )}
                 {meeting.type === "personal" && (
-                  <Badge className="bg-green-100 text-green-800 border-green-200 font-medium px-3 py-1">
+                  <Badge className="bg-green-100 text-green-800 border-green-200 font-medium px-3 py-1.5 text-center">
                     Wellness
                   </Badge>
                 )}
@@ -98,7 +98,7 @@ const MeetingsList = () => {
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="border-gray-200 hover:border-gray-300 hover:bg-gray-50 rounded-xl px-4 py-2 transition-all duration-200 group-hover:scale-105"
+                  className="border-gray-200 hover:border-gray-300 hover:bg-gray-50 rounded-xl px-4 py-2.5 min-h-[44px] transition-all duration-200 group-hover:scale-105"
                 >
                   View Details
                 </Button>
