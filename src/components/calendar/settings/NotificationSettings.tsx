@@ -26,69 +26,69 @@ const NotificationSettings = ({
   onReminderTimeChange
 }: NotificationSettingsProps) => {
   return (
-    <div className="bg-white/80 backdrop-blur-xl rounded-2xl border border-white/20 p-6 space-y-6">
-      <div className="flex items-center space-x-3 pb-4 border-b border-gray-100">
-        <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center">
-          <Bell className="w-5 h-5 text-orange-600" />
+    <div className="glass-panel rounded-3xl p-6 sm:p-8 space-y-1 edge-highlight spring-smooth">
+      <div className="flex items-center space-x-4 pb-5 border-b border-white/10">
+        <div className="w-12 h-12 bg-gradient-to-br from-orange-400/20 to-orange-600/20 rounded-2xl flex items-center justify-center backdrop-blur-sm ring-1 ring-white/20">
+          <Bell className="w-6 h-6 text-orange-600" />
         </div>
-        <div>
-          <h3 className="font-medium text-gray-900">Notifications</h3>
-          <p className="text-gray-600 text-sm">Manage your meeting reminders and alerts</p>
+        <div className="flex-1">
+          <h3 className="font-semibold text-gray-900 text-lg">Notifications</h3>
+          <p className="text-gray-600 text-sm mt-0.5">Manage your meeting reminders and alerts</p>
         </div>
       </div>
 
-      <div className="space-y-6">
-        <div className="flex items-center justify-between gap-4 py-2 min-h-[60px]">
+      <div className="space-y-0 divide-y divide-white/10">
+        <div className="flex items-center justify-between gap-4 py-4 group">
           <div className="space-y-1 flex-1">
-            <Label className="text-gray-900 font-medium text-sm sm:text-base">Meeting Notifications</Label>
-            <p className="text-xs sm:text-sm text-gray-600">Get notified about upcoming meetings</p>
+            <Label className="text-base font-medium text-gray-900 cursor-pointer">Meeting Notifications</Label>
+            <p className="text-sm text-gray-600">Get notified about upcoming meetings</p>
           </div>
           <Switch
             checked={notifications}
             onCheckedChange={onNotificationsChange}
-            className="data-[state=checked]:bg-blue-600 flex-shrink-0"
+            className="flex-shrink-0"
           />
         </div>
 
-        <div className="flex items-center justify-between gap-4 py-2 min-h-[60px]">
+        <div className="flex items-center justify-between gap-4 py-4 group">
           <div className="space-y-1 flex-1">
-            <Label className="text-gray-900 font-medium text-sm sm:text-base">Wellness Tips</Label>
-            <p className="text-xs sm:text-sm text-gray-600">Receive wellness tips before meetings</p>
+            <Label className="text-base font-medium text-gray-900 cursor-pointer">Wellness Tips</Label>
+            <p className="text-sm text-gray-600">Receive wellness tips before meetings</p>
           </div>
           <Switch
             checked={wellnessTips}
             onCheckedChange={onWellnessTipsChange}
-            className="data-[state=checked]:bg-green-600 flex-shrink-0"
+            className="flex-shrink-0"
           />
         </div>
 
-        <div className="flex items-center justify-between gap-4 py-2 min-h-[60px]">
+        <div className="flex items-center justify-between gap-4 py-4 group">
           <div className="space-y-1 flex-1">
-            <Label className="text-gray-900 font-medium text-sm sm:text-base">Auto Wellness Breaks</Label>
-            <p className="text-xs sm:text-sm text-gray-600">Automatically schedule breaks between meetings</p>
+            <Label className="text-base font-medium text-gray-900 cursor-pointer">Auto Wellness Breaks</Label>
+            <p className="text-sm text-gray-600">Automatically schedule breaks between meetings</p>
           </div>
           <Switch
             checked={autoBreaks}
             onCheckedChange={onAutoBreaksChange}
-            className="data-[state=checked]:bg-purple-600 flex-shrink-0"
+            className="flex-shrink-0"
           />
         </div>
 
         {notifications && (
-          <div className="space-y-3 pt-4 border-t border-gray-100">
-            <Label htmlFor="reminder-time" className="text-gray-800 font-medium">Reminder Time</Label>
+          <div className="space-y-3 pt-5">
+            <Label htmlFor="reminder-time" className="text-gray-900 font-medium">Reminder Time</Label>
             <Select
               value={reminderTime}
               onValueChange={onReminderTimeChange}
             >
-              <SelectTrigger className="bg-gray-50/80 border-gray-200 rounded-xl h-12 text-gray-900 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200">
+              <SelectTrigger className="glass-light rounded-2xl h-14 text-gray-900 border-white/20 focus:glass-focus spring-smooth hover:bg-white/60 active:scale-[0.98]">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-white/95 backdrop-blur-xl border-gray-200 rounded-xl shadow-xl">
-                <SelectItem value="5" className="rounded-lg">5 minutes before</SelectItem>
-                <SelectItem value="10" className="rounded-lg">10 minutes before</SelectItem>
-                <SelectItem value="15" className="rounded-lg">15 minutes before</SelectItem>
-                <SelectItem value="30" className="rounded-lg">30 minutes before</SelectItem>
+              <SelectContent className="glass-heavy border-white/25 rounded-2xl shadow-2xl overflow-hidden">
+                <SelectItem value="5" className="rounded-xl mx-2 my-1 focus:bg-blue-500/10 data-[state=checked]:bg-blue-500/15 spring-smooth">5 minutes before</SelectItem>
+                <SelectItem value="10" className="rounded-xl mx-2 my-1 focus:bg-blue-500/10 data-[state=checked]:bg-blue-500/15 spring-smooth">10 minutes before</SelectItem>
+                <SelectItem value="15" className="rounded-xl mx-2 my-1 focus:bg-blue-500/10 data-[state=checked]:bg-blue-500/15 spring-smooth">15 minutes before</SelectItem>
+                <SelectItem value="30" className="rounded-xl mx-2 my-1 focus:bg-blue-500/10 data-[state=checked]:bg-blue-500/15 spring-smooth">30 minutes before</SelectItem>
               </SelectContent>
             </Select>
           </div>

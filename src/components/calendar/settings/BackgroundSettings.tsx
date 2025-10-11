@@ -8,37 +8,39 @@ const BackgroundSettings = () => {
   const { selectedBackground, updateBackground } = useBackground();
 
   return (
-    <div className="bg-white/80 backdrop-blur-xl rounded-2xl border border-white/20 p-6 space-y-6">
-      <div className="flex items-center space-x-3 pb-4 border-b border-gray-100">
-        <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
-          <Image className="w-5 h-5 text-green-600" />
+    <div className="glass-panel rounded-3xl p-6 sm:p-8 space-y-6 edge-highlight spring-smooth">
+      <div className="flex items-center space-x-4 pb-5 border-b border-white/10">
+        <div className="w-12 h-12 bg-gradient-to-br from-green-400/20 to-green-600/20 rounded-2xl flex items-center justify-center backdrop-blur-sm ring-1 ring-white/20">
+          <Image className="w-6 h-6 text-green-600" />
         </div>
-        <div>
-          <h3 className="font-medium text-gray-900">Background</h3>
-          <p className="text-gray-600 text-sm">Choose your preferred nature scene</p>
+        <div className="flex-1">
+          <h3 className="font-semibold text-gray-900 text-lg">Background</h3>
+          <p className="text-gray-600 text-sm mt-0.5">Choose your preferred nature scene</p>
         </div>
       </div>
 
       <div className="space-y-4">
-        <Label className="text-gray-800 font-medium text-sm sm:text-base">Background Scene</Label>
+        <Label className="text-gray-900 font-medium">Background Scene</Label>
         <RadioGroup
           value={selectedBackground}
           onValueChange={(value) => updateBackground(value as BackgroundOption)}
           className="space-y-3"
         >
           {Object.entries(backgroundOptions).map(([key, option]) => (
-            <div key={key} className="flex items-center space-x-3 p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors min-h-[56px] cursor-pointer">
-              <RadioGroupItem value={key} id={key} className="flex-shrink-0" />
-              <div className="flex-1 min-w-0">
-                <Label htmlFor={key} className="text-gray-900 font-medium cursor-pointer text-sm sm:text-base">
-                  {option.name}
-                </Label>
+            <label 
+              key={key} 
+              htmlFor={key}
+              className="glass-light rounded-2xl p-4 border border-white/10 hover:border-white/25 spring-smooth cursor-pointer group active:scale-[0.98] flex items-center justify-between"
+            >
+              <div className="flex items-center space-x-4 flex-1">
+                <div 
+                  className="w-16 h-16 rounded-xl bg-cover bg-center ring-2 ring-white/30 shadow-md flex-shrink-0"
+                  style={{ backgroundImage: `url(${option.url})` }}
+                />
+                <span className="font-medium text-gray-900">{option.name}</span>
               </div>
-              <div 
-                className="w-16 sm:w-20 h-10 sm:h-12 rounded-md bg-cover bg-center border border-gray-200 flex-shrink-0"
-                style={{ backgroundImage: `url(${option.url})` }}
-              />
-            </div>
+              <RadioGroupItem value={key} id={key} className="flex-shrink-0" />
+            </label>
           ))}
         </RadioGroup>
       </div>

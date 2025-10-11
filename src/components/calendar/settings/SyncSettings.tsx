@@ -10,31 +10,31 @@ interface SyncSettingsProps {
 
 const SyncSettings = ({ syncFrequency, onSyncFrequencyChange }: SyncSettingsProps) => {
   return (
-    <div className="bg-white/80 backdrop-blur-xl rounded-2xl border border-white/20 p-6 space-y-6">
-      <div className="flex items-center space-x-3 pb-4 border-b border-gray-100">
-        <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
-          <RefreshCw className="w-5 h-5 text-blue-600" />
+    <div className="glass-panel rounded-3xl p-6 sm:p-8 space-y-6 edge-highlight spring-smooth">
+      <div className="flex items-center space-x-4 pb-5 border-b border-white/10">
+        <div className="w-12 h-12 bg-gradient-to-br from-blue-400/20 to-blue-600/20 rounded-2xl flex items-center justify-center backdrop-blur-sm ring-1 ring-white/20">
+          <RefreshCw className="w-6 h-6 text-blue-600" />
         </div>
-        <div>
-          <h3 className="font-medium text-gray-900">Sync Preferences</h3>
-          <p className="text-gray-600 text-sm">Configure how often your calendars update</p>
+        <div className="flex-1">
+          <h3 className="font-semibold text-gray-900 text-lg">Sync Preferences</h3>
+          <p className="text-gray-600 text-sm mt-0.5">Configure how often your calendars update</p>
         </div>
       </div>
 
       <div className="space-y-3">
-        <Label htmlFor="sync-frequency" className="text-gray-800 font-medium">Sync Frequency</Label>
+        <Label htmlFor="sync-frequency" className="text-gray-900 font-medium">Sync Frequency</Label>
         <Select
           value={syncFrequency}
           onValueChange={onSyncFrequencyChange}
         >
-          <SelectTrigger className="bg-gray-50/80 border-gray-200 rounded-xl h-12 text-gray-900 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200">
+          <SelectTrigger className="glass-light rounded-2xl h-14 text-gray-900 border-white/20 focus:glass-focus spring-smooth hover:bg-white/60 active:scale-[0.98]">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent className="bg-white/95 backdrop-blur-xl border-gray-200 rounded-xl shadow-xl">
-            <SelectItem value="5" className="rounded-lg">Every 5 minutes</SelectItem>
-            <SelectItem value="15" className="rounded-lg">Every 15 minutes</SelectItem>
-            <SelectItem value="30" className="rounded-lg">Every 30 minutes</SelectItem>
-            <SelectItem value="60" className="rounded-lg">Every hour</SelectItem>
+          <SelectContent className="glass-heavy border-white/25 rounded-2xl shadow-2xl overflow-hidden">
+            <SelectItem value="5" className="rounded-xl mx-2 my-1 focus:bg-blue-500/10 data-[state=checked]:bg-blue-500/15 spring-smooth">Every 5 minutes</SelectItem>
+            <SelectItem value="15" className="rounded-xl mx-2 my-1 focus:bg-blue-500/10 data-[state=checked]:bg-blue-500/15 spring-smooth">Every 15 minutes</SelectItem>
+            <SelectItem value="30" className="rounded-xl mx-2 my-1 focus:bg-blue-500/10 data-[state=checked]:bg-blue-500/15 spring-smooth">Every 30 minutes</SelectItem>
+            <SelectItem value="60" className="rounded-xl mx-2 my-1 focus:bg-blue-500/10 data-[state=checked]:bg-blue-500/15 spring-smooth">Every hour</SelectItem>
           </SelectContent>
         </Select>
       </div>

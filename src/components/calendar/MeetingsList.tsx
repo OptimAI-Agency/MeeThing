@@ -57,7 +57,7 @@ const MeetingsList = () => {
         {mockMeetings.map((meeting) => (
           <div
             key={meeting.id}
-            className="group bg-white/80 backdrop-blur-xl rounded-2xl border border-white/20 p-4 sm:p-6 hover:bg-white/90 transition-all duration-300 hover:shadow-xl hover:shadow-black/5"
+            className="group glass-light rounded-2xl p-4 sm:p-6 hover:glass-panel spring-smooth cursor-pointer active:scale-[0.99]"
           >
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="flex items-start sm:items-center space-x-3 sm:space-x-4 flex-1">
@@ -98,7 +98,7 @@ const MeetingsList = () => {
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="border-gray-200 hover:border-gray-300 hover:bg-gray-50 rounded-xl px-4 py-2.5 min-h-[44px] transition-all duration-200 group-hover:scale-105"
+                  className="rounded-xl px-4 py-2.5 min-h-[44px] spring-smooth active:scale-95 bg-white/50 hover:bg-white/80 border-white/30"
                 >
                   View Details
                 </Button>
@@ -109,14 +109,14 @@ const MeetingsList = () => {
       </div>
 
       {/* Wellness Tip */}
-      <div className="bg-gradient-to-br from-blue-50/80 to-indigo-50/80 backdrop-blur-xl rounded-2xl border border-blue-200/50 p-6">
+      <div className="glass-light rounded-2xl border border-blue-200/30 p-6 spring-smooth">
         <div className="flex items-start space-x-4">
-          <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
-            <Lightbulb className="w-5 h-5 text-blue-600" />
+          <div className="w-12 h-12 bg-gradient-to-br from-blue-400/20 to-blue-600/20 rounded-2xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm ring-1 ring-white/20">
+            <Lightbulb className="w-6 h-6 text-blue-600" />
           </div>
           <div className="space-y-2">
-            <h3 className="font-medium text-blue-900">Wellness Tip</h3>
-            <p className="text-blue-800 leading-relaxed">
+            <h3 className="font-semibold text-gray-900 text-lg">Wellness Tip</h3>
+            <p className="text-gray-700 leading-relaxed">
               Consider scheduling 5-minute breathing breaks between meetings to maintain focus and reduce stress.
             </p>
           </div>
