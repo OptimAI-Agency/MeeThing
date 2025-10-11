@@ -21,6 +21,7 @@ const CalendarSettings = () => {
 
   const handleSave = () => {
     toast({
+      variant: "success",
       title: "Settings Saved",
       description: "Your calendar preferences have been updated successfully.",
     });
