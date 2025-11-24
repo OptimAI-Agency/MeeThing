@@ -14,16 +14,203 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      calendar_connections: {
+        Row: {
+          access_token_encrypted: string | null
+          connected_at: string
+          id: string
+          is_active: boolean
+          last_synced_at: string | null
+          metadata: Json | null
+          provider: string
+          refresh_token_encrypted: string | null
+          token_expires_at: string | null
+          user_id: string
+        }
+        Insert: {
+          access_token_encrypted?: string | null
+          connected_at?: string
+          id?: string
+          is_active?: boolean
+          last_synced_at?: string | null
+          metadata?: Json | null
+          provider: string
+          refresh_token_encrypted?: string | null
+          token_expires_at?: string | null
+          user_id: string
+        }
+        Update: {
+          access_token_encrypted?: string | null
+          connected_at?: string
+          id?: string
+          is_active?: boolean
+          last_synced_at?: string | null
+          metadata?: Json | null
+          provider?: string
+          refresh_token_encrypted?: string | null
+          token_expires_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      meetings: {
+        Row: {
+          attendees: Json | null
+          calendar_connection_id: string | null
+          created_at: string
+          description: string | null
+          end_time: string
+          external_id: string | null
+          id: string
+          location: string | null
+          metadata: Json | null
+          start_time: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          attendees?: Json | null
+          calendar_connection_id?: string | null
+          created_at?: string
+          description?: string | null
+          end_time: string
+          external_id?: string | null
+          id?: string
+          location?: string | null
+          metadata?: Json | null
+          start_time: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          attendees?: Json | null
+          calendar_connection_id?: string | null
+          created_at?: string
+          description?: string | null
+          end_time?: string
+          external_id?: string | null
+          id?: string
+          location?: string | null
+          metadata?: Json | null
+          start_time?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meetings_calendar_connection_id_fkey"
+            columns: ["calendar_connection_id"]
+            isOneToOne: false
+            referencedRelation: "calendar_connections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_settings: {
+        Row: {
+          background_preference: string
+          created_at: string
+          email_notifications: boolean
+          id: string
+          notifications_enabled: boolean
+          reminder_minutes: number
+          sync_frequency_minutes: number
+          theme: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          background_preference?: string
+          created_at?: string
+          email_notifications?: boolean
+          id?: string
+          notifications_enabled?: boolean
+          reminder_minutes?: number
+          sync_frequency_minutes?: number
+          theme?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          background_preference?: string
+          created_at?: string
+          email_notifications?: boolean
+          id?: string
+          notifications_enabled?: boolean
+          reminder_minutes?: number
+          sync_frequency_minutes?: number
+          theme?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user" | "premium"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +337,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user", "premium"],
+    },
   },
 } as const
