@@ -18,6 +18,8 @@ export type Database = {
         Row: {
           access_token_encrypted: string | null
           connected_at: string
+          encrypted_access_token: string | null
+          encrypted_refresh_token: string | null
           id: string
           is_active: boolean
           last_synced_at: string | null
@@ -30,6 +32,8 @@ export type Database = {
         Insert: {
           access_token_encrypted?: string | null
           connected_at?: string
+          encrypted_access_token?: string | null
+          encrypted_refresh_token?: string | null
           id?: string
           is_active?: boolean
           last_synced_at?: string | null
@@ -42,6 +46,8 @@ export type Database = {
         Update: {
           access_token_encrypted?: string | null
           connected_at?: string
+          encrypted_access_token?: string | null
+          encrypted_refresh_token?: string | null
           id?: string
           is_active?: boolean
           last_synced_at?: string | null
