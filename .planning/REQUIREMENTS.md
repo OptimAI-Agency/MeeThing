@@ -46,7 +46,7 @@ Deferred to future release. Tracked but not in current roadmap.
 
 ### Reflect
 
-- **REFL-01**: User can log energy/mood after a meeting (1–5 scale or emoji)
+- **REFL-01**: User can log energy/mood after a meeting (1-5 scale or emoji)
 - **REFL-02**: App surfaces weekly patterns ("Mondays drain you most")
 - **REFL-03**: User can see meeting load over time (hours/week in meetings)
 
@@ -70,12 +70,12 @@ Deferred to future release. Tracked but not in current roadmap.
 
 | Feature | Reason |
 |---------|--------|
-| Creating or editing calendar events | Read-only is intentional — writing to calendars adds anxiety and complexity, read-only is a feature |
+| Creating or editing calendar events | Read-only is intentional -- writing to calendars adds anxiety and complexity, read-only is a feature |
 | Scheduling links (Calendly-style) | Different product category; dilutes calm identity |
 | AI meeting summaries or prep | High complexity, requires third-party AI integration; v2+ |
 | Mobile app | Web-first; mobile is a future milestone |
 | Gamification or streaks | Contradicts the calm, non-pressuring wellness positioning |
-| Analytics dashboards | Not the product — too productivity-tool, not wellness |
+| Analytics dashboards | Not the product -- too productivity-tool, not wellness |
 | Real-time calendar sync (webhooks) | Complexity vs. value; polling on manual sync is sufficient for v1 |
 
 ## Traceability
@@ -84,27 +84,29 @@ Which phases cover which requirements. Populated after roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SEC-01 | Phase 1 | Pending |
-| SEC-02 | Phase 1 | Pending |
-| SEC-03 | Phase 1 | Pending |
-| AUTH-01 | Phase 5 | Pending |
-| AUTH-02 | Phase 5 | Pending |
-| AUTH-03 | Phase 5 | Pending |
-| CAL-01 | Phase 2 | Pending |
-| CAL-02 | Phase 2 | Pending |
-| CAL-03 | Phase 5 | Pending |
-| SET-01 | Phase 3 | Pending |
-| SET-02 | Phase 3 | Pending |
-| WEL-01 | Phase 4 | Pending |
-| WEL-02 | Phase 4 | Pending |
-| POL-01 | Phase 4 | Pending |
-| POL-02 | Phase 4 | Pending |
+| SEC-01 | Phase 1: Security Hardening | Pending |
+| SEC-02 | Phase 1: Security Hardening | Pending |
+| SEC-03 | Phase 1: Security Hardening | Pending |
+| CAL-01 | Phase 2: Google Calendar Reliability | Pending |
+| CAL-02 | Phase 2: Google Calendar Reliability | Pending |
+| CAL-03 | Phase 2: Google Calendar Reliability | Pending |
+| SET-01 | Phase 3: Settings Persistence | Pending |
+| SET-02 | Phase 3: Settings Persistence | Pending |
+| WEL-01 | Phase 4: Wellness Engine | Pending |
+| WEL-02 | Phase 4: Wellness Engine | Pending |
+| POL-01 | Phase 4: Wellness Engine | Pending |
+| POL-02 | Phase 4: Wellness Engine | Pending |
+| AUTH-01 | Phase 5: Auth Hardening | Pending |
+| AUTH-02 | Phase 5: Auth Hardening | Pending |
+| AUTH-03 | Phase 5: Auth Hardening | Pending |
 
 **Coverage:**
-- v1 requirements: 14 total
-- Mapped to phases: 14
-- Unmapped: 0 ✓
+- v1 requirements: 15 total
+- Mapped to phases: 15
+- Unmapped: 0
+
+**Note:** CAL-03 and AUTH-03 overlap (both cover token revocation on disconnect). CAL-03 delivers the Google-specific implementation in Phase 2. AUTH-03 in Phase 5 ensures the pattern is enforced at the auth layer and covers any provider-general concerns.
 
 ---
 *Requirements defined: 2026-03-22*
-*Last updated: 2026-03-22 — Outlook deferred to v2, Google Calendar focus for v1*
+*Last updated: 2026-03-22 -- Roadmap created, Google Calendar only for v1*
