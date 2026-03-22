@@ -29,11 +29,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Connecting Google Calendar uses a cryptographically random state parameter that is validated on callback -- static string "google" is gone
   3. Edge functions reject requests from origins other than the app's own domain
   4. Existing Google Calendar connections continue to work after token migration (no user-visible disruption)
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
+- [ ] 01-01-PLAN.md — Shared crypto/CORS modules, edge function encryption, forced-reconnect migration
+- [ ] 01-02-PLAN.md — CSRF state parameter fix (sessionStorage-based)
 
 **Parallel workstream**: Initiate Google OAuth verification process (privacy policy, terms of service, verification application). This is a 4-6 week external process that runs alongside development.
 
@@ -103,7 +103,7 @@ Note: Phases 2 and 3 share Phase 1 as their only dependency, so they could execu
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Security Hardening | 0/TBD | Not started | - |
+| 1. Security Hardening | 0/2 | Planned | - |
 | 2. Google Calendar Reliability | 0/TBD | Not started | - |
 | 3. Settings Persistence | 0/TBD | Not started | - |
 | 4. Wellness Engine | 0/TBD | Not started | - |
