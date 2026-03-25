@@ -1,88 +1,116 @@
-
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { CheckCircle, Calendar, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import googleCalendarLogo from "@/assets/google-calendar-logo.png";
 import microsoftOutlookLogo from "@/assets/microsoft-outlook-logo.png";
 import appleCalendarLogo from "@/assets/apple-calendar-logo.png";
 
-interface CalendarConnection {
-  id: string;
-  name: string;
-  provider: "google" | "microsoft" | "apple";
-  color: string;
-  icon: string;
-  description: string;
-}
-
-const calendarProviders: CalendarConnection[] = [
+const calendarProviders = [
   {
     id: "google",
     name: "Google Calendar",
-    provider: "google",
-    color: "bg-white",
     icon: googleCalendarLogo,
-    description: "Connect your Google Calendar to sync events and meetings"
+    description: "Connect your Google Calendar to sync events and meetings",
+    supported: true,
   },
   {
     id: "microsoft",
     name: "Microsoft Outlook",
-    provider: "microsoft",
-    color: "bg-white",
     icon: microsoftOutlookLogo,
-    description: "Sync your Outlook calendar and Office 365 events"
+    description: "Sync your Outlook calendar and Office 365 events",
+    supported: false,
   },
   {
     id: "apple",
     name: "Apple Calendar",
-    provider: "apple",
-    color: "bg-white",
     icon: appleCalendarLogo,
-    description: "Connect your iCloud calendar for seamless Apple ecosystem integration"
-  }
+    description: "Connect your iCloud calendar for seamless Apple ecosystem integration",
+    supported: false,
+  },
 ];
 
-interface CalendarConnectionsProps {
-  connectedCalendars: string[];
-  setConnectedCalendars: (calendars: string[]) => void;
+interface Props {
+  connectedProviders: string[];
 }
 
-const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: CalendarConnectionsProps) => {
-  const [connecting, setConnecting] = useState<string | null>(null);
+const CalendarConnections = ({ connectedProviders }: Props) => {
+  const [disconnecting, setDisconnecting] = useState<string | null>(null);
   const { toast } = useToast();
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
 
-  const handleConnect = async (providerId: string) => {
-    setConnecting(providerId);
-    
-    setTimeout(() => {
-      setConnectedCalendars([...connectedCalendars, providerId]);
-      setConnecting(null);
-      
-      const provider = calendarProviders.find(p => p.id === providerId);
+  const handleConnect = (providerId: string) => {
+    if (providerId !== "google") {
       toast({
-        title: "Calendar Connected!",
-        description: `Successfully connected ${provider?.name}. Your events will sync shortly.`,
+        title: "Coming soon",
+        description: `${calendarProviders.find((p) => p.id === providerId)?.name} integration is coming soon.`,
       });
-    }, 2000);
+      return;
+    }
+
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    if (!clientId) {
+      toast({
+        title: "Configuration missing",
+        description: "VITE_GOOGLE_CLIENT_ID is not set.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const redirectUri = `${window.location.origin}/auth/callback`;
+    const scope = "https://www.googleapis.com/auth/calendar.readonly";
+
+    const url = new URL("https://accounts.google.com/o/oauth2/v2/auth");
+    url.searchParams.set("client_id", clientId);
+    url.searchParams.set("redirect_uri", redirectUri);
+    url.searchParams.set("response_type", "code");
+    url.searchParams.set("scope", scope);
+    url.searchParams.set("access_type", "offline");
+    url.searchParams.set("prompt", "consent"); // always return a refresh token
+    const stateToken = crypto.randomUUID();
+    sessionStorage.setItem("oauth_state", stateToken);
+    url.searchParams.set("state", stateToken);
+
+    window.location.href = url.toString();
   };
 
-  const handleDisconnect = (providerId: string) => {
-    setConnectedCalendars(connectedCalendars.filter(id => id !== providerId));
-    
-    const provider = calendarProviders.find(p => p.id === providerId);
-    toast({
-      title: "Calendar Disconnected",
-      description: `${provider?.name} has been disconnected from your account.`,
-      variant: "destructive",
-    });
+  const handleDisconnect = async (providerId: string) => {
+    if (!user) return;
+    setDisconnecting(providerId);
+    try {
+      const { error } = await supabase
+        .from("calendar_connections")
+        .update({ is_active: false })
+        .eq("user_id", user.id)
+        .eq("provider", providerId);
+
+      if (error) throw error;
+
+      // Invalidate queries so CalendarHub and MeetingsList update
+      queryClient.invalidateQueries({ queryKey: ["calendar-connections"] });
+      queryClient.invalidateQueries({ queryKey: ["meetings"] });
+
+      toast({
+        title: "Calendar disconnected",
+        description: `${calendarProviders.find((p) => p.id === providerId)?.name} has been disconnected.`,
+        variant: "destructive",
+      });
+    } catch (err: any) {
+      toast({ title: "Failed to disconnect", description: err.message, variant: "destructive" });
+    } finally {
+      setDisconnecting(null);
+    }
   };
 
   return (
     <div className="space-y-8">
-      {/* Header Section */}
+      {/* Header */}
       <div className="text-center space-y-3 px-4">
         <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 mb-2 sm:mb-4">
           <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
@@ -93,11 +121,11 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
         </p>
       </div>
 
-      {/* Connection Cards */}
+      {/* Provider cards */}
       <div className="space-y-4">
         {calendarProviders.map((provider) => {
-          const isConnected = connectedCalendars.includes(provider.id);
-          const isConnecting = connecting === provider.id;
+          const isConnected = connectedProviders.includes(provider.id);
+          const isDisconnecting = disconnecting === provider.id;
 
           return (
             <div
@@ -106,11 +134,16 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
             >
               <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                 <div className="flex items-start sm:items-center space-x-3 sm:space-x-4 flex-1">
-                  <div className={`w-12 h-12 sm:w-14 sm:h-14 ${provider.color} rounded-xl flex items-center justify-center shadow-lg border border-gray-200 p-2 flex-shrink-0`}>
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-xl flex items-center justify-center shadow-lg border border-gray-200 p-2 flex-shrink-0">
                     <img src={provider.icon} alt={`${provider.name} logo`} className="w-full h-full object-contain" />
                   </div>
                   <div className="space-y-1 flex-1 min-w-0">
-                    <h3 className="font-medium text-gray-900 text-base sm:text-lg">{provider.name}</h3>
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-medium text-gray-900 text-base sm:text-lg">{provider.name}</h3>
+                      {!provider.supported && (
+                        <Badge className="bg-gray-100 text-gray-500 border-gray-200 text-xs">Coming soon</Badge>
+                      )}
+                    </div>
                     <p className="text-gray-600 text-sm leading-relaxed">{provider.description}</p>
                   </div>
                 </div>
@@ -122,33 +155,25 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
                       Connected
                     </Badge>
                   )}
-                  
+
                   {isConnected ? (
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => handleDisconnect(provider.id)}
+                      disabled={isDisconnecting}
                       className="border-gray-200 hover:border-red-300 hover:bg-red-50 hover:text-red-700 transition-all duration-200 rounded-xl px-4 py-2.5 min-h-[44px]"
                     >
-                      Disconnect
+                      {isDisconnecting ? "Disconnecting…" : "Disconnect"}
                     </Button>
                   ) : (
                     <Button
                       onClick={() => handleConnect(provider.id)}
-                      disabled={isConnecting}
-                      className="bg-black hover:bg-gray-800 text-white border-0 rounded-xl px-6 py-2.5 min-h-[44px] font-medium transition-all duration-200 group-hover:scale-105 shadow-lg"
+                      disabled={!provider.supported}
+                      className="bg-black hover:bg-gray-800 text-white border-0 rounded-xl px-6 py-2.5 min-h-[44px] font-medium transition-all duration-200 group-hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
                     >
-                      {isConnecting ? (
-                        <div className="flex items-center space-x-2">
-                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          <span>Connecting...</span>
-                        </div>
-                      ) : (
-                        <div className="flex items-center space-x-2">
-                          <span>Connect</span>
-                          <ArrowRight className="w-4 h-4" />
-                        </div>
-                      )}
+                      <span>Connect</span>
+                      <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
                   )}
                 </div>
@@ -158,27 +183,26 @@ const CalendarConnections = ({ connectedCalendars, setConnectedCalendars }: Cale
         })}
       </div>
 
-      {/* Success State */}
-      {connectedCalendars.length > 0 && (
+      {/* Success state */}
+      {connectedProviders.length > 0 && (
         <div className="bg-green-50/80 backdrop-blur-xl rounded-2xl border border-green-200/50 p-6 space-y-4">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
               <CheckCircle className="w-5 h-5 text-green-600" />
             </div>
             <div>
-              <h3 className="font-medium text-green-900">All Set!</h3>
-              <p className="text-green-700 text-sm">Your calendars are connected and ready to sync</p>
+              <h3 className="font-medium text-green-900">All set!</h3>
+              <p className="text-green-700 text-sm">Your calendars are connected and syncing</p>
             </div>
           </div>
-          
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
             <div className="flex items-center space-x-2 text-sm text-green-700">
               <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0" />
-              <span>Auto-sync every 15 minutes</span>
+              <span>Events sync on connection</span>
             </div>
             <div className="flex items-center space-x-2 text-sm text-green-700">
               <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0" />
-              <span>Wellness tips included</span>
+              <span>Next 7 days of events</span>
             </div>
             <div className="flex items-center space-x-2 text-sm text-green-700">
               <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0" />
