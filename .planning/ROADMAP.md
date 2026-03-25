@@ -12,7 +12,7 @@ MeeThing ships as a wellness-focused Google Calendar companion for public launch
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Security Hardening** - Encrypt OAuth tokens, fix CSRF, restrict CORS
+- [x] **Phase 1: Security Hardening** - Encrypt OAuth tokens, fix CSRF, restrict CORS
 - [ ] **Phase 2: Google Calendar Reliability** - Pagination, error handling, clean disconnect
 - [ ] **Phase 3: Settings Persistence** - Wire existing settings UI to the database
 - [ ] **Phase 4: Wellness Engine** - Breathing exercises, transition buffers, polish
@@ -103,7 +103,7 @@ Note: Phases 2 and 3 share Phase 1 as their only dependency, so they could execu
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Security Hardening | 0/2 | Planned | - |
+| 1. Security Hardening | 2/2 | Complete | 2026-03-25 |
 | 2. Google Calendar Reliability | 0/TBD | Not started | - |
 | 3. Settings Persistence | 0/TBD | Not started | - |
 | 4. Wellness Engine | 0/TBD | Not started | - |
