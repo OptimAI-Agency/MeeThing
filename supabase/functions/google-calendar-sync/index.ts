@@ -17,7 +17,7 @@ async function refreshAccessToken(refreshToken: string): Promise<{ accessToken: 
 
   if (!res.ok) {
     const err = await res.text();
-    throw new Error(`Token refresh failed: ${err}`);
+    throw { message: `Token refresh failed: ${err}`, isAuthError: true };
   }
 
   const data = await res.json();
@@ -63,7 +63,7 @@ serve(async (req) => {
 
     if (needsRefresh) {
       if (!connection.refresh_token_encrypted) {
-        throw new Error("Access token expired and no refresh token available. Please reconnect.");
+        throw { message: "Access token expired and no refresh token available. Please reconnect.", isAuthError: true };
       }
       const refreshToken = await decrypt(connection.refresh_token_encrypted);
       const refreshed = await refreshAccessToken(refreshToken);
@@ -83,25 +83,41 @@ serve(async (req) => {
     const timeMin = new Date().toISOString();
     const timeMax = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
 
-    const calRes = await fetch(
-      "https://www.googleapis.com/calendar/v3/calendars/primary/events?" +
-        new URLSearchParams({
-          timeMin,
-          timeMax,
-          singleEvents: "true",
-          orderBy: "startTime",
-          maxResults: "50",
-        }),
-      { headers: { Authorization: `Bearer ${accessToken}` } },
-    );
+    // Paginate through ALL events using nextPageToken loop
+    let allEvents: any[] = []; // eslint-disable-line @typescript-eslint/no-explicit-any
+    let pageToken: string | undefined;
 
-    if (!calRes.ok) {
-      const err = await calRes.text();
-      throw new Error(`Google Calendar API error: ${err}`);
-    }
+    do {
+      const params: Record<string, string> = {
+        timeMin,
+        timeMax,
+        singleEvents: "true",
+        orderBy: "startTime",
+        maxResults: "2500",
+      };
+      if (pageToken) params.pageToken = pageToken;
 
-    const calData = await calRes.json();
-    const events: any[] = calData.items ?? [];
+      const calRes = await fetch(
+        "https://www.googleapis.com/calendar/v3/calendars/primary/events?" +
+          new URLSearchParams(params),
+        { headers: { Authorization: `Bearer ${accessToken}` } },
+      );
+
+      if (!calRes.ok) {
+        const errText = await calRes.text();
+        const status = calRes.status;
+        if (status === 401 || status === 403) {
+          throw { message: "Token rejected by Google — please reconnect", isAuthError: true };
+        }
+        throw { message: `Google Calendar API error: ${errText}`, isAuthError: false };
+      }
+
+      const calData = await calRes.json();
+      allEvents = allEvents.concat(calData.items ?? []);
+      pageToken = calData.nextPageToken;
+    } while (pageToken);
+
+    const events = allEvents;
 
     // Map to our meetings schema, skipping all-day events (no dateTime)
     const meetings = events
@@ -115,7 +131,7 @@ serve(async (req) => {
         start_time: e.start.dateTime,
         end_time: e.end.dateTime,
         location: e.location ?? null,
-        attendees: (e.attendees ?? []).map((a: any) => ({
+        attendees: (e.attendees ?? []).map((a: any) => ({ // eslint-disable-line @typescript-eslint/no-explicit-any
           email: a.email,
           name: a.displayName ?? null,
           self: a.self ?? false,
@@ -157,11 +173,25 @@ serve(async (req) => {
     return new Response(JSON.stringify({ success: true, synced: meetings.length }), {
       headers: { ...getCorsHeaders(), "Content-Type": "application/json" },
     });
-  } catch (err) {
+  } catch (err: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
     console.error("google-calendar-sync error:", err);
-    return new Response(JSON.stringify({ error: err.message }), {
-      status: 400,
-      headers: { ...getCorsHeaders(), "Content-Type": "application/json" },
-    });
+
+    const isAuthError = err.isAuthError === true ||
+      (typeof err.message === "string" && (
+        err.message.includes("Token refresh failed") ||
+        err.message.includes("no refresh token") ||
+        err.message.includes("reconnect")
+      ));
+
+    return new Response(
+      JSON.stringify({
+        error: typeof err.message === "string" ? err.message : String(err),
+        error_type: isAuthError ? "auth_expired" : "sync_failed",
+      }),
+      {
+        status: isAuthError ? 401 : 400,
+        headers: { ...getCorsHeaders(), "Content-Type": "application/json" },
+      },
+    );
   }
 });
