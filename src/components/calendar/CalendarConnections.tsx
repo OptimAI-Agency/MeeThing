@@ -1,11 +1,24 @@
 import { useState } from "react";
+import { formatDistanceToNow } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { CheckCircle, Calendar, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { useCalendarConnections } from "@/hooks/useCalendarConnections";
 import googleCalendarLogo from "@/assets/google-calendar-logo.png";
 import microsoftOutlookLogo from "@/assets/microsoft-outlook-logo.png";
 import appleCalendarLogo from "@/assets/apple-calendar-logo.png";
@@ -36,13 +49,15 @@ const calendarProviders = [
 
 interface Props {
   connectedProviders: string[];
+  syncing?: boolean;
 }
 
-const CalendarConnections = ({ connectedProviders }: Props) => {
+const CalendarConnections = ({ connectedProviders, syncing }: Props) => {
   const [disconnecting, setDisconnecting] = useState<string | null>(null);
   const { toast } = useToast();
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const { data: connections = [] } = useCalendarConnections();
 
   const handleConnect = (providerId: string) => {
     if (providerId !== "google") {
@@ -84,25 +99,22 @@ const CalendarConnections = ({ connectedProviders }: Props) => {
     if (!user) return;
     setDisconnecting(providerId);
     try {
-      const { error } = await supabase
-        .from("calendar_connections")
-        .update({ is_active: false })
-        .eq("user_id", user.id)
-        .eq("provider", providerId);
+      const { data, error } = await supabase.functions.invoke("google-calendar-disconnect");
 
-      if (error) throw error;
+      if (error) throw new Error(error.message);
+      if (data?.error) throw new Error(data.error);
 
-      // Invalidate queries so CalendarHub and MeetingsList update
       queryClient.invalidateQueries({ queryKey: ["calendar-connections"] });
       queryClient.invalidateQueries({ queryKey: ["meetings"] });
 
       toast({
         title: "Calendar disconnected",
-        description: `${calendarProviders.find((p) => p.id === providerId)?.name} has been disconnected.`,
+        description: `${calendarProviders.find((p) => p.id === providerId)?.name} has been disconnected and all synced meetings have been removed.`,
         variant: "destructive",
       });
-    } catch (err: any) {
-      toast({ title: "Failed to disconnect", description: err.message, variant: "destructive" });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "An unexpected error occurred.";
+      toast({ title: "Failed to disconnect", description: message, variant: "destructive" });
     } finally {
       setDisconnecting(null);
     }
@@ -145,6 +157,17 @@ const CalendarConnections = ({ connectedProviders }: Props) => {
                       )}
                     </div>
                     <p className="text-gray-600 text-sm leading-relaxed">{provider.description}</p>
+                    {isConnected && (() => {
+                      const conn = connections.find((c) => c.provider === provider.id);
+                      const lastSynced = conn?.last_synced_at;
+                      return lastSynced ? (
+                        <p className="text-xs text-gray-400 mt-1">
+                          Last synced {formatDistanceToNow(new Date(lastSynced), { addSuffix: true })}
+                        </p>
+                      ) : (
+                        <p className="text-xs text-gray-400 mt-1">Never synced</p>
+                      );
+                    })()}
                   </div>
                 </div>
 
@@ -157,15 +180,32 @@ const CalendarConnections = ({ connectedProviders }: Props) => {
                   )}
 
                   {isConnected ? (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleDisconnect(provider.id)}
-                      disabled={isDisconnecting}
-                      className="border-gray-200 hover:border-red-300 hover:bg-red-50 hover:text-red-700 transition-all duration-200 rounded-xl px-4 py-2.5 min-h-[44px]"
-                    >
-                      {isDisconnecting ? "Disconnecting…" : "Disconnect"}
-                    </Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          disabled={isDisconnecting || syncing}
+                          className="border-gray-200 hover:border-red-300 hover:bg-red-50 hover:text-red-700 transition-all duration-200 rounded-xl px-4 py-2.5 min-h-[44px]"
+                        >
+                          {isDisconnecting ? "Disconnecting…" : "Disconnect"}
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Disconnect Google Calendar?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This will remove all synced meetings from MeeThing. You can reconnect at any time.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => handleDisconnect(provider.id)}>
+                            Disconnect
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   ) : (
                     <Button
                       onClick={() => handleConnect(provider.id)}
