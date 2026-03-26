@@ -1,3 +1,17 @@
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: Ready to execute
+stopped_at: Completed 02-01-PLAN.md — sync pagination and disconnect edge function done
+last_updated: "2026-03-26T00:47:16.739Z"
+progress:
+  total_phases: 5
+  completed_phases: 1
+  total_plans: 4
+  completed_plans: 3
+---
+
 # Project State
 
 ## Project Reference
@@ -5,20 +19,17 @@
 See: .planning/PROJECT.md (updated 2026-03-22)
 
 **Core value:** A calm, beautiful alternative to your calendar app that makes meetings feel manageable, not draining.
-**Current focus:** Phase 1: Security Hardening
+**Current focus:** Phase 02 — google-calendar-reliability
 
 ## Current Position
 
-Phase: 2 of 5 (Google Calendar Reliability)
-Plan: 0 of TBD in current phase
-Status: Ready to discuss/plan
-Last activity: 2026-03-25 -- Phase 1 complete (SEC-01, SEC-02, SEC-03)
-
-Progress: [██........] 20%
+Phase: 02 (google-calendar-reliability) — EXECUTING
+Plan: 2 of 2
 
 ## Performance Metrics
 
 **Velocity:**
+
 - Total plans completed: 0
 - Average duration: -
 - Total execution time: 0 hours
@@ -30,10 +41,12 @@ Progress: [██........] 20%
 | - | - | - | - |
 
 **Recent Trend:**
+
 - Last 5 plans: -
 - Trend: -
 
 *Updated after each plan completion*
+| Phase 02 P01 | 163 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -45,6 +58,8 @@ Recent decisions affecting current work:
 - [Roadmap]: Google Calendar only for v1 -- Outlook deferred to v2
 - [Roadmap]: Token encryption via AES-256-GCM in edge functions (not pgcrypto, not Vault)
 - [Roadmap]: Google OAuth verification (4-6 weeks) must start in parallel with Phase 1
+- [Phase 02]: Throw plain objects with isAuthError flag (not Error instances) to carry auth classification through catch block in sync edge function
+- [Phase 02]: Revocation failure in disconnect edge function logs console.warn and continues cleanup — preserves hard-delete guarantee even if Google is unreachable
 
 ### Pending Todos
 
@@ -58,6 +73,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-22
-Stopped at: Phase 1 complete — ready for Phase 2
+Last session: 2026-03-26T00:47:16.736Z
+Stopped at: Completed 02-01-PLAN.md — sync pagination and disconnect edge function done
 Resume file: None

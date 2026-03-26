@@ -49,7 +49,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Pagination + structured error responses in sync edge function, new disconnect edge function
+- [x] 02-01-PLAN.md — Pagination + structured error responses in sync edge function, new disconnect edge function
 - [ ] 02-02-PLAN.md — Frontend error handling toasts, disconnect confirmation dialog, last-synced display
 
 ### Phase 3: Settings Persistence
@@ -104,7 +104,7 @@ Note: Phases 2 and 3 share Phase 1 as their only dependency, so they could execu
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Security Hardening | 2/2 | Complete | 2026-03-25 |
-| 2. Google Calendar Reliability | 0/2 | Not started | - |
+| 2. Google Calendar Reliability | 1/2 | In Progress|  |
 | 3. Settings Persistence | 0/TBD | Not started | - |
 | 4. Wellness Engine | 0/TBD | Not started | - |
 | 5. Auth Hardening | 0/TBD | Not started | - |

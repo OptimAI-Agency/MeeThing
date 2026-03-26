@@ -21,9 +21,9 @@ Requirements for public launch. Each maps to a roadmap phase.
 
 ### Calendar Integration
 
-- [ ] **CAL-01**: Google Calendar sync fetches all events in the 7-day window with pagination (currently hard-capped at 50 events, silently missing overflow)
-- [ ] **CAL-02**: Manual "Sync now" is reliable — handles token refresh, errors surfaced to user rather than failing silently
-- [ ] **CAL-03**: Disconnecting Google Calendar revokes the OAuth token with Google and clears all synced meetings
+- [x] **CAL-01**: Google Calendar sync fetches all events in the 7-day window with pagination (currently hard-capped at 50 events, silently missing overflow)
+- [x] **CAL-02**: Manual "Sync now" is reliable — handles token refresh, errors surfaced to user rather than failing silently
+- [x] **CAL-03**: Disconnecting Google Calendar revokes the OAuth token with Google and clears all synced meetings
 
 ### Settings
 
@@ -87,9 +87,9 @@ Which phases cover which requirements. Populated after roadmap creation.
 | SEC-01 | Phase 1: Security Hardening | Pending |
 | SEC-02 | Phase 1: Security Hardening | Pending |
 | SEC-03 | Phase 1: Security Hardening | Pending |
-| CAL-01 | Phase 2: Google Calendar Reliability | Pending |
-| CAL-02 | Phase 2: Google Calendar Reliability | Pending |
-| CAL-03 | Phase 2: Google Calendar Reliability | Pending |
+| CAL-01 | Phase 2: Google Calendar Reliability | Complete |
+| CAL-02 | Phase 2: Google Calendar Reliability | Complete |
+| CAL-03 | Phase 2: Google Calendar Reliability | Complete |
 | SET-01 | Phase 3: Settings Persistence | Pending |
 | SET-02 | Phase 3: Settings Persistence | Pending |
 | WEL-01 | Phase 4: Wellness Engine | Pending |
