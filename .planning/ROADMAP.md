@@ -13,7 +13,7 @@ MeeThing ships as a wellness-focused Google Calendar companion for public launch
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Security Hardening** - Encrypt OAuth tokens, fix CSRF, restrict CORS
-- [ ] **Phase 2: Google Calendar Reliability** - Pagination, error handling, clean disconnect
+- [x] **Phase 2: Google Calendar Reliability** - Pagination, error handling, clean disconnect (completed 2026-03-26)
 - [ ] **Phase 3: Settings Persistence** - Wire existing settings UI to the database
 - [ ] **Phase 4: Wellness Engine** - Breathing exercises, transition buffers, polish
 - [ ] **Phase 5: Auth Hardening** - Email verification, password reset, token revocation
@@ -50,7 +50,7 @@ Plans:
 
 Plans:
 - [x] 02-01-PLAN.md — Pagination + structured error responses in sync edge function, new disconnect edge function
-- [ ] 02-02-PLAN.md — Frontend error handling toasts, disconnect confirmation dialog, last-synced display
+- [x] 02-02-PLAN.md — Frontend error handling toasts, disconnect confirmation dialog, last-synced display
 
 ### Phase 3: Settings Persistence
 **Goal**: User preferences actually persist -- sync frequency, notification preferences, and wellness toggles survive page refreshes and sessions
@@ -104,7 +104,7 @@ Note: Phases 2 and 3 share Phase 1 as their only dependency, so they could execu
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Security Hardening | 2/2 | Complete | 2026-03-25 |
-| 2. Google Calendar Reliability | 1/2 | In Progress|  |
+| 2. Google Calendar Reliability | 2/2 | Complete   | 2026-03-26 |
 | 3. Settings Persistence | 0/TBD | Not started | - |
 | 4. Wellness Engine | 0/TBD | Not started | - |
 | 5. Auth Hardening | 0/TBD | Not started | - |
