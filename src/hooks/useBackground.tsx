@@ -6,7 +6,7 @@ export type BackgroundOption = 'peaceful-park' | 'misty-morning';
 export const backgroundOptions = {
   'peaceful-park': {
     name: 'Peaceful Park Bench',
-    url: '/lovable-uploads/91d272df-e762-460a-8dc7-d0eff325f2e9.png'
+    url: `${import.meta.env.BASE_URL}lovable-uploads/91d272df-e762-460a-8dc7-d0eff325f2e9.png`
   },
   'misty-morning': {
     name: 'Misty Morning Path',
