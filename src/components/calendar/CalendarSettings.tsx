@@ -27,7 +27,7 @@ const CalendarSettings = () => {
     });
   };
 
-  const updateSetting = (key: string, value: any) => {
+  const updateSetting = (key: string, value: string | boolean) => {
     setSettings(prev => ({ ...prev, [key]: value }));
   };
 

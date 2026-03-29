@@ -41,11 +41,12 @@ const Login = () => {
         title: "Welcome back!",
         description: "You've successfully signed in.",
       });
-    } catch (error: any) {
-      const errorMessage = 
-        error.message === "Invalid login credentials" 
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Something went wrong.";
+      const errorMessage =
+        message === "Invalid login credentials"
           ? "Incorrect email or password. Please try again."
-        : error.message;
+          : message;
         
       toast({
         variant: "destructive",

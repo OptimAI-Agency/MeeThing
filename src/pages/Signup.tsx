@@ -43,11 +43,12 @@ const Signup = () => {
         title: "Account created!",
         description: "Welcome to MeeThing.",
       });
-    } catch (error: any) {
-      const errorMessage = 
-        error.message === "User already registered"
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Something went wrong.";
+      const errorMessage =
+        message === "User already registered"
           ? "An account with this email already exists. Try logging in."
-        : error.message;
+          : message;
         
       toast({
         variant: "destructive",

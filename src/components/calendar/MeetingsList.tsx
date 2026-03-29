@@ -62,7 +62,7 @@ const MeetingsList = () => {
             const end = new Date(meeting.end_time);
             const duration = intervalToDuration({ start, end });
             const durationLabel = formatDuration(duration, { format: ["hours", "minutes"] }) || "< 1 min";
-            const provider = (meeting.calendar_connections as any)?.provider ?? "google";
+            const provider = (meeting.calendar_connections as { provider?: string } | null)?.provider ?? "google";
             const attendees = Array.isArray(meeting.attendees) ? meeting.attendees : [];
 
             return (
@@ -100,14 +100,14 @@ const MeetingsList = () => {
                   </div>
 
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
-                    {(meeting.metadata as any)?.htmlLink && (
+                    {(meeting.metadata as Record<string, unknown> | null)?.htmlLink && (
                       <Button
                         variant="outline"
                         size="sm"
                         asChild
                         className="rounded-xl px-4 py-2.5 min-h-[44px] spring-smooth active:scale-95 bg-white/50 hover:bg-white/80 border-white/30"
                       >
-                        <a href={(meeting.metadata as any).htmlLink} target="_blank" rel="noopener noreferrer">
+                        <a href={(meeting.metadata as Record<string, unknown> | null).htmlLink} target="_blank" rel="noopener noreferrer">
                           Open
                         </a>
                       </Button>

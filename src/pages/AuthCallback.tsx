@@ -66,11 +66,11 @@ const AuthCallback = () => {
         }
 
         navigate("/calendar?tab=overview");
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("OAuth callback error:", err);
         toast({
           title: "Connection failed",
-          description: err.message ?? "Something went wrong. Please try again.",
+          description: err instanceof Error ? err.message : "Something went wrong. Please try again.",
           variant: "destructive",
         });
         navigate("/calendar");
