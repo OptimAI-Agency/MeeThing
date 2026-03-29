@@ -78,7 +78,7 @@ const CalendarConnections = ({ connectedProviders, syncing }: Props) => {
       return;
     }
 
-    const redirectUri = `${window.location.origin}/auth/callback`;
+    const redirectUri = `${window.location.origin}${import.meta.env.BASE_URL}auth/callback`;
     const scope = "https://www.googleapis.com/auth/calendar.readonly";
 
     const url = new URL("https://accounts.google.com/o/oauth2/v2/auth");
