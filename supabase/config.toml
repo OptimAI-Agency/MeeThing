@@ -1,1 +1,10 @@
 project_id = "bluczcgzftbibgyqlqbt"
+
+[functions.google-oauth]
+verify_jwt = false
+
+[functions.google-calendar-sync]
+verify_jwt = false
+
+[functions.google-calendar-disconnect]
+verify_jwt = false
