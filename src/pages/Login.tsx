@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '@/hooks/use-toast';
 import { signInSchema } from '@/lib/auth-schemas';
+import { useBackground } from '@/hooks/useBackground';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -13,6 +14,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const { signIn } = useAuth();
   const navigate = useNavigate();
+  const { backgroundUrl } = useBackground();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,8 +61,9 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-blue-50 to-indigo-50">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center px-4 relative bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url('${backgroundUrl}')` }}>
+      <div className="absolute inset-0 bg-black/40" />
+      <div className="relative z-10 w-full max-w-md">
         <div className="glass-panel rounded-3xl p-6 sm:p-8 space-y-4 sm:space-y-6">
           <div className="text-center space-y-2">
             <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Welcome back</h1>
