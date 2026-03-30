@@ -2,6 +2,7 @@ import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -57,7 +58,7 @@ const CalendarConnections = ({ connectedProviders, syncing }: Props) => {
   const { toast } = useToast();
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  const { data: connections = [] } = useCalendarConnections();
+  const { data: connections = [], isLoading: connectionsLoading } = useCalendarConnections();
 
   const handleConnect = (providerId: string) => {
     if (providerId !== "google") {
@@ -120,6 +121,32 @@ const CalendarConnections = ({ connectedProviders, syncing }: Props) => {
     }
   };
 
+  if (connectionsLoading) {
+    return (
+      <div className="space-y-8">
+        <div className="text-center space-y-3 px-4">
+          <Skeleton className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl mx-auto" />
+          <Skeleton className="h-6 w-48 mx-auto" />
+          <Skeleton className="h-4 w-64 mx-auto" />
+        </div>
+        <div className="space-y-4">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="bg-white/80 backdrop-blur-xl rounded-2xl border border-white/20 p-4 sm:p-6">
+              <div className="flex items-center space-x-4">
+                <Skeleton className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex-shrink-0" />
+                <div className="space-y-2 flex-1">
+                  <Skeleton className="h-5 w-1/3" />
+                  <Skeleton className="h-4 w-2/3" />
+                </div>
+                <Skeleton className="h-10 w-24 rounded-xl flex-shrink-0" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -132,6 +159,16 @@ const CalendarConnections = ({ connectedProviders, syncing }: Props) => {
           Connect your calendar providers to sync meetings and events seamlessly
         </p>
       </div>
+
+      {/* Warm welcome empty state when no connections */}
+      {connectedProviders.length === 0 && (
+        <div className="text-center py-6 space-y-3">
+          <p className="text-lg font-medium text-gray-900">Welcome! Let's get you connected</p>
+          <p className="text-gray-600 text-sm max-w-sm mx-auto">
+            Connect a calendar below to start seeing your meetings in a calmer way
+          </p>
+        </div>
+      )}
 
       {/* Provider cards */}
       <div className="space-y-4">
