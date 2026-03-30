@@ -33,12 +33,12 @@ Requirements for public launch. Each maps to a roadmap phase.
 ### Wellness
 
 - [x] **WEL-01**: User can enable a breathing exercise reminder that surfaces a guided animation (inhale/hold/exhale) before or between meetings
-- [ ] **WEL-02**: App detects back-to-back meetings and surfaces a configurable transition buffer warning ("You have 3 meetings with no gaps")
+- [x] **WEL-02**: App detects back-to-back meetings and surfaces a configurable transition buffer warning ("You have 3 meetings with no gaps")
 
 ### Polish
 
-- [ ] **POL-01**: All data-fetching paths have explicit loading and error states (no silent failures, no infinite spinners)
-- [ ] **POL-02**: Empty states are handled gracefully: no calendars connected, no meetings today, sync error recovery
+- [x] **POL-01**: All data-fetching paths have explicit loading and error states (no silent failures, no infinite spinners)
+- [x] **POL-02**: Empty states are handled gracefully: no calendars connected, no meetings today, sync error recovery
 
 ## v2 Requirements
 
@@ -93,9 +93,9 @@ Which phases cover which requirements. Populated after roadmap creation.
 | SET-01 | Phase 3: Settings Persistence | Complete |
 | SET-02 | Phase 3: Settings Persistence | Complete |
 | WEL-01 | Phase 4: Wellness Engine | Complete |
-| WEL-02 | Phase 4: Wellness Engine | Pending |
-| POL-01 | Phase 4: Wellness Engine | Pending |
-| POL-02 | Phase 4: Wellness Engine | Pending |
+| WEL-02 | Phase 4: Wellness Engine | Complete |
+| POL-01 | Phase 4: Wellness Engine | Complete |
+| POL-02 | Phase 4: Wellness Engine | Complete |
 | AUTH-01 | Phase 5: Auth Hardening | Pending |
 | AUTH-02 | Phase 5: Auth Hardening | Pending |
 | AUTH-03 | Phase 5: Auth Hardening | Pending |
