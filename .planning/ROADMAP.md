@@ -60,10 +60,11 @@ Plans:
   1. User changes sync frequency in settings, refreshes the page, and sees the saved value
   2. User changes notification preferences, logs out and back in, and sees the saved values
   3. Wellness settings (breathing enabled, minutes before, transition buffer) persist to the database and are available for the wellness engine in Phase 4
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: TBD
+- [x] 03-01-PLAN.md -- Settings data layer: migration, types, useUserSettings hook
+- [ ] 03-02-PLAN.md -- Wire settings UI to database
 
 ### Phase 4: Wellness Engine
 **Goal**: Users experience MeeThing's core differentiator -- mindful breathing before meetings and awareness of back-to-back scheduling -- with polished loading, error, and empty states throughout
@@ -105,6 +106,6 @@ Note: Phases 2 and 3 share Phase 1 as their only dependency, so they could execu
 |-------|----------------|--------|-----------|
 | 1. Security Hardening | 2/2 | Complete | 2026-03-25 |
 | 2. Google Calendar Reliability | 2/2 | Complete   | 2026-03-26 |
-| 3. Settings Persistence | 0/TBD | Not started | - |
+| 3. Settings Persistence | 1/2 | In progress | - |
 | 4. Wellness Engine | 0/TBD | Not started | - |
 | 5. Auth Hardening | 0/TBD | Not started | - |
