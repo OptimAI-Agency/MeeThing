@@ -64,7 +64,7 @@ Plans:
 
 Plans:
 - [x] 03-01-PLAN.md -- Settings data layer: migration, types, useUserSettings hook
-- [ ] 03-02-PLAN.md -- Wire settings UI to database
+- [x] 03-02-PLAN.md -- Wire settings UI to database
 
 ### Phase 4: Wellness Engine
 **Goal**: Users experience MeeThing's core differentiator -- mindful breathing before meetings and awareness of back-to-back scheduling -- with polished loading, error, and empty states throughout

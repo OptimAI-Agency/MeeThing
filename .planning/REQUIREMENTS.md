@@ -27,8 +27,8 @@ Requirements for public launch. Each maps to a roadmap phase.
 
 ### Settings
 
-- [ ] **SET-01**: Sync frequency preference reads from and writes to the `user_settings` table (currently disconnected)
-- [ ] **SET-02**: Notification preferences read from and write to the `user_settings` table (currently disconnected)
+- [x] **SET-01**: Sync frequency preference reads from and writes to the `user_settings` table (currently disconnected)
+- [x] **SET-02**: Notification preferences read from and write to the `user_settings` table (currently disconnected)
 
 ### Wellness
 
@@ -90,8 +90,8 @@ Which phases cover which requirements. Populated after roadmap creation.
 | CAL-01 | Phase 2: Google Calendar Reliability | Complete |
 | CAL-02 | Phase 2: Google Calendar Reliability | Complete |
 | CAL-03 | Phase 2: Google Calendar Reliability | Complete |
-| SET-01 | Phase 3: Settings Persistence | Pending |
-| SET-02 | Phase 3: Settings Persistence | Pending |
+| SET-01 | Phase 3: Settings Persistence | Complete |
+| SET-02 | Phase 3: Settings Persistence | Complete |
 | WEL-01 | Phase 4: Wellness Engine | Pending |
 | WEL-02 | Phase 4: Wellness Engine | Pending |
 | POL-01 | Phase 4: Wellness Engine | Pending |
