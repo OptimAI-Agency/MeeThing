@@ -7,9 +7,14 @@ import { ToastAction } from "@/components/ui/toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useCalendarConnections } from "@/hooks/useCalendarConnections";
+import { useMeetings } from "@/hooks/useMeetings";
+import { useUserSettings } from "@/hooks/useUserSettings";
+import { useBreathingReminder } from "@/hooks/useBreathingReminder";
 import CalendarConnections from "./CalendarConnections";
 import MeetingsList from "./MeetingsList";
 import CalendarSettings from "./CalendarSettings";
+import BreathingOverlay from "@/components/wellness/BreathingOverlay";
+import MissedReminderBanner from "@/components/wellness/MissedReminderBanner";
 
 const CalendarHub = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -18,6 +23,9 @@ const CalendarHub = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { data: connections = [], isLoading: connectionsLoading } = useCalendarConnections();
+  const { data: meetings = [] } = useMeetings();
+  const { data: settings } = useUserSettings();
+  const breathing = useBreathingReminder(meetings, settings);
 
   const connectedProviders = connections.map((c) => c.provider);
 
@@ -82,6 +90,7 @@ const CalendarHub = () => {
   };
 
   return (
+    <>
     <div className="min-h-screen flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-6xl">
         {/* Header */}
@@ -123,7 +132,14 @@ const CalendarHub = () => {
 
         {/* Content */}
         <div className="max-w-4xl mx-auto">
-          <div className="glass-panel rounded-3xl p-8 sm:p-10 space-y-8 animate-scale-in">
+          <div className="relative glass-panel rounded-3xl p-8 sm:p-10 space-y-8 animate-scale-in">
+            {breathing.showBanner && (
+              <MissedReminderBanner
+                meetingTitle={breathing.meetingTitle}
+                onDismiss={breathing.dismissBanner}
+                onOpenOverlay={breathing.openOverlayFromBanner}
+              />
+            )}
             {activeTab === "overview" && (
               <div className="space-y-6">
                 {connectionsLoading ? (
@@ -180,6 +196,15 @@ const CalendarHub = () => {
         </div>
       </div>
     </div>
+
+    {breathing.showOverlay && (
+      <BreathingOverlay
+        onDismiss={breathing.dismissOverlay}
+        meetingTitle={breathing.meetingTitle}
+        minutesAway={breathing.meetingMinutesAway}
+      />
+    )}
+    </>
   );
 };
 
