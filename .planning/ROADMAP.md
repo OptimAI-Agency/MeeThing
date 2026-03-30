@@ -76,11 +76,11 @@ Plans:
   3. The breathing overlay is always dismissible and conforms to the glassmorphism design system
   4. All data-fetching screens show explicit loading spinners, error messages with recovery actions, and informative empty states (no calendars, no meetings, sync error)
   5. The app works correctly when the browser tab is backgrounded and refocused -- missed reminders are caught up via Page Visibility API
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 04-01: TBD
-- [ ] 04-02: TBD
+- [ ] 04-01-PLAN.md — Breathing overlay system: useBreathingReminder hook, BreathingOverlay + BreathingCircle components, MissedReminderBanner, CSS keyframes
+- [ ] 04-02-PLAN.md — Transition buffer warnings, skeleton loading states, calm empty/error states across all data-fetching paths
 
 ### Phase 5: Auth Hardening
 **Goal**: Authentication meets public-launch standards -- unverified emails cannot access the app, users can recover forgotten passwords, and disconnecting a provider fully cleans up
@@ -107,5 +107,5 @@ Note: Phases 2 and 3 share Phase 1 as their only dependency, so they could execu
 | 1. Security Hardening | 2/2 | Complete | 2026-03-25 |
 | 2. Google Calendar Reliability | 2/2 | Complete   | 2026-03-26 |
 | 3. Settings Persistence | 1/2 | In progress | - |
-| 4. Wellness Engine | 0/TBD | Not started | - |
+| 4. Wellness Engine | 0/2 | Not started | - |
 | 5. Auth Hardening | 0/TBD | Not started | - |
