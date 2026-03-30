@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Security Hardening** - Encrypt OAuth tokens, fix CSRF, restrict CORS
 - [x] **Phase 2: Google Calendar Reliability** - Pagination, error handling, clean disconnect (completed 2026-03-26)
 - [ ] **Phase 3: Settings Persistence** - Wire existing settings UI to the database
-- [ ] **Phase 4: Wellness Engine** - Breathing exercises, transition buffers, polish
+- [x] **Phase 4: Wellness Engine** - Breathing exercises, transition buffers, polish (completed 2026-03-30)
 - [ ] **Phase 5: Auth Hardening** - Email verification, password reset, token revocation
 
 ## Phase Details
@@ -79,8 +79,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Breathing overlay system: useBreathingReminder hook, BreathingOverlay + BreathingCircle components, MissedReminderBanner, CSS keyframes
-- [ ] 04-02-PLAN.md — Transition buffer warnings, skeleton loading states, calm empty/error states across all data-fetching paths
+- [x] 04-01-PLAN.md — Breathing overlay system: useBreathingReminder hook, BreathingOverlay + BreathingCircle components, MissedReminderBanner, CSS keyframes
+- [x] 04-02-PLAN.md — Transition buffer warnings, skeleton loading states, calm empty/error states across all data-fetching paths
 
 ### Phase 5: Auth Hardening
 **Goal**: Authentication meets public-launch standards -- unverified emails cannot access the app, users can recover forgotten passwords, and disconnecting a provider fully cleans up
@@ -107,5 +107,5 @@ Note: Phases 2 and 3 share Phase 1 as their only dependency, so they could execu
 | 1. Security Hardening | 2/2 | Complete | 2026-03-25 |
 | 2. Google Calendar Reliability | 2/2 | Complete   | 2026-03-26 |
 | 3. Settings Persistence | 1/2 | In progress | - |
-| 4. Wellness Engine | 0/2 | Not started | - |
+| 4. Wellness Engine | 2/2 | Complete   | 2026-03-30 |
 | 5. Auth Hardening | 0/TBD | Not started | - |

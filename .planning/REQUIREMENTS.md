@@ -32,7 +32,7 @@ Requirements for public launch. Each maps to a roadmap phase.
 
 ### Wellness
 
-- [ ] **WEL-01**: User can enable a breathing exercise reminder that surfaces a guided animation (inhale/hold/exhale) before or between meetings
+- [x] **WEL-01**: User can enable a breathing exercise reminder that surfaces a guided animation (inhale/hold/exhale) before or between meetings
 - [ ] **WEL-02**: App detects back-to-back meetings and surfaces a configurable transition buffer warning ("You have 3 meetings with no gaps")
 
 ### Polish
@@ -92,7 +92,7 @@ Which phases cover which requirements. Populated after roadmap creation.
 | CAL-03 | Phase 2: Google Calendar Reliability | Complete |
 | SET-01 | Phase 3: Settings Persistence | Complete |
 | SET-02 | Phase 3: Settings Persistence | Complete |
-| WEL-01 | Phase 4: Wellness Engine | Pending |
+| WEL-01 | Phase 4: Wellness Engine | Complete |
 | WEL-02 | Phase 4: Wellness Engine | Pending |
 | POL-01 | Phase 4: Wellness Engine | Pending |
 | POL-02 | Phase 4: Wellness Engine | Pending |
