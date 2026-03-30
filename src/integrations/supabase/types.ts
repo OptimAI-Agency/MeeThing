@@ -175,6 +175,11 @@ export type Database = {
           theme: string
           updated_at: string
           user_id: string
+          wellness_tips_enabled: boolean
+          auto_breaks_enabled: boolean
+          breathing_reminder_enabled: boolean
+          breathing_reminder_minutes: number
+          transition_buffer_enabled: boolean
         }
         Insert: {
           background_preference?: string
@@ -187,6 +192,11 @@ export type Database = {
           theme?: string
           updated_at?: string
           user_id: string
+          wellness_tips_enabled?: boolean
+          auto_breaks_enabled?: boolean
+          breathing_reminder_enabled?: boolean
+          breathing_reminder_minutes?: number
+          transition_buffer_enabled?: boolean
         }
         Update: {
           background_preference?: string
@@ -199,6 +209,11 @@ export type Database = {
           theme?: string
           updated_at?: string
           user_id?: string
+          wellness_tips_enabled?: boolean
+          auto_breaks_enabled?: boolean
+          breathing_reminder_enabled?: boolean
+          breathing_reminder_minutes?: number
+          transition_buffer_enabled?: boolean
         }
         Relationships: []
       }
