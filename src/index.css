@@ -305,3 +305,28 @@
 .animate-toast-out {
   animation: toast-slide-out 0.3s cubic-bezier(0.32, 0.72, 0, 1);
 }
+
+@keyframes breathing-inhale {
+  from { transform: scale(0.6); opacity: 0.7; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes breathing-hold {
+  from { transform: scale(1); }
+  to { transform: scale(1); }
+}
+
+@keyframes breathing-exhale {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(0.6); opacity: 0.7; }
+}
+
+.breathing-inhale {
+  animation: breathing-inhale 4s ease-in-out forwards;
+}
+.breathing-hold {
+  animation: breathing-hold 4s ease-in-out forwards;
+}
+.breathing-exhale {
+  animation: breathing-exhale 6s ease-in-out forwards;
+}
