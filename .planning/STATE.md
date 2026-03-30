@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Executing Phase 03
-stopped_at: Phase 3 context gathered
-last_updated: "2026-03-30T08:48:42.801Z"
+status: Executing phase 03
+stopped_at: "Completed 03-01-PLAN.md"
+last_updated: "2026-03-30T10:11:00Z"
 progress:
   total_phases: 5
   completed_phases: 2
   total_plans: 6
-  completed_plans: 4
+  completed_plans: 5
 ---
 
 # Project State
@@ -48,6 +48,7 @@ Plan: 1 of 2
 *Updated after each plan completion*
 | Phase 02 P01 | 163 | 2 tasks | 2 files |
 | Phase 02 P02 | 123 | 1 tasks | 2 files |
+| Phase 03 P01 | 108 | 3 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -62,6 +63,9 @@ Recent decisions affecting current work:
 - [Phase 02]: Throw plain objects with isAuthError flag (not Error instances) to carry auth classification through catch block in sync edge function
 - [Phase 02]: Revocation failure in disconnect edge function logs console.warn and continues cleanup — preserves hard-delete guarantee even if Google is unreachable
 - [Phase 02]: Sync->disconnect mutual exclusion via syncing prop from CalendarHub; disconnect->sync direction is acceptable risk
+- [Phase 03]: Use .update() not .upsert() for settings -- trigger guarantees row; INSERT policy is safety net
+- [Phase 03]: Field mappers (mapDbToUi/mapUiToDb) exported separately for CalendarSettings consumption
+- [Phase 03]: breathing_reminder_* and transition_buffer_enabled in schema but not in mutation payload -- reserved for Phase 4
 
 ### Pending Todos
 
@@ -75,6 +79,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-28T00:00:00.000Z
-Stopped at: Phase 3 context gathered
-Resume file: .planning/phases/03-settings-persistence/03-CONTEXT.md
+Last session: 2026-03-30T10:11:00Z
+Stopped at: Completed 03-01-PLAN.md
+Resume file: None

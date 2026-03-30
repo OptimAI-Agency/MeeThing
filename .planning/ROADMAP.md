@@ -63,8 +63,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Migration + TypeScript types + useUserSettings hook (data layer)
-- [ ] 03-02-PLAN.md — Wire CalendarSettings to useUserSettings hook + human verification
+- [x] 03-01-PLAN.md -- Settings data layer: migration, types, useUserSettings hook
+- [ ] 03-02-PLAN.md -- Wire settings UI to database
 
 ### Phase 4: Wellness Engine
 **Goal**: Users experience MeeThing's core differentiator -- mindful breathing before meetings and awareness of back-to-back scheduling -- with polished loading, error, and empty states throughout
@@ -106,6 +106,6 @@ Note: Phases 2 and 3 share Phase 1 as their only dependency, so they could execu
 |-------|----------------|--------|-----------|
 | 1. Security Hardening | 2/2 | Complete | 2026-03-25 |
 | 2. Google Calendar Reliability | 2/2 | Complete   | 2026-03-26 |
-| 3. Settings Persistence | 0/2 | Planning complete | - |
+| 3. Settings Persistence | 1/2 | In progress | - |
 | 4. Wellness Engine | 0/TBD | Not started | - |
 | 5. Auth Hardening | 0/TBD | Not started | - |
