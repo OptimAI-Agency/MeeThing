@@ -21,7 +21,7 @@ const BreathingOverlay = ({ onDismiss, meetingTitle, minutesAway }: BreathingOve
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="glass-panel rounded-3xl p-8 sm:p-10 max-w-md w-full mx-4 text-center space-y-6">
+      <div className="glass-dark rounded-3xl p-8 sm:p-10 max-w-md w-full mx-4 text-center space-y-6">
         {/* Static calm header (D-02) */}
         <p className="text-white/80 text-sm">This moment is yours before your next meeting.</p>
 

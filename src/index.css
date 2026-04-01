@@ -120,7 +120,7 @@
   }
   
   .nature-gradient {
-    background: linear-gradient(135deg, rgb(152 251 152) 0%, rgb(135 206 235) 100%);
+    background: linear-gradient(135deg, rgb(100 175 130) 0%, rgb(80 160 200) 100%);
   }
   
   .wellness-shadow {
@@ -128,7 +128,7 @@
   }
 
   .zen-gradient {
-    background: linear-gradient(135deg, rgba(152, 251, 152, 0.8) 0%, rgba(173, 216, 230, 0.8) 100%);
+    background: linear-gradient(135deg, rgba(100, 175, 130, 0.6) 0%, rgba(80, 160, 200, 0.6) 100%);
   }
 
   .mindful-blur {
@@ -140,35 +140,48 @@
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
 
-  /* iOS Glassmorphism Panels */
+  /* Glassmorphism Panels */
+  /* saturate capped at 120% — higher values amplify background warmth and bleed colour into panels */
   .glass-panel {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(40px) saturate(180%);
-    -webkit-backdrop-filter: blur(40px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08),
-                0 2px 8px rgba(0, 0, 0, 0.04),
-                inset 0 1px 0 rgba(255, 255, 255, 0.5),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(40px) saturate(120%);
+    -webkit-backdrop-filter: blur(40px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.10),
+                0 2px 8px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.55),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.04);
   }
 
   .glass-heavy {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(60px) saturate(200%);
-    -webkit-backdrop-filter: blur(60px) saturate(200%);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12),
+    background: rgba(255, 255, 255, 0.86);
+    backdrop-filter: blur(60px) saturate(130%);
+    -webkit-backdrop-filter: blur(60px) saturate(130%);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.13),
                 0 4px 12px rgba(0, 0, 0, 0.06),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+                inset 0 1px 0 rgba(255, 255, 255, 0.65);
   }
 
   .glass-light {
-    background: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(20px) saturate(150%);
-    -webkit-backdrop-filter: blur(20px) saturate(150%);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.52);
+    backdrop-filter: blur(20px) saturate(110%);
+    -webkit-backdrop-filter: blur(20px) saturate(110%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  }
+
+  /* Dark glass — for overlays placed on dark backdrops (e.g. BreathingOverlay).
+     White text has proper contrast against this surface. */
+  .glass-dark {
+    background: rgba(10, 26, 42, 0.88);
+    backdrop-filter: blur(40px) saturate(120%);
+    -webkit-backdrop-filter: blur(40px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45),
+                0 4px 16px rgba(0, 0, 0, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
 
   .glass-focus {
@@ -222,14 +235,14 @@
 
   .glass-warning {
     background: linear-gradient(135deg,
-      rgba(255, 204, 0, 0.9) 0%,
-      rgba(255, 204, 0, 0.85) 100%);
-    backdrop-filter: blur(40px) saturate(180%);
-    -webkit-backdrop-filter: blur(40px) saturate(180%);
-    box-shadow: 0 8px 32px rgba(255, 204, 0, 0.3),
+      rgba(34, 120, 95, 0.88) 0%,
+      rgba(30, 100, 160, 0.82) 100%);
+    backdrop-filter: blur(40px) saturate(120%);
+    -webkit-backdrop-filter: blur(40px) saturate(120%);
+    box-shadow: 0 8px 32px rgba(34, 120, 95, 0.25),
                 0 2px 8px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    color: rgba(0, 0, 0, 0.85);
+                inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    color: white;
   }
 
   .glass-error {
