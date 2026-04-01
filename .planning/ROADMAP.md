@@ -81,7 +81,7 @@ Plans:
 Plans:
 - [x] 04-01-PLAN.md — Breathing overlay system: useBreathingReminder hook, BreathingOverlay + BreathingCircle components, MissedReminderBanner, CSS keyframes
 - [x] 04-02-PLAN.md — Transition buffer warnings, skeleton loading states, calm empty/error states across all data-fetching paths
-- [ ] 04-03-PLAN.md — Gap closure: replace CalendarHub overview tab bare spinner with skeleton loading state
+- [x] 04-03-PLAN.md — Gap closure: replace CalendarHub overview tab bare spinner with skeleton loading state
 
 ### Phase 5: Auth Hardening
 **Goal**: Authentication meets public-launch standards -- unverified emails cannot access the app, users can recover forgotten passwords, and disconnecting a provider fully cleans up
