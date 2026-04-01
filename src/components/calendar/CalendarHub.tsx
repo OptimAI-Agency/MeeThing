@@ -12,6 +12,7 @@ import { useUserSettings } from "@/hooks/useUserSettings";
 import { useBreathingReminder } from "@/hooks/useBreathingReminder";
 import CalendarConnections from "./CalendarConnections";
 import MeetingsList from "./MeetingsList";
+import MeetingCardSkeleton from "./MeetingCardSkeleton";
 import CalendarSettings from "./CalendarSettings";
 import BreathingOverlay from "@/components/wellness/BreathingOverlay";
 import MissedReminderBanner from "@/components/wellness/MissedReminderBanner";
@@ -143,9 +144,10 @@ const CalendarHub = () => {
             {activeTab === "overview" && (
               <div className="space-y-6">
                 {connectionsLoading ? (
-                  <div className="text-center py-16">
-                    <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-                    <p className="text-gray-500">Loading…</p>
+                  <div className="space-y-4">
+                    <MeetingCardSkeleton />
+                    <MeetingCardSkeleton />
+                    <MeetingCardSkeleton />
                   </div>
                 ) : connectedProviders.length === 0 ? (
                   <div className="text-center py-16">
