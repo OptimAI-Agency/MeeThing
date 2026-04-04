@@ -3,7 +3,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from '@/hooks/use-toast';
 import { signInSchema } from '@/lib/auth-schemas';
 import { useBackground } from '@/hooks/useBackground';
@@ -95,6 +95,15 @@ const Login = () => {
                 required
                 className="rounded-2xl h-11 sm:h-12"
               />
+            </div>
+
+            <div className="flex justify-end">
+              <Link
+                to="/forgot-password"
+                className="text-sm text-primary hover:underline"
+              >
+                Forgot password?
+              </Link>
             </div>
 
             <Button

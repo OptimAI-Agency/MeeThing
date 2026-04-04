@@ -15,9 +15,9 @@ Requirements for public launch. Each maps to a roadmap phase.
 
 ### Authentication
 
-- [x] **AUTH-01**: New users must verify their email address before accessing the app (currently bypassed — redirects to `/calendar` immediately after signup)
-- [ ] **AUTH-02**: User can request a password reset email and set a new password via the link
-- [x] **AUTH-03**: When a user disconnects a calendar provider, the OAuth token is revoked with the provider (not just deleted locally)
+- [ ] **AUTH-01**: New users must verify their email address before accessing the app (currently bypassed — redirects to `/calendar` immediately after signup)
+- [x] **AUTH-02**: User can request a password reset email and set a new password via the link
+- [ ] **AUTH-03**: When a user disconnects a calendar provider, the OAuth token is revoked with the provider (not just deleted locally)
 
 ### Calendar Integration
 
@@ -96,9 +96,9 @@ Which phases cover which requirements. Populated after roadmap creation.
 | WEL-02 | Phase 4: Wellness Engine | Complete |
 | POL-01 | Phase 4: Wellness Engine | Complete |
 | POL-02 | Phase 4: Wellness Engine | Complete |
-| AUTH-01 | Phase 5: Auth Hardening | Complete |
-| AUTH-02 | Phase 5: Auth Hardening | Pending |
-| AUTH-03 | Phase 5: Auth Hardening | Complete |
+| AUTH-01 | Phase 5: Auth Hardening | Pending |
+| AUTH-02 | Phase 5: Auth Hardening | Complete |
+| AUTH-03 | Phase 5: Auth Hardening | Pending |
 
 **Coverage:**
 - v1 requirements: 15 total
