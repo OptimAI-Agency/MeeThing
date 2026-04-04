@@ -92,10 +92,11 @@ Plans:
   2. A user who forgets their password can request a reset email, click the link, and set a new password
   3. When a user disconnects a calendar provider, the OAuth token is revoked with the provider (not just deleted from the database)
   4. Existing verified users are not disrupted by the email verification enforcement
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 05-01: TBD
+- [ ] 05-01-PLAN.md — Email verification gate + logout button (AUTH-01)
+- [ ] 05-02-PLAN.md — Password recovery flow (AUTH-02)
 
 ## Progress
 
@@ -109,4 +110,4 @@ Note: Phases 2 and 3 share Phase 1 as their only dependency, so they could execu
 | 2. Google Calendar Reliability | 2/2 | Complete   | 2026-03-26 |
 | 3. Settings Persistence | 1/2 | In progress | - |
 | 4. Wellness Engine | 2/3 | Gap closure | - |
-| 5. Auth Hardening | 0/TBD | Not started | - |
+| 5. Auth Hardening | 0/2 | Planned | - |
