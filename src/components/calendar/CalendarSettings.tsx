@@ -1,8 +1,10 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Settings } from "lucide-react";
+import { Settings, LogOut } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Separator } from "@/components/ui/separator";
+import { useAuth } from "@/contexts/AuthContext";
 import { useUserSettings, mapDbToUi, mapUiToDb, UiSettings } from "@/hooks/useUserSettings";
 import SettingsHeader from "./settings/SettingsHeader";
 import BackgroundSettings from "./settings/BackgroundSettings";
@@ -21,6 +23,7 @@ const defaultSettings: UiSettings = {
 const CalendarSettings = () => {
   const { data: dbSettings, isLoading, isError, refetch, saveSettings } = useUserSettings();
   const { toast } = useToast();
+  const { signOut } = useAuth();
 
   const [draft, setDraft] = useState<UiSettings>(defaultSettings);
 
@@ -96,6 +99,19 @@ const CalendarSettings = () => {
         >
           <Settings className="w-4 h-4 mr-2" />
           {saveSettings.isPending ? "Saving..." : "Save Settings"}
+        </Button>
+      </div>
+
+      <Separator className="my-2" />
+
+      <div className="flex justify-center pb-2">
+        <Button
+          variant="ghost"
+          onClick={() => signOut()}
+          className="text-muted-foreground hover:text-foreground rounded-xl px-6 py-3 font-medium"
+        >
+          <LogOut className="w-4 h-4 mr-2" />
+          Sign out
         </Button>
       </div>
     </div>
