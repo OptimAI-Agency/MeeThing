@@ -24,3 +24,16 @@ export const signInSchema = z.object({
   password: z.string()
     .min(1, { message: "Password is required" })
 });
+
+export const resetPasswordSchema = z.object({
+  password: z.string()
+    .min(8, { message: "Password must be at least 8 characters" })
+    .max(72, { message: "Password must be less than 72 characters" })
+    .regex(/[a-z]/, { message: "Password must contain a lowercase letter" })
+    .regex(/[A-Z]/, { message: "Password must contain an uppercase letter" })
+    .regex(/[0-9]/, { message: "Password must contain a number" }),
+  confirmPassword: z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ['confirmPassword'],
+});
