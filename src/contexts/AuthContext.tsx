@@ -50,8 +50,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const signUp = async (email: string, password: string, fullName: string) => {
-    const redirectUrl = `${window.location.origin}/`;
-    
+    const redirectUrl = `${window.location.origin}/calendar`;
+
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       },
     });
     if (error) throw error;
-    navigate('/calendar');
+    navigate(`/verify-email?email=${encodeURIComponent(email)}`);
   };
 
   const signOut = async () => {

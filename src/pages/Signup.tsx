@@ -42,8 +42,8 @@ const Signup = () => {
     try {
       await signUp(email.trim(), password, fullName.trim());
       toast({
-        title: "Account created!",
-        description: "Welcome to MeeThing.",
+        title: "Almost there!",
+        description: "Check your email to verify your account.",
       });
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : "Something went wrong.";
