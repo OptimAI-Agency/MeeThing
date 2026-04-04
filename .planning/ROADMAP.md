@@ -96,7 +96,7 @@ Plans:
 
 Plans:
 - [ ] 05-01-PLAN.md — Email verification gate + logout button (AUTH-01)
-- [ ] 05-02-PLAN.md — Password recovery flow (AUTH-02)
+- [x] 05-02-PLAN.md — Password recovery flow (AUTH-02)
 
 ## Progress
 
@@ -110,4 +110,4 @@ Note: Phases 2 and 3 share Phase 1 as their only dependency, so they could execu
 | 2. Google Calendar Reliability | 2/2 | Complete   | 2026-03-26 |
 | 3. Settings Persistence | 1/2 | In progress | - |
 | 4. Wellness Engine | 2/3 | Gap closure | - |
-| 5. Auth Hardening | 0/2 | Planned | - |
+| 5. Auth Hardening | 1/2 | In Progress|  |
