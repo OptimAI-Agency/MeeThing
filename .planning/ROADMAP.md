@@ -95,7 +95,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — Email verification gate + logout button (AUTH-01)
+- [x] 05-01-PLAN.md — Email verification gate + logout button (AUTH-01)
 - [x] 05-02-PLAN.md — Password recovery flow (AUTH-02)
 
 ## Progress
