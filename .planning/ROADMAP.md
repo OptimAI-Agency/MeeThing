@@ -120,7 +120,12 @@ Plans:
   2. A documented copy glossary artifact exists in the repo mapping every deprecated term to its calm-voice replacement, and every existing UI string has been reviewed against it
   3. Empty and light-day states read as celebratory, not broken (e.g. "A spacious day — enjoy the quiet")
   4. Downstream phases can reference the glossary as the single source of truth for all new text (greeting, wind-down, notifications, tone language)
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 06-01-PLAN.md — Create src/copy/glossary.ts (frozen COPY constant) + docs/copy-glossary.md mirror
+- [ ] 06-02-PLAN.md — Sweep calendar app surfaces (CalendarHub, EmptyStates, CalendarConnections, SettingsHeader) + demote sync to icon-only
+- [ ] 06-03-PLAN.md — Sweep landing surfaces (Hero, Features) + D-12 full-sweep audit + populate glossary flagged section
 
 ### Phase 7: Today-First Layout
 **Goal**: The calendar opens on today by default and the today/week toggle is URL-persistent, giving all companion features a stable today context to derive from
@@ -198,7 +203,7 @@ v2.0 phases execute: 6 -> 7 -> 8 -> 9 -> 10, with 11 running in parallel any tim
 | 3. Settings Persistence | 1/2 | In progress | - |
 | 4. Wellness Engine | 2/3 | Gap closure | - |
 | 5. Auth Hardening | 1/2 | In Progress|  |
-| 6. Language Foundation | 0/0 | Not started | - |
+| 6. Language Foundation | 0/3 | Planned | - |
 | 7. Today-First Layout | 0/0 | Not started | - |
 | 8. Ambient Beauty Foundation | 0/0 | Not started | - |
 | 9. Companion UI Components | 0/0 | Not started | - |
