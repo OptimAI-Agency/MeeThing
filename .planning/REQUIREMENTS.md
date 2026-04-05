@@ -3,15 +3,15 @@
 **Defined:** 2026-03-22
 **Core Value:** A calm, beautiful alternative to your calendar app that makes meetings feel manageable, not draining.
 
-## v1 Requirements
+---
 
-Requirements for public launch. Each maps to a roadmap phase.
+## v1.0 Requirements (Milestone: Public Launch)
 
 ### Security
 
-- [ ] **SEC-01**: OAuth access and refresh tokens are encrypted at rest using AES-256-GCM before being stored in `calendar_connections`
-- [ ] **SEC-02**: OAuth authorization requests use a cryptographically random `state` parameter to prevent CSRF attacks (currently static string `"google"`)
-- [ ] **SEC-03**: Supabase Edge Functions restrict CORS to the app's own origin (currently `Access-Control-Allow-Origin: *`)
+- [x] **SEC-01**: OAuth access and refresh tokens are encrypted at rest using AES-256-GCM before being stored in `calendar_connections`
+- [x] **SEC-02**: OAuth authorization requests use a cryptographically random `state` parameter to prevent CSRF attacks (currently static string `"google"`)
+- [x] **SEC-03**: Supabase Edge Functions restrict CORS to the app's own origin (currently `Access-Control-Allow-Origin: *`)
 
 ### Authentication
 
@@ -33,16 +33,56 @@ Requirements for public launch. Each maps to a roadmap phase.
 ### Wellness
 
 - [x] **WEL-01**: User can enable a breathing exercise reminder that surfaces a guided animation (inhale/hold/exhale) before or between meetings
-- [x] **WEL-02**: App detects back-to-back meetings and surfaces a configurable transition buffer warning ("You have 3 meetings with no gaps")
+- [x] **WEL-02**: App detects back-to-back meetings and surfaces a configurable transition buffer warning
 
 ### Polish
 
 - [x] **POL-01**: All data-fetching paths have explicit loading and error states (no silent failures, no infinite spinners)
 - [x] **POL-02**: Empty states are handled gracefully: no calendars connected, no meetings today, sync error recovery
 
-## v2 Requirements
+---
 
-Deferred to future release. Tracked but not in current roadmap.
+## v2.0 Requirements (Milestone: Companion Experience)
+
+### Language & Copy
+
+- [ ] **COPY-01**: All UI text conforms to a calm-first copy glossary — no utility/dashboard vocabulary anywhere in the app ("Today" not "Calendar Integration", "Your Calendar" not "Connections", auto-sync replaces the primary "Sync now" button)
+- [ ] **COPY-02**: User sees a contextual daily greeting at the top of the Today view containing their first name, today's meeting count, and the largest free gap in their day (e.g. "Good morning, [Name]. You have 3 meetings today. Biggest breathing room: 2h after 2 PM.")
+- [ ] **COPY-03**: User sees weekly tone language in the app that reflects the week's meeting density in natural language ("A full week ahead" / "A lighter week — space to think")
+
+### Today-First Layout
+
+- [ ] **TODAY-01**: App defaults to a today-only view when the user opens the calendar; all companion features (greeting, rhythm timeline, wind-down) derive from this today context
+- [ ] **TODAY-02**: User can toggle between today-only and full week view; the selected view mode persists in the URL (?view=today | ?view=week) so browser back/forward and sharing work correctly
+- [ ] **TODAY-03**: User sees Today's Rhythm — a thin horizontal timeline of the current day visually showing meeting blocks versus free gaps, derived from existing meeting data with no new API calls
+
+### Meeting Cards
+
+- [ ] **CARD-01**: Meeting card height is proportional to meeting duration — a 2-hour block occupies visibly more vertical space than a 30-minute check-in, giving the schedule honest visual weight
+- [ ] **CARD-02**: Meeting cards use time-of-day color accents: morning (before noon) warm amber tint, midday (noon–3 PM) neutral sage, late afternoon/evening (after 3 PM) cool blue tint; all variants pass WCAG AA contrast
+
+### Ambient Design
+
+- [ ] **BEAUTY-01**: The Fraunces variable serif typeface is used exclusively on high-emotion wellness surfaces (greeting headline, breathing overlay phase text, wind-down copy); Inter remains for all other UI text; font loads without FOUT using `size-adjust` metric fallback
+- [ ] **BEAUTY-02**: The background image overlay animates with a slow 10–12s breathing cycle (CSS keyframes on the overlay layer, not backdrop-filter); animation pauses automatically when `prefers-reduced-motion` is set or the browser tab is hidden
+- [ ] **BEAUTY-03**: Glassmorphism visual hierarchy is restored — meeting cards and secondary surfaces use `glass-light`; primary panels and overlays use `glass-panel`; the depth distinction between background and foreground is immediately legible
+
+### Push Notifications
+
+- [ ] **PUSH-01**: Before requesting browser notification permission, the app shows a pre-prompt screen explaining what will be sent and why; the native browser permission dialog only appears after the user explicitly continues
+- [ ] **PUSH-02**: When enabled, push notifications deliver the pre-meeting breathing reminder within the user's configured window via a Supabase Edge Function; a hard daily cap (5 pushes/day) and configurable quiet hours are enforced server-side from day one
+- [ ] **PUSH-03**: User can manage push notification settings in Settings (enable/disable, quiet hours start/end); if the browser permission was denied, the UI detects this state and shows a clear recovery path (link to browser settings)
+
+### Wind-Down
+
+- [ ] **WIND-01**: After the user's last meeting of the day ends, the Today view transitions to a wind-down state: a quiet acknowledgment of the day and an optional 1-tap reflection prompt (free text or emoji, stored locally); the transition is calm, not abrupt
+- [ ] **WIND-02**: Wind-down state is non-blocking — user can dismiss it instantly or navigate away; no streaks, scores, badges, or gamification elements appear anywhere in the wind-down flow
+
+---
+
+## Future Requirements
+
+Acknowledged but deferred beyond v2.0.
 
 ### Reflect
 
@@ -61,32 +101,38 @@ Deferred to future release. Tracked but not in current roadmap.
 - **CAL-04**: Microsoft Outlook integration via Microsoft Identity Platform OAuth + Microsoft Graph API
 - **CAL-05**: Apple Calendar integration via CalDAV
 
-### Notifications
-
-- **NOTF-01**: Browser push notifications for meeting reminders (requires service worker)
-- **NOTF-02**: Email digest of upcoming meetings
+---
 
 ## Out of Scope
 
+Explicitly excluded to prevent scope creep.
+
 | Feature | Reason |
 |---------|--------|
-| Creating or editing calendar events | Read-only is intentional -- writing to calendars adds anxiety and complexity, read-only is a feature |
+| Creating or editing calendar events | Read-only is intentional — writing to calendars adds anxiety and complexity; read-only is a feature |
 | Scheduling links (Calendly-style) | Different product category; dilutes calm identity |
-| AI meeting summaries or prep | High complexity, requires third-party AI integration; v2+ |
+| AI meeting summaries or prep | High complexity, requires third-party AI integration; v3+ |
 | Mobile app | Web-first; mobile is a future milestone |
-| Gamification or streaks | Contradicts the calm, non-pressuring wellness positioning |
-| Analytics dashboards | Not the product -- too productivity-tool, not wellness |
-| Real-time calendar sync (webhooks) | Complexity vs. value; polling on manual sync is sufficient for v1 |
+| Gamification or streaks | Explicitly contradicts calm, non-pressuring wellness positioning — anti-feature |
+| Analytics dashboards | Too productivity-tool; not wellness |
+| Real-time calendar sync (webhooks) | Complexity vs. value; polling on open/manual sync is sufficient |
+| Mood tracking dashboards | Deferred to REFL series; v2.0 wind-down reflection is 1-tap only, no dashboard |
+| Focus scores or productivity metrics | Anti-feature for this audience — would recreate the anxiety MeeThing replaces |
+| Email digest notifications | Lower value than push; deferred |
+
+---
 
 ## Traceability
 
-Which phases cover which requirements. Populated after roadmap creation.
+Populated after roadmap creation.
+
+### v1.0 Phases
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SEC-01 | Phase 1: Security Hardening | Pending |
-| SEC-02 | Phase 1: Security Hardening | Pending |
-| SEC-03 | Phase 1: Security Hardening | Pending |
+| SEC-01 | Phase 1: Security Hardening | Complete |
+| SEC-02 | Phase 1: Security Hardening | Complete |
+| SEC-03 | Phase 1: Security Hardening | Complete |
 | CAL-01 | Phase 2: Google Calendar Reliability | Complete |
 | CAL-02 | Phase 2: Google Calendar Reliability | Complete |
 | CAL-03 | Phase 2: Google Calendar Reliability | Complete |
@@ -100,13 +146,32 @@ Which phases cover which requirements. Populated after roadmap creation.
 | AUTH-02 | Phase 5: Auth Hardening | Complete |
 | AUTH-03 | Phase 5: Auth Hardening | Pending |
 
-**Coverage:**
-- v1 requirements: 15 total
-- Mapped to phases: 15
-- Unmapped: 0
+### v2.0 Phases
 
-**Note:** CAL-03 and AUTH-03 overlap (both cover token revocation on disconnect). CAL-03 delivers the Google-specific implementation in Phase 2. AUTH-03 in Phase 5 ensures the pattern is enforced at the auth layer and covers any provider-general concerns.
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| COPY-01 | TBD — roadmap pending | Pending |
+| COPY-02 | TBD — roadmap pending | Pending |
+| COPY-03 | TBD — roadmap pending | Pending |
+| TODAY-01 | TBD — roadmap pending | Pending |
+| TODAY-02 | TBD — roadmap pending | Pending |
+| TODAY-03 | TBD — roadmap pending | Pending |
+| CARD-01 | TBD — roadmap pending | Pending |
+| CARD-02 | TBD — roadmap pending | Pending |
+| BEAUTY-01 | TBD — roadmap pending | Pending |
+| BEAUTY-02 | TBD — roadmap pending | Pending |
+| BEAUTY-03 | TBD — roadmap pending | Pending |
+| PUSH-01 | TBD — roadmap pending | Pending |
+| PUSH-02 | TBD — roadmap pending | Pending |
+| PUSH-03 | TBD — roadmap pending | Pending |
+| WIND-01 | TBD — roadmap pending | Pending |
+| WIND-02 | TBD — roadmap pending | Pending |
+
+**v2.0 Coverage:**
+- v2.0 requirements: 16 total
+- Mapped to phases: 0 (roadmap not yet created)
+- Unmapped: 16 ⚠️ (will be resolved by roadmapper)
 
 ---
 *Requirements defined: 2026-03-22*
-*Last updated: 2026-03-22 -- Roadmap created, Google Calendar only for v1*
+*Last updated: 2026-04-05 — v2.0 Companion Experience requirements added*
