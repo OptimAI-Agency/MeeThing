@@ -1,5 +1,18 @@
 # MeeThing
 
+## Current Milestone: v2.0 Companion Experience
+
+**Goal:** Transform MeeThing from a glassmorphic utility into a lingering daily companion — owning the emotional space between meetings through voice, beauty, and ritual.
+
+**Target features:**
+- Language overhaul — human-first copy, contextual greeting, urgency vocabulary purged
+- Today-first layout — default view shows today only with weekly power toggle
+- Meeting card redesign — proportional visual weight, time-of-day color coding
+- Today's Rhythm timeline — horizontal day visualization showing meetings vs. breathing room
+- Ambient beauty — breathing background, warm wellness typeface, glassmorphism as accent
+- Wellness loop deepening — browser push notifications, wind-down view, weekly tone
+- Companion presence — end-of-day reflection, habit-forming ritual reinforcement
+
 ## What This Is
 
 MeeThing is a wellness-focused calendar companion for people who want a calmer, more intentional relationship with their meetings. It connects Google and Microsoft Outlook calendars, shows upcoming meetings in a beautiful distraction-free interface, and provides mindful moments — breathing reminders and transition time — to help users feel grounded rather than overwhelmed by their schedule.
@@ -119,4 +132,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-22 after initialization*
+*Last updated: 2026-04-05 — Milestone v2.0 Companion Experience started*

@@ -1,30 +1,32 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: milestone
-status: Ready to execute
-stopped_at: Completed 05-02-PLAN.md
-last_updated: "2026-04-04T10:48:40.056Z"
+milestone: v2.0
+milestone_name: Companion Experience
+status: Defining requirements
+stopped_at: Milestone v2.0 started
+last_updated: "2026-04-05T00:00:00.000Z"
 progress:
-  total_phases: 5
-  completed_phases: 4
-  total_plans: 11
-  completed_plans: 10
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-03-22)
+See: .planning/PROJECT.md (updated 2026-04-05)
 
 **Core value:** A calm, beautiful alternative to your calendar app that makes meetings feel manageable, not draining.
-**Current focus:** Phase 04 — wellness-engine
+**Current focus:** Milestone v2.0 — Companion Experience (defining requirements)
 
 ## Current Position
 
-Phase: 04 (wellness-engine) — EXECUTING
-Plan: 3 of 3
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-04-05 — Milestone v2.0 started
 
 ## Performance Metrics
 
