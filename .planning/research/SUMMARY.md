@@ -1,188 +1,206 @@
 # Project Research Summary
 
-**Project:** MeeThing
-**Domain:** Wellness-focused calendar companion (multi-provider OAuth + meeting awareness)
-**Researched:** 2026-03-22
-**Confidence:** HIGH
+**Project:** MeeThing v2.0 Companion Experience
+**Domain:** Wellness calendar companion — elevating an existing React 18 + Vite + Supabase SPA into a lingering daily companion
+**Researched:** 2026-04-04
+**Confidence:** MEDIUM-HIGH (stack HIGH, architecture HIGH for UI patterns / MEDIUM for push, features MEDIUM, pitfalls MEDIUM-HIGH)
+
+> This summary supersedes the v1 research summary (2026-03-22). The v1 summary covered security, Microsoft OAuth, settings persistence, and the wellness engine. This summary covers the v2.0 Companion Experience milestone: language overhaul, today-first layout, companion UI components, ambient beauty, and Web Push infrastructure.
 
 ## Executive Summary
 
-MeeThing is a wellness-focused calendar companion for knowledge workers, occupying a niche that no current product owns well: read-only multi-provider calendar awareness delivered through a calming, nature-inspired interface. Competitors split between smart scheduling tools (Reclaim.ai, Fantastical) and mindfulness apps (Headspace, Calm) — MeeThing sits at the intersection without attempting to compete on scheduling automation or guided meditation breadth. The recommended build approach respects a strict dependency graph: security hardening first, then Microsoft Outlook integration, then settings persistence, then the wellness engine. No new npm packages are required; the entire v1 build uses the existing stack, built-in browser APIs, built-in Deno runtime APIs, and raw HTTP to Microsoft endpoints.
+MeeThing v2.0 is an additive milestone on a solid existing foundation. The goal is not to rebuild the calendar but to transform its emotional register — from utility tool to calm companion. Research across four dimensions confirms this is achievable with modest new dependencies (a service worker, a variable serif font, and a Supabase Edge Function), a disciplined component structure that derives views in-memory from the existing 7-day meetings cache, and a creative investment in copy, typography, and palette that dwarfs the engineering effort. The engineering is mostly straightforward. The actual critical path is editorial: language overhaul, greeting templates, notification copy, and typeface pairing are the decisions that will determine whether users feel the product is genuinely calm or just reskinned.
 
-The most critical finding is that three confirmed security vulnerabilities exist in current production code: OAuth tokens are stored as plaintext despite column names implying encryption, the OAuth state parameter is hardcoded as the string `"google"` (offering zero CSRF protection), and Edge Functions respond with `Access-Control-Allow-Origin: *`. These must be resolved before adding Microsoft OAuth or any public launch — shipping a second provider on a vulnerable foundation doubles the attack surface. Token encryption uses AES-256-GCM via the Web Crypto API (`crypto.subtle`), natively available in Deno, with the key stored as an edge function secret (a separate security boundary from the database). This is straightforward to implement and requires no new dependencies.
+The recommended approach is to ship v2.0 in two sequential tracks. The first track — Foundation and Companion UI — delivers the today-first layout, contextual greeting, Today's Rhythm timeline, time-of-day warmth shift, warm typeface, and ambient breathing background. These features share a common dependency chain: the copy glossary blocks all text-bearing features; the today-first layout blocks the timeline and proportional cards; the design-system warmth palette is a prerequisite for meeting card tints and the ambient background. These can be built without touching new infrastructure. The second track — Web Push — is a self-contained infrastructure workstream that can run in parallel with the UI track but must not block v2.0 core, and has its own demanding acceptance-criteria surface.
 
-The wellness engine — breathing exercises and transition buffer awareness — is the product's core differentiator and is architecturally the simplest part of the build: entirely client-side, driven by meeting data already in the TanStack Query cache and user preferences in the existing `user_settings` table. The main risks are reminder fatigue (default all wellness features to OFF, make everything dismissible) and browser tab throttling (use the Page Visibility API to catch missed timers). The decision to avoid service workers for v1 is correct — it is a significant complexity increase for a feature that works adequately from a foreground tab.
+The key risks are all well-documented and preventable, but most are irreversible once users encounter them: push permission permanently blocked by premature prompting; notification fatigue contradicting the calm brand promise; FOUT and layout shift from webfont loading degrading the "beautiful first impression"; ambient animation jank and battery drain on mobile (literally making users feel worse); and view-toggle state desync producing "the app feels broken" reports in the first month. All five risks have clear prevention strategies and must be addressed in the phase that introduces the relevant feature, not bolted on post-launch.
 
 ## Key Findings
 
 ### Recommended Stack
 
-No new npm packages are needed. All additions use existing dependencies (`@supabase/supabase-js`, `date-fns`, TanStack Query), built-in browser APIs (CSS animations, Notification API, Page Visibility API, `crypto.randomUUID()`), built-in Deno APIs (Web Crypto `crypto.subtle`), and raw HTTP calls to Microsoft Identity Platform and Graph API endpoints.
+The existing stack requires only three additions for the v2.0 milestone. All are compatible with the existing Vite 5 + React 18 project and require no changes to the core dependency set.
 
-See `.planning/research/STACK.md` for detailed implementation patterns and verified endpoint URLs.
+**Core technologies to add:**
+- `vite-plugin-pwa@^0.21` + `workbox-window@^7`: Service worker registration with `injectManifest` strategy — required for Web Push; use `devOptions.enabled: true` to test on localhost without a production build
+- `@fontsource-variable/fraunces@^5`: Self-hosted variable wellness serif (weight, optical-size, softness, wonk axes in one file); paired with existing Inter; eliminates Google Fonts GDPR exposure and PWA offline failure; single import, controlled via `font-variation-settings`
+- `jsr:@negrel/webpush` (Deno Edge Function only, no npm): Deno-native VAPID-signed push dispatch inside the new `send-push` Edge Function; avoids Node crypto shims that slow Deno cold starts
 
-**Core technologies:**
-- **Microsoft Identity Platform v2.0 (raw HTTP fetch):** Outlook OAuth — same authorization code flow as existing Google; no SDK; use `common` tenant for personal + work accounts
-- **Microsoft Graph API v1.0 `/me/calendarView`:** Calendar sync — functionally equivalent to Google Calendar events.list; `calendarView` auto-expands recurring events
-- **AES-256-GCM via `crypto.subtle`:** Token encryption — key lives in edge function env vars (separate security boundary from DB); each token gets a unique random IV; shared module across both edge functions
-- **`crypto.randomUUID()` + `sessionStorage`:** CSRF protection — tab-scoped, automatic cleanup, no database table needed
-- **Browser Notification API + `setTimeout` + `visibilitychange`:** Wellness reminders — no service worker; falls back to in-app overlay if permission denied
-- **TanStack Query `useQuery`/`useMutation` (existing):** Settings persistence — wire existing UI to existing `user_settings` table
+**Conditional:**
+- `motion@^12`: Only if interactive transitions (card expand/collapse, timeline scrubbing) enter scope; import from `motion/react`; use `LazyMotion + domAnimation` to cap bundle cost at ~4.6 kB initial render; do not add for the ambient breathing background (CSS keyframes win on every axis for decorative, stateless animation)
+
+**What not to add:**
+- `web-push` (Node npm package) inside Supabase Edge Functions — use `jsr:@negrel/webpush` instead; the npm package pulls Node crypto polyfills that bloat and slow the Deno runtime
+- Google Fonts via `<link>` in HTML for authenticated pages — self-host via Fontsource to eliminate GDPR friction and PWA offline failure
+- `framer-motion` (the legacy package name) — it is in maintenance; the current package is `motion`
+- Firebase JS SDK for push — 50 kB+ for functionality the native Web Push API handles for free
 
 ### Expected Features
 
-See `.planning/research/FEATURES.md` for full competitive analysis and feature dependency graph.
+Research draws a sharp line between what users of a wellness companion expect (table stakes) and what makes MeeThing genuinely distinctive (differentiators). The differentiators borrow vocabulary from meditation apps and apply it to time management — a space none of MeeThing's calendar competitors (Fantastical, Cron, Amie, Motion, Reclaim) occupy. The anti-feature list is equally important: all of them will be requested, all of them look aligned with the product, and all of them break it.
 
-**Must have (table stakes):**
-- Multi-provider calendar sync (Google + Microsoft Outlook) — single-provider is a non-starter for knowledge workers who have both
-- Secure OAuth token storage — `_encrypted` column names that hold plaintext is a trust-breaker if ever discovered
-- Settings that persist across sessions — fake settings that reset on refresh actively mislead users
-- Email verification + password reset — baseline for any email/password auth system
-- Loading, error, and empty states — users judge app quality by edge cases
+**Must have for v2.0 core:**
+- Copy glossary + language pass — blocks every other text-bearing feature; "Dashboard," "Alerts," "Sync Now" must go before any new text is written
+- Today-first layout with weekly toggle — structural prerequisite for the rhythm timeline and proportional cards
+- Contextual greeting with specific calendar insight — "biggest gap: 2h after 2 PM" (factual, grounding) vs. "Hope you have a great day!" (filler that reads as cold)
+- Proportional meeting cards with time-of-day tinting — reframes the day as rhythm, not todo list
+- Today's Rhythm horizontal timeline — the signature new UI element; gaps named and celebrated, not just meetings listed
+- Time-of-day warmth shift (4 named windows: dawn 5–9, day 9–16, dusk 16–19, night 19–5) — ambient sense of time passing without a visible clock
+- Fraunces variable serif on greeting / wind-down / breathing overlay copy — emotional register signal; Inter stays for all UI chrome and data
+- Empty and light-day celebratory copy — "A spacious day — enjoy the quiet" is non-negotiable; a wellness app cannot look broken on calm days
+- Ambient breathing background — CSS keyframes on `transform + opacity` only; `prefers-reduced-motion` full-stop required
 
-**Should have (differentiators):**
-- Breathing exercise (WEL-01) — the flagship differentiator; one animated circle, box breathing (4-4-4-4), follows Headspace's "visual IS the instruction" principle; keep to one exercise type for v1
-- Transition buffer awareness (WEL-02) — detect back-to-back meetings, show inline gentle nudge; awareness without automation (Reclaim territory)
-- Meeting density indicator — low-effort, high-impact visual busyness gauge using the nature color palette
-- Meeting-free day celebration — delightful empty state that signals the app's values
-- Daily wellness tip rotation — replace hardcoded tip with client-side rotation of 10-15 curated tips; no backend needed
+**Should have (v2.1 — add after core is stable):**
+- Pre-meeting breathing push notification — high copy stakes; requires complete permissions UX; keep as one notification type at launch
+- Wind-down view — depends on stable last-meeting detection; needs weeks of user rhythm to tune the trigger timing
+- Weekly tone language ("a full week ahead" / "a lighter week") — add once daily greeting tone is locked
 
-**Defer to v1.5 or v2:**
-- Quiet hours indicator (medium complexity, needs gap analysis logic)
-- Energy/mood check-in after meetings (high complexity — new DB table, reflection UI, pattern detection)
-- Focus time summary (needs weeks of data accumulation before it is meaningful)
-- Apple Calendar integration (per PROJECT.md scope)
-- Any event creation, scheduling links, push notifications, or calendar write access (explicit anti-features)
+**Defer to v2.2+:**
+- Optional 3-choice end-of-day reflection persistence — only if wind-down usage shows demand
+- Personalized greeting templates based on past rhythms — needs history and privacy review
+- Ambient soundscape toggle
+
+**Anti-features to explicitly reject:**
+- Streaks and gamification — creates guilt against the brand promise; missing a day becomes a failure event in a product that exists to reduce failure-feelings
+- Notification badges and unread counts — the red dot is the primary anxiety signal this product sells against
+- AI-generated meeting summaries — pulls the app into productivity-tool territory owned by Notion, Granola, Reclaim, Fireflies; also privacy-fraught
+- Mood tracking dashboard — turns a feeling into a KPI; users optimize for the score and stop using the app when they "fail" a day
+- Multiple daily notification types — 2–5 pushes per week is the sustainable baseline for engagement apps; launch with one type only (pre-meeting breathing cue)
+- Dark mode as a simple palette inversion — the time-of-day warmth curve is the dark mode; evenings and nights are already dark and warm
 
 ### Architecture Approach
 
-The architecture extends the existing SPA + BaaS pattern with three new subsystems: a provider-agnostic OAuth/sync layer, application-level token encryption, and a client-side wellness engine. The most important structural decision is to consolidate `google-oauth` and `google-calendar-sync` into unified `provider-oauth` and `provider-calendar-sync` edge functions with provider-specific adapters, rather than creating parallel Microsoft functions. This eliminates code duplication for auth validation, encryption, DB operations, error handling, and CORS headers.
+The v2.0 architecture is additive on the existing `CalendarHub.tsx` → `useMeetings()` → TanStack Query foundation. The governing principle is: derive all new views from the existing 7-day meetings cache via in-memory `useMemo` selectors — never create a second network call for a subset of data already fetched. A new `useTodayMeetings` hook wraps `useMeetings()`, and all new companion components consume it. The view mode toggle (today/week) belongs in URL state (`useSearchParams`), not component state — this single decision prevents five separate bug classes documented in pitfalls research. The Service Worker lives in `public/sw.js` (not `src/`) to preserve its stable scope URL; it contains only `push` and `notificationclick` handlers — no `fetch` handler, no caching, no Workbox.
 
-See `.planning/research/ARCHITECTURE.md` for data flow diagrams, adapter patterns, and build order.
+**Major components and responsibilities:**
+1. `lib/rhythm.ts` — Pure function `buildRhythmSegments(meetings, dayStart, dayEnd)`: derives meeting and breathing-room segments; free of React concerns; testable in isolation; must be built before any timeline component
+2. `useTodayMeetings` / `useWindDownState` / `useContextualGreeting` — Derived hooks; in-memory selectors; zero additional network calls; automatic cache invalidation when the upstream meetings query refreshes
+3. `CalendarHub.tsx` (modified) — Adds `viewMode` from `useSearchParams`; renders companion components conditionally; the one existing-file bottleneck — serialize its modification last in a single PR to avoid merge conflicts
+4. `ContextualGreeting` / `TodaysRhythmTimeline` / `WindDownPanel` / `WeeklyToneSummary` — New presentational components in all-new files; can be built against mock data on a scratch route before `CalendarHub` integration
+5. `public/sw.js` — 20-line push-only service worker; no caching; registered in `main.tsx` via `import.meta.env.BASE_URL` to support subpath deployment
+6. `send-push` Edge Function — VAPID-signed push dispatch; reads `push_subscriptions` table; enforces per-user daily cap; mirrors the existing `google-calendar-sync` edge function layout
+7. `push_subscriptions` migration — New table for endpoint + p256dh + auth keys per user; RLS-guarded by `user_id = auth.uid()`
 
-**Major components:**
-1. **`provider-oauth` edge function (new):** Replaces `google-oauth`; routes by provider, exchanges auth code, encrypts tokens, stores in `calendar_connections`
-2. **`provider-calendar-sync` edge function (new):** Replaces `google-calendar-sync`; decrypts tokens, fetches events via provider-specific adapters, upserts meetings
-3. **`_shared/crypto.ts` module (new):** `encryptToken` / `decryptToken` using AES-256-GCM; shared by both edge functions; reads key from Deno env
-4. **`useSettings` hook (new):** TanStack Query CRUD for `user_settings` with `staleTime: Infinity`; consumed by settings UI and wellness engine
-5. **`WellnessEngine` (new, client-side):** `MeetingAnalyzer` (pure function) + `ReminderScheduler` (setTimeout + Notification API) + `BreathingOverlay` (modal using existing `breathe` animation)
-6. **`AuthCallback.tsx` (modified):** Parse provider + CSRF token from state param; validate against `sessionStorage`; dispatch to `provider-oauth`
+**Recommended build order:** `lib/rhythm.ts` + `lib/greetings.ts` (pure functions, no conflicts) → derived hooks (additive files) → new presentational components (all new files) → `CalendarHub` integration (one PR, last) → ambient CSS and typeface (fully parallel, any time) → push track (parallel stream, separate review scope)
 
 ### Critical Pitfalls
 
-See `.planning/research/PITFALLS.md` for full analysis of 16 pitfalls with detection methods and prevention strategies.
+1. **Push permission on page load** — once denied, the browser permanently prevents re-asking; recovery requires per-browser manual settings navigation most users will never complete. Gate `Notification.requestPermission()` behind an in-app pre-prompt modal with explicit benefit language ("We'll remind you to breathe before your next meeting"), triggered only from a user gesture after meaningful engagement. Detect `permission === 'denied'` and show a browser-specific recovery card.
 
-1. **Plaintext OAuth tokens in database** — AES-256-GCM encrypt in edge functions before write; include a one-time migration script to encrypt existing plaintext rows; never return decrypted tokens to the client; confirm rows are encrypted before launch by checking for `ya29.*` / `1//` patterns in `access_token_encrypted`
-2. **Static OAuth state enables CSRF** — replace hardcoded `"google"` state with `crypto.randomUUID()` stored in `sessionStorage`; encode as `provider:csrfToken`; validate on every callback before processing the auth code
-3. **CORS wildcard on edge functions** — replace `Access-Control-Allow-Origin: *` with the exact app origin from an env var; return 403 for other origins; credential-bearing requests must never use wildcard
-4. **Microsoft token semantics differ from Google** — refresh tokens expire after 90 days of inactivity (not permanent like Google); store `refresh_token_expiry` at connection time; proactively prompt re-auth; parse `start.dateTime` + `start.timeZone` as separate fields (not a combined ISO string)
-5. **Browser tab throttling kills wellness reminders** — `setTimeout` is throttled in background tabs; use `document.visibilitychange` to check for missed reminders when tab regains focus; communicate tab-must-be-open requirement honestly; service worker is a v2 option
+2. **Notification fatigue** — multiple daily pushes from a "calm" app produce churn faster than any other mistake and contradict the core brand promise. Enforce a hard daily cap of 3 pushes per user in the Edge Function from day one (not a user-tunable value — a safety valve). Default quiet hours 21:00–08:00. One notification type at launch. Granular per-category opt-out from day one — no single master switch.
+
+3. **Service Worker stale-cache trap** — adding a SW for push silently turns the app into a cached app; post-deploy users see the old UI, missing new features or hitting white screens if hashed chunks were purged. Prevent by writing a push-only SW (no `fetch` handler, no `caches.open`); implement an "Update available — refresh" toast from day one; make "no `caches.open` calls" an explicit code-review gate.
+
+4. **FOUT and CLS from webfont loading** — text reflow on every load undermines the "calm, beautiful" first impression and hurts Core Web Vitals. Self-host via `@fontsource-variable/fraunces` to eliminate the Google Fonts roundtrip; add `size-adjust`/`ascent-override` fallback `@font-face` rules; target CLS < 0.1 on throttled 3G. Ship the font loading strategy before any component uses the serif, not after.
+
+5. **Ambient animation jank and battery drain** — animating `backdrop-filter` forces recomposite every frame and causes jank on mobile Safari; compound simultaneous animations (ambient background + card floats) cause motion sickness for vestibular users; unpaused animations on hidden tabs drain battery on a product meant to linger. Animate only `transform` and `opacity` on a pre-blurred layer; never animate `backdrop-filter`. One motion hierarchy: ambient background breathes, everything else is static. `@media (prefers-reduced-motion: reduce)` must produce a full animation stop. Pause via `animation-play-state: paused` on `visibilitychange`. Profile on a mid-tier iPhone before shipping.
+
+6. **Today/week toggle state desync** — `useState` without URL persistence produces: refresh resets view, back button does nothing, greeting shows wrong meeting count when week view is active, scroll position lost on every toggle. Use `useSearchParams` as source of truth; keep `useTodayMeetings` derived from a memo always filtered to today regardless of the view toggle. This is approximately 20 extra minutes of work that prevents the most common first-month support reports.
+
+7. **Wind-down feature nobody sees** — a wall-clock trigger (5pm) or nav-link entry point produces near-zero discovery; the most emotionally valuable feature gets a near-zero usage rate. Surface the wind-down card inline in the main view when the last meeting ends (not behind a route); use a contextual trigger (last meeting ended ≥10 min ago, after 16:00, tab visible); keep interaction to ≤3 taps; no streaks; instrument impression-to-interaction ratio from day one.
 
 ## Implications for Roadmap
 
-The dependency chain is firm and non-negotiable: security before Microsoft OAuth (never ship a second insecure provider), settings persistence before wellness engine (engine reads settings), and both Microsoft OAuth and settings persistence before the full wellness engine (engine benefits from multi-provider data). Auth improvements are independent and can run in parallel.
+Based on research, the dependency graph and pitfall clustering suggest four phases. The copy glossary is a hard prerequisite that should be a discrete deliverable at the start of Phase 1 — not a background concern addressed during engineering.
 
-### Phase 1: Security Foundations
+### Phase 1: Language and Visual Foundation
+**Rationale:** The copy glossary blocks every text-bearing feature — greeting, wind-down, weekly tone, notification copy, empty states. The today-first layout is the structural prerequisite for the rhythm timeline and proportional cards. The time-of-day palette and Fraunces typeface are design-system-level changes that every subsequent component picks up from CSS custom properties; they must land before any component that uses them. These are the lowest-risk, lowest-infrastructure items and unblock the most downstream work.
+**Delivers:** Copy glossary artifact (term replacements reviewed as a single artifact before merge), today-first layout with weekly toggle (URL `?view=today|week` state), time-of-day warmth palette (4 named windows as CSS custom properties), Fraunces variable font (self-hosted via Fontsource, `size-adjust` fallback, CLS < 0.1 verified), ambient breathing background (CSS keyframes on `transform + opacity` only, `prefers-reduced-motion` full stop, `visibilitychange` pause), empty and light-day copy states, language pass across all existing UI strings
+**Addresses:** Language overhaul, today-first layout, warm typeface, ambient beauty, empty states (FEATURES.md v2.0 core)
+**Avoids:** Pitfall #3 (font strategy ships before any component uses the serif), Pitfall #4 (motion hierarchy and `prefers-reduced-motion` pattern established before any Phase 2 or 3 animation), Pitfall #5 (URL param toggle architecture baked in from the start)
+**Research flag:** Skip — standard patterns. CSS variable theming, self-hosted variable fonts, and `useSearchParams` toggle are well-documented. The palette color values and typeface pairing are design decisions, not research questions. WCAG AA contrast must be checked against every palette variant before merge.
 
-**Rationale:** Three confirmed vulnerabilities exist in current production code. They affect the shared OAuth/sync edge functions, so fixing them first means all subsequent work inherits a secure foundation. This phase is dependency-free — it blocks nothing and is blocked by nothing.
-**Delivers:** Shared `_shared/crypto.ts` module, AES-256-GCM encryption on all tokens, CSRF-protected OAuth flow for Google, restricted CORS headers on all edge functions, one-time migration script for existing plaintext tokens
-**Addresses:** SEC-01 (token encryption), SEC-02 (CSRF), SEC-03 (CORS); also Pitfall 15 (outdated Deno std)
-**Avoids:** Pitfalls 1, 2, 3 (the three critical security bugs confirmed in codebase)
-**Research flag:** Skip — implementation is fully specified in STACK.md and ARCHITECTURE.md; no unknowns
+### Phase 2: Companion UI Components
+**Rationale:** With the copy glossary and design system foundation in place, the new companion components can be built as all-new files with no existing-file conflicts until the `CalendarHub` integration step. The build order is: pure functions → derived hooks → presentational components → `CalendarHub` integration (last, one PR). This minimizes merge conflict risk on the one bottleneck file.
+**Delivers:** `lib/rhythm.ts` (pure `buildRhythmSegments` function), `lib/greetings.ts` (time-of-day copy templates), derived hooks (`useTodayMeetings`, `useWindDownState`, `useContextualGreeting`), `ContextualGreeting` (6–8 sentence templates covering light day, heavy day, back-to-back, zero meetings, single long meeting, afternoon-heavy, morning-heavy, first-meeting-imminent), `TodaysRhythmTimeline` (CSS Grid rendering, gaps named and labeled), proportional meeting cards with time-of-day accent tinting, `WeeklyToneSummary`, `WindDownPanel` (inline in today view, contextual trigger, micro-action, no streaks), `CalendarHub.tsx` integration PR
+**Addresses:** Contextual greeting, proportional meeting cards, Today's Rhythm timeline, wind-down view, weekly tone language (FEATURES.md)
+**Avoids:** Pitfall #5 (todayMeetings memo is always filtered to today, never to the current view selection), Pitfall #6 (WindDownPanel renders inline in the main view, contextual trigger only), Architecture anti-pattern #1 (no second network call — all views derived from useMeetings cache)
+**Research flag:** Skip for component patterns. The wind-down trigger edge cases (all-day events, meetings ending after midnight, timezone handling) need an explicit written spec before `useWindDownState` is coded — this is an internal design decision, not an external research question. Greeting copy templates need creative review as a separate pre-engineering artifact.
 
-### Phase 2: Microsoft Outlook Integration
+### Phase 3: Web Push Infrastructure
+**Rationale:** Push is infrastructure-heavy with a distinct failure-mode surface best isolated from UI work. It requires VAPID key generation, a new DB table, a service worker, two Edge Functions, a permissions UX, and a rate-limiting layer — all of which must be correct before any user is exposed. Running this as a dedicated phase (or parallel track) prevents push bugs from blocking the companion UI and allows focused code review.
+**Delivers:** `push_subscriptions` migration, `public/sw.js` (push-only, no fetch caching, `notificationclick` deep-link to `/calendar`), SW registration in `main.tsx`, `usePushNotifications` hook, Settings UI opt-in (pre-prompt with benefit language, engagement threshold gate, denied-state recovery card with browser-specific instructions), `send-push` Edge Function (VAPID-signed, daily cap of 3 per user enforced, quiet hours 21:00–08:00), `schedule-push` Edge Function (cron-triggered, queries due subscriptions, coalesces multiple meeting notifications per user), VAPID keys stored as Supabase secrets
+**Addresses:** Pre-meeting breathing push notification (FEATURES.md P2)
+**Avoids:** Pitfall #1 (pre-prompt gates the browser prompt; never called on page load or in useEffect with empty deps), Pitfall #2 (daily cap and quiet hours in the Edge Function from day one; one notification type at launch; per-category toggles in settings UI), Pitfall #7 (SW has no fetch handler; update toast implemented; "no caches.open" is a code-review gate)
+**Research flag:** NEEDS phase research. Verify `jsr:@negrel/webpush` API surface and Supabase Edge Runtime (Deno ≥ 1.45) compatibility at implementation start — the Deno/JSR Web Push ecosystem has been evolving. Confirm iOS Safari PWA push behavior (requires "Add to Home Screen," iOS 16.4+) and document the limitation in the permissions UX. Verify whether Supabase Function secrets can be rotated without redeploying (affects the VAPID key rotation plan and re-subscription flow).
 
-**Rationale:** Multi-provider sync is the single most important table-stakes feature. The refactor-first approach (consolidate Google functions into provider-agnostic pattern, then add Microsoft) avoids building parallel duplicate functions. Microsoft OAuth is structurally identical to Google at the flow level — same auth code flow, different endpoints and field names.
-**Delivers:** `provider-oauth` edge function (consolidates Google + adds Microsoft), `provider-calendar-sync` edge function (consolidates Google + adds Microsoft Graph adapter), Microsoft OAuth URL construction in `CalendarConnections.tsx`, updated `AuthCallback.tsx` with provider dispatch
-**Uses:** Microsoft Identity Platform v2.0, Microsoft Graph API v1.0, existing Web Crypto module from Phase 1
-**Implements:** Provider adapter pattern from ARCHITECTURE.md
-**Avoids:** Pitfalls 4 (Microsoft token semantics), 12 (sync pagination), 14 (timezone fragility)
-**External dependency:** Azure app registration and Microsoft publisher verification (Pitfall 7) must start early — run in parallel with development, not after
-**Research flag:** Low — Microsoft OAuth endpoints and Graph API field mappings are verified and documented in STACK.md; Azure enterprise consent flow (Pitfall 7) needs validation with a real Microsoft 365 work account
-
-### Phase 3: Settings Persistence
-
-**Rationale:** The settings UI exists and looks functional but is entirely disconnected from the database. Fake settings that reset on refresh are worse than no settings — they actively mislead users and erode trust. This phase is wiring, not building: a new hook, a migration for wellness columns, and connecting existing UI components.
-**Delivers:** `useSettings` hook with TanStack Query, database-backed sync/notification/wellness preferences, migration adding wellness columns to `user_settings`, settings UI that actually persists
-**Uses:** TanStack Query (existing), Supabase `user_settings` table (existing)
-**Avoids:** Pitfall 16 (fake settings), prerequisite for wellness engine configuration
-**Research flag:** Skip — standard TanStack Query CRUD pattern; `user_settings` table and RLS already exist
-
-### Phase 4: Wellness Engine
-
-**Rationale:** The product's core differentiator. Depends on multi-provider meeting data (Phase 2 complete) and persisted settings (Phase 3 complete). All required technology is already in the project — the `breathe` CSS animation, `date-fns`, TanStack Query cache. This phase is pure product work on top of solid infrastructure.
-**Delivers:** `BreathingOverlay` component (box breathing, animated circle, always-dismissible), `TransitionBufferCard` inline indicators in meeting list, meeting density indicator, meeting-free day celebration, daily tip rotation (10-15 tips, client-side rotation by date), `useWellnessEngine` hook
-**Uses:** CSS `@keyframes breathe` (existing), `date-fns` `differenceInMinutes` (existing), Browser Notification API, Page Visibility API, `setTimeout`
-**Implements:** Client-side WellnessEngine architecture from ARCHITECTURE.md
-**Avoids:** Pitfall 8 (tab throttling — visibilitychange catch-up), Pitfall 9 (notification permission — pre-permission dialog, in-tab fallback)
-**Research flag:** Low for implementation; the pre-permission dialog pattern for Notification API (Pitfall 9) is the highest-risk UX decision and should be prototyped early in the phase
-
-### Phase 5: Auth Improvements
-
-**Rationale:** Email verification and password reset are baseline requirements for public launch but are entirely independent of all other phases — purely Supabase configuration changes plus UI screens. Token revocation on disconnect closes the zombie token security gap.
-**Delivers:** Email verification enforcement in `AuthContext` / `ProtectedRoute`, "check your email" post-signup screen, password reset flow (Supabase Auth built-in), OAuth token revocation on disconnect (Google + Microsoft revocation endpoints)
-**Uses:** Supabase Auth built-in email verification and password recovery (existing `@supabase/supabase-js`)
-**Avoids:** Pitfall 5 (zombie tokens), Pitfall 10 (email verification bypass)
-**External dependency:** Google OAuth verification process (Pitfall 6, 4-6 weeks) must be initiated no later than Phase 2; track as a parallel workstream
-**Research flag:** Skip — Supabase Auth email/password is fully documented and already integrated in the codebase
+### Phase 4: Polish, Accessibility, and Validation
+**Rationale:** After companion UI and push are stable, a dedicated polish phase hardens accessibility, validates performance on real devices, and adds the v2.1 features whose optimal implementation depends on usage data from v2.0 (weekly tone language tuning, wind-down trigger timing calibration).
+**Delivers:** WCAG AA contrast sign-off on all four time-of-day palette variants against real meeting text, Lighthouse CLS < 0.1 re-verification on throttled 3G, mid-tier iPhone 60fps animation profile sign-off, push Edge Function smoke test (simulate 10-meeting day, assert ≤3 pushes sent), Today's Rhythm timeline accessibility (keyboard navigation, screen-reader text alternative, color-independent gap visualization), weekly tone language (after greeting tone is locked for several weeks), wind-down trigger timing calibration based on real usage patterns, "Looks Done But Isn't" checklist verification across all v2.0 features
+**Addresses:** Performance gates, accessibility requirements, weekly tone language (FEATURES.md P2), final v2.0 quality validation
+**Avoids:** Accessibility and performance regressions shipping undetected; warm-dusk palette contrast failures; mid-tier device animation jank reaching production
+**Research flag:** Skip — standard tooling (Lighthouse, WCAG contrast checkers, Chrome DevTools remote debug). The only open question that needs assessment (not research) is whether push Edge Function cold-start timing reveals a batching need — that determination comes from Phase 3 implementation data.
 
 ### Phase Ordering Rationale
 
-- Security must come first: three active vulnerabilities in the shared OAuth/sync infrastructure; adding Microsoft OAuth on a vulnerable base doubles the attack surface without doubling the security work to fix it later
-- Microsoft OAuth before wellness: meeting data from both providers feeds the wellness engine's analysis; a Google-only wellness engine undersells the feature and creates a dependency on users having already connected Google
-- Settings before wellness: the wellness engine reads `wellness_breathing_enabled` and `wellness_breathing_minutes_before` from `user_settings`; without persisted settings the engine has no configuration to act on
-- Auth improvements are independent: Supabase handles the hard parts; can run partially in parallel with Phase 3 or 4 if resources allow
+- Language and palette land first because they block the most downstream work. Writing a greeting before the glossary is confirmed means rewriting it; building meeting card tints before the palette variables exist means rebuilding tints. Do these once, correctly.
+- Companion UI before push because the UI components require no new infrastructure and benefit from being designed and iterated quickly. Locking the companion voice and visual language before wiring push ensures that notification copy is informed by the established tone, not drafted in isolation.
+- Push as a separate stream (Phase 3) because its acceptance criteria — pre-prompt UX, daily cap, quiet hours, stale-cache prevention, iOS Safari limitations — are orthogonal to UI quality and benefit from dedicated review focus. Push bugs and UI bugs should not share a release.
+- Polish last because accessibility and performance audits are most valuable when the surface is complete and stable; running them on incomplete features produces false findings.
 
 ### Research Flags
 
-Phases needing deeper research during planning:
-- **Phase 2 (Microsoft Outlook):** Validate enterprise admin consent behavior (Pitfall 7) with a real Microsoft 365 work account before finalizing the AuthCallback flow; the Azure portal app registration walkthrough should be researched during phase planning
+Phases likely needing `/gsd:research-phase` during planning:
+- **Phase 3 (Web Push):** Deno/JSR Web Push library API and Edge Runtime compatibility; iOS Safari PWA push limitations; VAPID key rotation mechanics in Supabase secrets. All three need confirmation before implementation starts.
 
 Phases with standard patterns (skip research-phase):
-- **Phase 1 (Security):** Implementation fully specified; Web Crypto AES-256-GCM is a Web Standard with verified Deno support
-- **Phase 3 (Settings):** Standard TanStack Query mutation pattern; no architectural decisions remaining
-- **Phase 4 (Wellness):** Browser APIs are well-documented; the breathing animation approach is established; only UX calibration (timing, defaults) remains
-- **Phase 5 (Auth):** Supabase Auth email/password is authoritative and already partially integrated
+- **Phase 1 (Foundation):** CSS variable theming, self-hosted variable fonts, URL state via `useSearchParams` — all well-documented. Design decisions (palette color values, Fraunces vs. alternative typefaces) are judgment calls for design review, not research questions.
+- **Phase 2 (Companion UI):** Derived hooks from TanStack Query cache, `useMemo` selectors, presentational component composition — established patterns. Wind-down trigger edge cases need an internal spec document, not external research.
+- **Phase 4 (Polish):** Lighthouse, WCAG contrast, Chrome DevTools performance, Supabase Edge Function logs — standard tooling with no open research questions.
 
 ## Confidence Assessment
 
 | Area | Confidence | Notes |
 |------|------------|-------|
-| Stack | HIGH | Microsoft Identity Platform endpoints verified via official docs (2026-03-22); Web Crypto API is a Web Standard available natively in Deno; no new npm packages required; all additions use existing project dependencies |
-| Features | MEDIUM | Competitive analysis based on training data up to May 2025; specific competitor feature sets may have evolved; structural analysis and anti-feature recommendations are sound regardless |
-| Architecture | HIGH | Provider adapter and edge function routing patterns verified against existing codebase; Supabase Vault assessment is LOW confidence (docs access denied during research — see Gaps) |
-| Pitfalls | HIGH (security, browser APIs), MEDIUM (Microsoft-specific, Google verification process) | Security bugs confirmed by direct codebase inspection; browser tab throttling is stable well-documented browser behavior; Microsoft token semantics and Google verification process based on training data |
+| Stack | HIGH | All three additions verified against current official sources and release notes; version compatibility confirmed against existing Vite 5 project; `motion@12.35.2` confirmed released 2026-03-09 |
+| Features | MEDIUM | HIGH for Headspace notification patterns and typography pairings (primary engineering blog sources); MEDIUM for greeting/reflection patterns; LOW-MEDIUM for exact time-of-day color implementations in shipped apps (derived from circadian lighting research, not direct app audits) |
+| Architecture | HIGH (UI) / MEDIUM (Push) | UI integration points derived directly from codebase read; SW placement in `public/`, derived hooks, URL state patterns are standard and well-documented; Deno/JSR Web Push library specifics are MEDIUM and need verification at Phase 3 start |
+| Pitfalls | MEDIUM-HIGH | Seven primary pitfalls each verified against 3+ independent sources; WebSearch-confirmed; security and browser API pitfalls are HIGH; push permission and notification fatigue patterns are MEDIUM-HIGH |
 
-**Overall confidence:** HIGH
+**Overall confidence:** MEDIUM-HIGH
 
 ### Gaps to Address
 
-- **Supabase Vault `pgsodium`:** Architecture research could not access current Vault docs. The recommendation to use application-level edge function encryption over Vault is justified on security principles (key in separate security boundary), but Vault's transparent column encryption should be validated against current docs before Phase 1 planning concludes.
-- **Microsoft enterprise consent flow:** Pitfall 7 documents that enterprise Microsoft 365 organizations may block individual user consent for `Calendars.Read`. Validate with a real Microsoft 365 work account during Phase 2 planning — not after implementation.
-- **Google OAuth verification timeline:** Pitfall 6 notes a 4-6 week verification process for apps with sensitive scopes. Initiate no later than Phase 2 to avoid blocking the public launch. Prepare privacy policy and terms of service pages as parallel workstreams.
-- **Token migration script:** Existing Google tokens are stored as plaintext. A one-time edge function that reads each `calendar_connections` row, encrypts in-memory, and writes back is needed as part of Phase 1. Must run before any code change that expects encrypted tokens. Plan deployment sequencing carefully to avoid a window where old code expects plaintext and new code expects ciphertext.
-- **Microsoft 90-day refresh token expiry:** Store `refresh_token_expiry` at connection time. Implement proactive re-auth prompting before expiry. The exact behavior at the boundary needs integration testing — not resolvable through research alone.
+- **Deno Web Push library verification:** `jsr:@negrel/webpush` is the current recommendation; verify API surface and Supabase Edge Runtime compatibility before Phase 3 starts. Research a fallback (Node `web-push` via `npm:` specifier in Deno) in case JSR access is restricted.
+- **iOS Safari PWA push limitations:** Web Push on iOS requires "Add to Home Screen" (iOS 16.4+). The push permissions UX must communicate this clearly. Document the expected user experience for iOS users who encounter the limitation before installing the PWA.
+- **VAPID key rotation in Supabase secrets:** Confirm whether Function secrets can be rotated without redeploying the Edge Function. If rotation requires redeployment, document the full re-subscription flow (existing subscriptions are invalidated → users must be re-prompted → pre-prompt must survive the rotation event).
+- **Wind-down trigger edge cases:** All-day events, meetings ending after midnight, recurring events with unusual end times, and timezone boundary cases need an explicit one-page spec before `useWindDownState` is coded. Not an external research gap — an internal design decision that must be made before engineering starts.
+- **Time-of-day palette contrast audit:** The warm-dusk state (16:00–19:00) and the night state (19:00–05:00) are the highest accessibility risk. Choosing palette colors with contrast-first design (select colors that pass WCAG AA for normal text, then assess warmth) is more reliable than auditing after the fact. Flag for early design review in Phase 1 before any component uses the palette.
+- **Greeting copy voice:** The 6–8 greeting sentence templates are the single highest-creative-risk deliverable in the milestone. They must be drafted and reviewed as standalone creative writing — not as microcopy incidental to engineering — before Phase 2 component work begins. Schedule a dedicated creative review session.
 
 ## Sources
 
 ### Primary (HIGH confidence)
-- Microsoft Identity Platform OAuth 2.0 auth code flow: https://learn.microsoft.com/en-us/graph/auth-v2-user (verified 2026-03-22)
-- Microsoft Graph calendarView API: https://learn.microsoft.com/en-us/graph/api/user-list-calendarview (verified 2026-03-22)
-- Microsoft Graph calendar list events: https://learn.microsoft.com/en-us/graph/api/calendar-list-events (verified 2026-03-22)
-- Web Crypto API (AES-GCM): Web Standard, natively available in Deno runtime
-- Browser Notification API: W3C Notifications API specification, works from foreground tabs without service worker
-- Page Visibility API: W3C specification, stable behavior across major browsers since 2020
-- OAuth 2.0 RFC 6749: state parameter CSRF protection, well-established standard
-- Existing MeeThing codebase: `google-oauth/index.ts`, `google-calendar-sync/index.ts`, `AuthCallback.tsx`, `CalendarConnections.tsx`, migration files (direct code review, 2026-03-22)
+- Existing MeeThing codebase (`src/App.tsx`, `CalendarHub.tsx`, `useMeetings.ts`, `useBackground.tsx`, `supabase/functions/`) — architecture integration points derived from direct read
+- [Supabase docs — Sending Push Notifications](https://supabase.com/docs/guides/functions/examples/push-notifications) — Edge Functions + Web Push as supported path
+- [@negrel/webpush on JSR](https://jsr.io/@negrel/webpush) + [negrel.dev blog](https://www.negrel.dev/blog/deno-web-push-notifications/) — Deno-native VAPID library API
+- [vite-plugin-pwa injectManifest guide](https://vite-pwa-org.netlify.app/guide/inject-manifest) — Vite 5 requirement from v0.17+, strategy options
+- [Motion upgrade guide](https://motion.dev/docs/react-upgrade-guide) + [CHANGELOG](https://github.com/motiondivision/motion/blob/main/CHANGELOG.md) — motion@12, motion/react import path, no breaking changes from v11
+- [Google Fonts — Fraunces](https://fonts.google.com/specimen/Fraunces) — four variable axes (weight, opsz, softness, wonk), soft-serif positioning
+- [Headspace Engineering — push notifications](https://medium.com/headspace-engineering/explainable-and-accessible-ai-using-push-notifications-to-broaden-the-reach-of-ml-at-headspace-a03c7c2bbf06) — "Mindful Moment" ritual notification pattern (first-party)
+- [Web permissions best practices — web.dev](https://web.dev/articles/permissions-best-practices) — pre-prompt pattern, engagement gating
+- [prefers-reduced-motion — web.dev](https://web.dev/articles/prefers-reduced-motion) — full-stop accessibility requirement
+- [The Web Animation Performance Tier List — Motion Magazine](https://motion.dev/magazine/web-animation-performance-tier-list) — transform/opacity vs backdrop-filter performance hierarchy
+- [Fixing Layout Shifts Caused by Web Fonts — DebugBear](https://www.debugbear.com/blog/web-font-layout-shift) — `size-adjust`/`ascent-override` technique
+- [Rich Harris — Stuff I wish I'd known sooner about service workers](https://gist.github.com/Rich-Harris/fd6c3c73e6e707e312d7c5d7d0f3b2f9) — SW stale-cache trap
+- [Supabase — JSR modules in Edge Functions](https://github.com/orgs/supabase/discussions/25842) — `jsr:` specifier support confirmed
 
 ### Secondary (MEDIUM confidence)
-- Competitor feature analysis (Reclaim.ai, Fantastical, Notion Calendar, Amie, Headspace, Calm): training data up to May 2025; structural patterns are stable; specific feature sets may have evolved
-- Google OAuth verification requirements: training data; process steps and timeline may have changed
-- Microsoft Graph API enterprise consent behavior: Azure AD consent model is well-established but organizational policies vary
+- [Typewolf — Fraunces](https://www.typewolf.com/fraunces) — real-world Inter + Fraunces pairings
+- [LogRocket — Best React animation libraries 2026](https://blog.logrocket.com/best-react-animation-libraries/) — CSS-first vs Motion trade-off assessment
+- [Headspace push notification strategy — ngrow.ai](https://www.ngrow.ai/blog/how-headspace-increased-engagement-by-32-with-strategic-push-notifications) — 32% engagement increase with strategic push; notification copy examples
+- [Push notification best practices — MoEngage / Braze / Gravitec](https://www.moengage.com/learn/push-notification-best-practices/) — 2–5 pushes/week sustainable baseline for engagement apps
+- [Advanced React state management using URL parameters — LogRocket](https://blog.logrocket.com/advanced-react-state-management-using-url-parameters/) — `useSearchParams` pattern for view toggles
+- [Circadian Lighting in Smart Homes — Aqara 2026](https://us.aqara.com/blogs/news/reset-circadian-rhythm-adaptive-lighting) — time-of-day warmth curve (6500K → 2700K) scientific rationale
+- [How to create a meditation app — Globaldev](https://globaldevgroup.medium.com/how-to-create-a-meditation-app-based-on-the-examples-of-calm-and-headspace-25af32b87579) — Calm / Headspace home screen composition analysis
+- [Reflectly easygoing daily journaling — GoodUX](https://goodux.appcues.com/blog/reflectlys-easygoing-daily-journaling) — micro-action reflection prompt pattern
+- [Pushpad — Reset the denied push permission](https://pushpad.xyz/blog/reset-the-denied-permission-for-notifications) — denied-state recovery UI guidance
 
-### Tertiary (LOW confidence)
-- Supabase Vault `pgsodium` transparent column encryption: docs access denied during research; recommendation based on training data and security principles
+### Tertiary (LOW-MEDIUM confidence)
+- [6 Mindfulness App Design Trends 2026 — Big Human](https://www.bighuman.com/blog/trends-in-mindfulness-app-design) — greeting and ambient UI pattern overview
+- [What Designers Get Wrong About Habit Loops — Bootcamp](https://medium.com/design-bootcamp/what-designers-get-wrong-about-habit-loops-and-how-to-fix-it-6fd47be714d2) — wind-down discoverability failure modes
+- [10 Fonts to Consider for Your Wellness Brand — Inside Out Brands](https://www.insideoutbrands.com/blog/10-wellness-fonts) — wellness typography pairing principles
 
 ---
-*Research completed: 2026-03-22*
+*Research completed: 2026-04-04*
 *Ready for roadmap: yes*
