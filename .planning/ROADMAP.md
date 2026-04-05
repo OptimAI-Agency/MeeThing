@@ -4,6 +4,8 @@
 
 MeeThing ships as a wellness-focused Google Calendar companion for public launch. The existing codebase has working auth, Google OAuth, and meeting display, but three confirmed security vulnerabilities must be resolved before any public exposure. After security hardening, we make Google Calendar sync robust and reliable, wire the existing settings UI to the database, build the wellness engine (the product differentiator), and close auth gaps. Google OAuth verification (4-6 weeks) must be initiated in parallel with Phase 1 to avoid blocking launch.
 
+Milestone v2.0 (Companion Experience) transforms MeeThing from glassmorphic utility into a lingering daily companion. It is an additive milestone on a solid foundation: language overhaul, today-first layout, companion UI components (greeting, rhythm timeline, proportional cards), ambient beauty (typeface, breathing background, glass hierarchy), wind-down experience, and a self-contained web push infrastructure track.
+
 ## Phases
 
 **Phase Numbering:**
@@ -12,11 +14,22 @@ MeeThing ships as a wellness-focused Google Calendar companion for public launch
 
 Decimal phases appear between their surrounding integers in numeric order.
 
+### v1.0 — Public Launch
+
 - [x] **Phase 1: Security Hardening** - Encrypt OAuth tokens, fix CSRF, restrict CORS
 - [x] **Phase 2: Google Calendar Reliability** - Pagination, error handling, clean disconnect (completed 2026-03-26)
 - [ ] **Phase 3: Settings Persistence** - Wire existing settings UI to the database
 - [ ] **Phase 4: Wellness Engine** - Breathing exercises, transition buffers, polish (gap closure in progress)
 - [ ] **Phase 5: Auth Hardening** - Email verification, password reset, token revocation
+
+### v2.0 — Companion Experience
+
+- [ ] **Phase 6: Language Foundation** - Copy glossary + sweep across all existing UI strings
+- [ ] **Phase 7: Today-First Layout** - Default today view with URL-persisted week toggle
+- [ ] **Phase 8: Ambient Beauty Foundation** - Fraunces typeface, breathing background, glass hierarchy audit
+- [ ] **Phase 9: Companion UI Components** - Contextual greeting, Today's Rhythm timeline, proportional time-tinted cards, weekly tone
+- [ ] **Phase 10: Wind-Down Experience** - Calm end-of-day acknowledgment with optional 1-tap reflection
+- [ ] **Phase 11: Push Notification Infrastructure** - Pre-prompt UX, VAPID push dispatch, settings management
 
 ## Phase Details
 
@@ -98,11 +111,85 @@ Plans:
 - [x] 05-01-PLAN.md — Email verification gate + logout button (AUTH-01)
 - [x] 05-02-PLAN.md — Password recovery flow (AUTH-02)
 
+### Phase 6: Language Foundation
+**Goal**: Every user-facing string in MeeThing reflects a calm, human-first voice — utility/dashboard vocabulary is gone and a reusable copy glossary governs all future text
+**Depends on**: Nothing (first v2.0 phase; hard prerequisite for all text-bearing work in Phases 8–11)
+**Requirements**: COPY-01
+**Success Criteria** (what must be TRUE):
+  1. A user browsing the app never encounters the words "Dashboard", "Calendar Integration", "Connections", "Alerts", or a primary "Sync now" button — replacements from the glossary appear instead ("Today", "Your Calendar", auto-sync is ambient)
+  2. A documented copy glossary artifact exists in the repo mapping every deprecated term to its calm-voice replacement, and every existing UI string has been reviewed against it
+  3. Empty and light-day states read as celebratory, not broken (e.g. "A spacious day — enjoy the quiet")
+  4. Downstream phases can reference the glossary as the single source of truth for all new text (greeting, wind-down, notifications, tone language)
+**Plans**: TBD
+
+### Phase 7: Today-First Layout
+**Goal**: The calendar opens on today by default and the today/week toggle is URL-persistent, giving all companion features a stable today context to derive from
+**Depends on**: Phase 6
+**Requirements**: TODAY-01, TODAY-02
+**Success Criteria** (what must be TRUE):
+  1. A user who opens the app lands on a today-only view by default, not the full week
+  2. A user can toggle between today-only and full week; the active view is reflected in the URL (`?view=today` | `?view=week`) and survives refresh, back/forward, and link sharing
+  3. The underlying `useTodayMeetings` hook is always filtered to today regardless of the active view toggle — the greeting, rhythm, and wind-down never show week-scoped counts
+  4. Switching views preserves scroll position and does not cause layout flicker
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 8: Ambient Beauty Foundation
+**Goal**: MeeThing's visual and typographic atmosphere matches its calm voice — warm serif on emotional surfaces, a slow breathing background, and a legible glassmorphism depth hierarchy
+**Depends on**: Phase 6
+**Requirements**: BEAUTY-01, BEAUTY-02, BEAUTY-03
+**Success Criteria** (what must be TRUE):
+  1. The Fraunces variable serif is self-hosted and applied exclusively to high-emotion surfaces (greeting headline, breathing overlay phase text, wind-down copy) with `size-adjust` fallback producing no visible FOUT; CLS measured under 0.1 on throttled 3G
+  2. The background image overlay animates with a slow 10–12s breathing cycle using CSS keyframes on transform + opacity only (never backdrop-filter); animation stops completely under `prefers-reduced-motion` and pauses when the browser tab is hidden
+  3. A user can visually distinguish foreground cards (`glass-light`) from primary panels and overlays (`glass-panel`) at a glance — the depth hierarchy is legible across every surface
+  4. No visible animation jank on a mid-tier mobile device; battery drain on idle tab is indistinguishable from pre-v2.0
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 9: Companion UI Components
+**Goal**: Users see the signature companion surfaces — a contextual greeting, Today's Rhythm timeline, proportional time-tinted meeting cards, and weekly tone language — all derived from the existing meetings cache with no new network calls
+**Depends on**: Phase 7, Phase 8
+**Requirements**: COPY-02, COPY-03, TODAY-03, CARD-01, CARD-02
+**Success Criteria** (what must be TRUE):
+  1. On opening the app, a user sees a contextual greeting at the top of the today view containing their first name, today's meeting count, and the largest free gap (e.g. "Good morning, Jen. You have 3 meetings today. Biggest breathing room: 2h after 2 PM.")
+  2. A user sees Today's Rhythm — a thin horizontal timeline visualizing meeting blocks vs. free gaps for today, with gaps named and labeled, rendered from the existing meetings cache
+  3. A user sees meeting cards whose vertical height is proportional to duration — a 2-hour block occupies visibly more space than a 30-minute block
+  4. Meeting cards carry a time-of-day accent tint (morning warm amber, midday neutral sage, afternoon/evening cool blue); all variants pass WCAG AA contrast for body text
+  5. A user sees weekly tone language somewhere in the week view that reflects the week's density in natural words ("A full week ahead" / "A lighter week — space to think")
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 10: Wind-Down Experience
+**Goal**: After the user's last meeting of the day ends, the today view transitions into a calm wind-down state that acknowledges the day and optionally invites a 1-tap reflection — with no streaks, scores, or pressure
+**Depends on**: Phase 9
+**Requirements**: WIND-01, WIND-02
+**Success Criteria** (what must be TRUE):
+  1. When a user's last meeting of the day has ended (contextual trigger, not wall-clock), the today view smoothly transitions to a wind-down panel rendered inline — not behind a nav link
+  2. A user can record an optional 1-tap reflection (free text or emoji) stored locally, or dismiss the wind-down instantly and continue using the app
+  3. The wind-down flow contains no streaks, scores, badges, counters, or gamification language — anywhere
+  4. Edge cases (all-day events, meetings past midnight, tab backgrounded through the trigger window) resolve cleanly without misfiring or blocking navigation
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 11: Push Notification Infrastructure
+**Goal**: Users who opt in receive a single calm pre-meeting breathing reminder via the browser, with a pre-prompt UX that protects against permanent denial and server-side rate limiting that enforces the calm brand promise from day one
+**Depends on**: Phase 6 (notification copy uses glossary); can run in parallel with Phases 7–10
+**Requirements**: PUSH-01, PUSH-02, PUSH-03
+**Success Criteria** (what must be TRUE):
+  1. A user who chooses to enable push sees an in-app pre-prompt explaining what will be sent and why before the native browser permission dialog ever appears; the browser dialog is never triggered on page load or automatically
+  2. With push enabled, a user receives a pre-meeting breathing reminder in their configured window, delivered via a Supabase Edge Function using VAPID; a hard daily cap (≤5) and configurable quiet hours are enforced server-side regardless of client state
+  3. A user can enable/disable push and adjust quiet hours in Settings; if browser permission has been denied, the UI detects that state and surfaces a clear per-browser recovery path
+  4. The service worker is push-only with no `fetch` handler or `caches.open` calls — the app does not silently become a cached PWA, and an "update available" recovery path exists
+**Plans**: TBD
+**UI hint**: yes
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
-Note: Phases 2 and 3 share Phase 1 as their only dependency, so they could execute in either order. Phase 4 requires both 2 and 3. Phase 5 only requires Phase 1 and can run any time after it.
+
+v1.0 phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5. Phases 2 and 3 share Phase 1 as their only dependency. Phase 4 requires both 2 and 3. Phase 5 only requires Phase 1.
+
+v2.0 phases execute: 6 -> 7 -> 8 -> 9 -> 10, with 11 running in parallel any time after Phase 6. Phase 7 and Phase 8 both depend on Phase 6 and can run in either order. Phase 9 requires both 7 and 8. Phase 10 requires Phase 9.
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -111,3 +198,9 @@ Note: Phases 2 and 3 share Phase 1 as their only dependency, so they could execu
 | 3. Settings Persistence | 1/2 | In progress | - |
 | 4. Wellness Engine | 2/3 | Gap closure | - |
 | 5. Auth Hardening | 1/2 | In Progress|  |
+| 6. Language Foundation | 0/0 | Not started | - |
+| 7. Today-First Layout | 0/0 | Not started | - |
+| 8. Ambient Beauty Foundation | 0/0 | Not started | - |
+| 9. Companion UI Components | 0/0 | Not started | - |
+| 10. Wind-Down Experience | 0/0 | Not started | - |
+| 11. Push Notification Infrastructure | 0/0 | Not started | - |

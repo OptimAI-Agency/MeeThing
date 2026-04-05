@@ -150,28 +150,28 @@ Populated after roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| COPY-01 | TBD — roadmap pending | Pending |
-| COPY-02 | TBD — roadmap pending | Pending |
-| COPY-03 | TBD — roadmap pending | Pending |
-| TODAY-01 | TBD — roadmap pending | Pending |
-| TODAY-02 | TBD — roadmap pending | Pending |
-| TODAY-03 | TBD — roadmap pending | Pending |
-| CARD-01 | TBD — roadmap pending | Pending |
-| CARD-02 | TBD — roadmap pending | Pending |
-| BEAUTY-01 | TBD — roadmap pending | Pending |
-| BEAUTY-02 | TBD — roadmap pending | Pending |
-| BEAUTY-03 | TBD — roadmap pending | Pending |
-| PUSH-01 | TBD — roadmap pending | Pending |
-| PUSH-02 | TBD — roadmap pending | Pending |
-| PUSH-03 | TBD — roadmap pending | Pending |
-| WIND-01 | TBD — roadmap pending | Pending |
-| WIND-02 | TBD — roadmap pending | Pending |
+| COPY-01 | Phase 6: Language Foundation | Pending |
+| TODAY-01 | Phase 7: Today-First Layout | Pending |
+| TODAY-02 | Phase 7: Today-First Layout | Pending |
+| BEAUTY-01 | Phase 8: Ambient Beauty Foundation | Pending |
+| BEAUTY-02 | Phase 8: Ambient Beauty Foundation | Pending |
+| BEAUTY-03 | Phase 8: Ambient Beauty Foundation | Pending |
+| COPY-02 | Phase 9: Companion UI Components | Pending |
+| COPY-03 | Phase 9: Companion UI Components | Pending |
+| TODAY-03 | Phase 9: Companion UI Components | Pending |
+| CARD-01 | Phase 9: Companion UI Components | Pending |
+| CARD-02 | Phase 9: Companion UI Components | Pending |
+| WIND-01 | Phase 10: Wind-Down Experience | Pending |
+| WIND-02 | Phase 10: Wind-Down Experience | Pending |
+| PUSH-01 | Phase 11: Push Notification Infrastructure | Pending |
+| PUSH-02 | Phase 11: Push Notification Infrastructure | Pending |
+| PUSH-03 | Phase 11: Push Notification Infrastructure | Pending |
 
 **v2.0 Coverage:**
 - v2.0 requirements: 16 total
-- Mapped to phases: 0 (roadmap not yet created)
-- Unmapped: 16 ⚠️ (will be resolved by roadmapper)
+- Mapped to phases: 16 ✓
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-22*
-*Last updated: 2026-04-05 — v2.0 Companion Experience requirements added*
+*Last updated: 2026-04-05 — v2.0 roadmap created; all 16 v2.0 requirements mapped to Phases 6-11*

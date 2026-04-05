@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Companion Experience
-status: Defining requirements
-stopped_at: Milestone v2.0 started
+status: Roadmap ready
+stopped_at: v2.0 roadmap created (Phases 6-11)
 last_updated: "2026-04-05T00:00:00.000Z"
 progress:
-  total_phases: 0
-  completed_phases: 0
+  total_phases: 11
+  completed_phases: 2
   total_plans: 0
   completed_plans: 0
 ---
@@ -19,14 +19,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-05)
 
 **Core value:** A calm, beautiful alternative to your calendar app that makes meetings feel manageable, not draining.
-**Current focus:** Milestone v2.0 — Companion Experience (defining requirements)
+**Current focus:** Milestone v2.0 — Companion Experience (roadmap ready, Phase 6 next)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 6 — Language Foundation (not started)
 Plan: —
-Status: Defining requirements
-Last activity: 2026-04-05 — Milestone v2.0 started
+Status: Roadmap ready; awaiting Phase 6 planning
+Last activity: 2026-04-05 — v2.0 roadmap created (Phases 6-11)
 
 ## Performance Metrics
 
@@ -82,6 +82,9 @@ Recent decisions affecting current work:
 - [Phase 04]: MeetingsList uses NoMeetingsEmpty for zero-meetings state since CalendarHub prevents MeetingsList rendering when no connections exist
 - [Phase 05]: Inline confirmation on ForgotPassword instead of navigation -- better UX
 - [Phase 05]: useRef for recovery detection to avoid stale closure in setTimeout redirect
+- [Roadmap v2.0]: Copy glossary (Phase 6) is a hard prerequisite that must ship before any text-bearing feature in Phases 8-11
+- [Roadmap v2.0]: Ambient Beauty Foundation (Phase 8) sequenced before Companion UI Components (Phase 9) so Fraunces and glass hierarchy exist before any component consumes them
+- [Roadmap v2.0]: Push Notification Infrastructure (Phase 11) is self-contained and can run in parallel with UI phases after Phase 6 lands
 
 ### Pending Todos
 
@@ -92,9 +95,12 @@ None yet.
 - Google OAuth verification is a 4-6 week external process -- must be initiated during Phase 1 to avoid blocking public launch
 - Conflicting lockfiles (package-lock.json + bun.lockb) need standardizing before launch
 - Duplicate `encrypted_*` / `*_encrypted` columns in calendar_connections need cleanup
+- [v2.0] Deno/JSR Web Push library (`jsr:@negrel/webpush`) compatibility with Supabase Edge Runtime needs verification at Phase 11 start
+- [v2.0] iOS Safari PWA push limitations (requires Add to Home Screen, iOS 16.4+) must be communicated in the permissions UX
+- [v2.0] Greeting copy templates (Phase 9) are the highest-creative-risk deliverable and need a dedicated creative review session before engineering
 
 ## Session Continuity
 
-Last session: 2026-04-04T10:48:40.052Z
-Stopped at: Completed 05-02-PLAN.md
+Last session: 2026-04-05T00:00:00.000Z
+Stopped at: v2.0 roadmap created (Phases 6-11)
 Resume file: None
