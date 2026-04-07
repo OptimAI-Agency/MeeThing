@@ -46,7 +46,7 @@
 
 ### Language & Copy
 
-- [ ] **COPY-01**: All UI text conforms to a calm-first copy glossary — no utility/dashboard vocabulary anywhere in the app ("Today" not "Calendar Integration", "Your Calendar" not "Connections", auto-sync replaces the primary "Sync now" button)
+- [x] **COPY-01**: All UI text conforms to a calm-first copy glossary — no utility/dashboard vocabulary anywhere in the app ("Today" not "Calendar Integration", "Your Calendar" not "Connections", auto-sync replaces the primary "Sync now" button)
 - [ ] **COPY-02**: User sees a contextual daily greeting at the top of the Today view containing their first name, today's meeting count, and the largest free gap in their day (e.g. "Good morning, [Name]. You have 3 meetings today. Biggest breathing room: 2h after 2 PM.")
 - [ ] **COPY-03**: User sees weekly tone language in the app that reflects the week's meeting density in natural language ("A full week ahead" / "A lighter week — space to think")
 
@@ -150,7 +150,7 @@ Populated after roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| COPY-01 | Phase 6: Language Foundation | Pending |
+| COPY-01 | Phase 6: Language Foundation | Complete |
 | TODAY-01 | Phase 7: Today-First Layout | Pending |
 | TODAY-02 | Phase 7: Today-First Layout | Pending |
 | BEAUTY-01 | Phase 8: Ambient Beauty Foundation | Pending |

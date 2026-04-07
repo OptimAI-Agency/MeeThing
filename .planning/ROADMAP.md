@@ -123,7 +123,7 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 06-01-PLAN.md — Create src/copy/glossary.ts (frozen COPY constant) + docs/copy-glossary.md mirror
+- [x] 06-01-PLAN.md — Create src/copy/glossary.ts (frozen COPY constant) + docs/copy-glossary.md mirror
 - [ ] 06-02-PLAN.md — Sweep calendar app surfaces (CalendarHub, EmptyStates, CalendarConnections, SettingsHeader) + demote sync to icon-only
 - [ ] 06-03-PLAN.md — Sweep landing surfaces (Hero, Features) + D-12 full-sweep audit + populate glossary flagged section
 
@@ -203,7 +203,7 @@ v2.0 phases execute: 6 -> 7 -> 8 -> 9 -> 10, with 11 running in parallel any tim
 | 3. Settings Persistence | 1/2 | In progress | - |
 | 4. Wellness Engine | 2/3 | Gap closure | - |
 | 5. Auth Hardening | 1/2 | In Progress|  |
-| 6. Language Foundation | 0/3 | Planned | - |
+| 6. Language Foundation | 1/3 | In Progress|  |
 | 7. Today-First Layout | 0/0 | Not started | - |
 | 8. Ambient Beauty Foundation | 0/0 | Not started | - |
 | 9. Companion UI Components | 0/0 | Not started | - |
