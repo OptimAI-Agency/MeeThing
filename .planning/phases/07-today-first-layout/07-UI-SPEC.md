@@ -1,7 +1,8 @@
 ---
 phase: 7
 slug: today-first-layout
-status: draft
+status: approved
+reviewed_at: 2026-04-07
 shadcn_initialized: true
 preset: default (slate base)
 created: 2026-04-07
