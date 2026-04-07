@@ -64,7 +64,28 @@ Phase: 6 — Language Foundation (COPY-01)
 
 ## Flagged for reviewer judgment
 
-(Populated during Wave 2 full sweep — any borderline string a sweeper plan could not confidently replace.)
+> Sourced from Phase 6 Plan 03 full sweep audit — see `.planning/phases/06-language-foundation/06-03-AUDIT.md` for methodology.
+
+| File | Line | Current string | Why flagged | Suggested phase |
+|------|------|----------------|-------------|-----------------|
+| src/components/Features.tsx | ~17 | "Meeting Analysis" card title | Marketing positioning; no glossary key | Phase 9 (copywriting) |
+| src/components/Features.tsx | ~24 | "Environment Suggestions" card title | Out-of-scope v2.0 feature; likely removed | Phase 9 |
+| src/components/Features.tsx | ~31 | "Smart Notifications" / "Productivity" badge | "Productivity" contradicts calm brand | Phase 9 |
+| src/components/Features.tsx | ~38 | "Role-Based Suggestions" card title | Out-of-scope | Phase 9 |
+| src/components/Features.tsx | ~45 | "Wellness Tracking" / "Monitor your meeting wellness score" | "score" is gamification language; contradicts no-gamification rule | Phase 9 |
+| src/components/calendar/CalendarConnections.tsx | ~277 | "Events sync on connection" | Utility bullet under success block; could be warmer | Phase 7 (today-first layout) |
+| src/components/calendar/CalendarConnections.tsx | ~281 | "Next 7 days of events" | Same success block | Phase 7 |
+| src/components/calendar/CalendarConnections.tsx | ~285 | "View in Overview tab" | References renamed tab — "Overview" is now "Your Calendar"; stale label | Phase 7 (tab rename follow-up) |
+| src/components/Hero.tsx | ~13 | "Transform Your Meetings with Wellness-Focused Suggestions" | v1 marketing hero; Hero.tsx is not the active landing hero | Phase 9 |
+| src/components/Hero.tsx | ~27 | "Start Free Trial" / "Watch Demo" | Stale CTAs; product has no free trial; Hero.tsx not active | Phase 9 |
+| src/components/calendar/MeetingsList.tsx | ~34 | "Upcoming Meetings" heading | Utility framing; no locked decision | Phase 7 (today-first layout rewrite) |
+| src/components/calendar/MeetingsList.tsx | ~36 | "Your next 7 days of events" subtitle | Specific to 7-day window; may change with layout | Phase 7 |
+| src/components/calendar/MeetingsList.tsx | ~155–158 | "Wellness Tip" / hardcoded breathing tip text | Hardcoded tip; needs Phase 9 voice review | Phase 9 |
+| src/components/calendar/settings/SyncSettings.tsx | ~19 | "Sync Preferences" heading | "Sync" borderline; functional settings context | Phase 8 (settings UX) |
+| src/components/calendar/settings/SyncSettings.tsx | ~21 | "Configure how often your calendars update" | Functional description; calm enough; borderline | Phase 8 |
+| src/components/calendar/settings/NotificationSettings.tsx | ~36 | "Manage your meeting reminders and alerts" | "alerts" lowercase in prose — not the forbidden label, but borderline | Phase 8 |
+| src/components/calendar/settings/WellnessSection.tsx | ~12 | "Wellness Integration" heading | "Integration" borderline (cf. D-01); acceptable in wellness context | Phase 8 |
+| src/pages/AuthCallback.tsx | ~65 | "Google Calendar connected" / "Your events are ready." | Functional OAuth toast; could be warmed up to COPY pattern | Phase 7 |
 
 ## Forbidden vocabulary
 
