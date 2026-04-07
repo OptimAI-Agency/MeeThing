@@ -24,7 +24,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 ### v2.0 — Companion Experience
 
-- [ ] **Phase 6: Language Foundation** - Copy glossary + sweep across all existing UI strings
+- [x] **Phase 6: Language Foundation** - Copy glossary + sweep across all existing UI strings
 - [ ] **Phase 7: Today-First Layout** - Default today view with URL-persisted week toggle
 - [ ] **Phase 8: Ambient Beauty Foundation** - Fraunces typeface, breathing background, glass hierarchy audit
 - [ ] **Phase 9: Companion UI Components** - Contextual greeting, Today's Rhythm timeline, proportional time-tinted cards, weekly tone
@@ -125,7 +125,7 @@ Plans:
 Plans:
 - [x] 06-01-PLAN.md — Create src/copy/glossary.ts (frozen COPY constant) + docs/copy-glossary.md mirror
 - [x] 06-02-PLAN.md — Sweep calendar app surfaces (CalendarHub, EmptyStates, CalendarConnections, SettingsHeader) + demote sync to icon-only
-- [ ] 06-03-PLAN.md — Sweep landing surfaces (Hero, Features) + D-12 full-sweep audit + populate glossary flagged section
+- [x] 06-03-PLAN.md — Sweep landing surfaces (Hero, Features) + D-12 full-sweep audit + populate glossary flagged section
 
 ### Phase 7: Today-First Layout
 **Goal**: The calendar opens on today by default and the today/week toggle is URL-persistent, giving all companion features a stable today context to derive from
