@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: — Public Launch
 status: planning
-stopped_at: Completed 06-language-foundation-01-PLAN.md
-last_updated: "2026-04-07T02:22:11.034Z"
+stopped_at: Completed 06-language-foundation-02-PLAN.md
+last_updated: "2026-04-07T02:29:29.104Z"
 last_activity: 2026-04-05 — v2.0 roadmap created (Phases 6-11)
 progress:
   total_phases: 6
   completed_phases: 5
   total_plans: 14
-  completed_plans: 12
-  percent: 86
+  completed_plans: 13
+  percent: 93
 ---
 
 # Project State
@@ -59,6 +59,7 @@ Last activity: 2026-04-05 — v2.0 roadmap created (Phases 6-11)
 | Phase 04 P03 | 167 | 1 tasks | 1 files |
 | Phase 05 P02 | 133 | 2 tasks | 5 files |
 | Phase 06-language-foundation P01 | 342 | 2 tasks | 2 files |
+| Phase 06-language-foundation P02 | 595 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -90,6 +91,8 @@ Recent decisions affecting current work:
 - [Roadmap v2.0]: Push Notification Infrastructure (Phase 11) is self-contained and can run in parallel with UI phases after Phase 6 lands
 - [Phase 06-language-foundation]: as const used (not Object.freeze) for compile-time readonly with zero runtime overhead
 - [Phase 06-language-foundation]: Copy glossary exports both COPY and type Copy for compile-time key checking in consuming components
+- [Phase 06-language-foundation]: Sync button demoted to icon-only (ghost/size=icon) with aria-label={COPY.sync.iconAriaLabel}, no visible text per D-05/D-07
+- [Phase 06-language-foundation]: All variant:destructive removed from sync and disconnect toasts per D-08 low-urgency pattern
 
 ### Pending Todos
 
@@ -106,6 +109,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-07T02:22:11.019Z
-Stopped at: Completed 06-language-foundation-01-PLAN.md
+Last session: 2026-04-07T02:29:29.100Z
+Stopped at: Completed 06-language-foundation-02-PLAN.md
 Resume file: None
