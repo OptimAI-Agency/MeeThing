@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
+import { COPY } from "@/copy/glossary";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -109,13 +110,11 @@ const CalendarConnections = ({ connectedProviders, syncing }: Props) => {
       queryClient.invalidateQueries({ queryKey: ["meetings"] });
 
       toast({
-        title: "Calendar disconnected",
-        description: `${calendarProviders.find((p) => p.id === providerId)?.name} has been disconnected and all synced meetings have been removed.`,
-        variant: "destructive",
+        title: COPY.disconnect.successTitle,
+        description: COPY.disconnect.successBody,
       });
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "An unexpected error occurred.";
-      toast({ title: "Failed to disconnect", description: message, variant: "destructive" });
+      toast({ title: COPY.disconnect.errorTitle, description: COPY.disconnect.errorBody });
     } finally {
       setDisconnecting(null);
     }
@@ -154,18 +153,18 @@ const CalendarConnections = ({ connectedProviders, syncing }: Props) => {
         <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 mb-2 sm:mb-4">
           <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
         </div>
-        <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 tracking-tight">Calendar Connections</h2>
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 tracking-tight">{COPY.nav.connections}</h2>
         <p className="text-gray-600 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
-          Connect your calendar providers to sync meetings and events seamlessly
+          {COPY.welcome.subheading}
         </p>
       </div>
 
       {/* Warm welcome empty state when no connections */}
       {connectedProviders.length === 0 && (
         <div className="text-center py-6 space-y-3">
-          <p className="text-lg font-medium text-gray-900">Welcome! Let's get you connected</p>
+          <p className="text-lg font-medium text-gray-900">{COPY.empty.noConnectionTitle}</p>
           <p className="text-gray-600 text-sm max-w-sm mx-auto">
-            Connect a calendar below to start seeing your meetings in a calmer way
+            {COPY.empty.noConnectionBody}
           </p>
         </div>
       )}
@@ -230,15 +229,15 @@ const CalendarConnections = ({ connectedProviders, syncing }: Props) => {
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>Disconnect Google Calendar?</AlertDialogTitle>
+                          <AlertDialogTitle>{COPY.disconnect.confirmTitle}</AlertDialogTitle>
                           <AlertDialogDescription>
-                            This will remove all synced meetings from MeeThing. You can reconnect at any time.
+                            {COPY.disconnect.confirmBody}
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogCancel>{COPY.disconnect.cancel}</AlertDialogCancel>
                           <AlertDialogAction onClick={() => handleDisconnect(provider.id)}>
-                            Disconnect
+                            {COPY.disconnect.confirmCta}
                           </AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
@@ -268,8 +267,8 @@ const CalendarConnections = ({ connectedProviders, syncing }: Props) => {
               <CheckCircle className="w-5 h-5 text-green-600" />
             </div>
             <div>
-              <h3 className="font-medium text-green-900">All set!</h3>
-              <p className="text-green-700 text-sm">Your calendars are connected and syncing</p>
+              <h3 className="font-medium text-green-900">{COPY.sync.successTitle}</h3>
+              <p className="text-green-700 text-sm">{COPY.sync.successBody}</p>
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
