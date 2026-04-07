@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: — Public Launch
 status: planning
-stopped_at: Completed 06-language-foundation-02-PLAN.md
-last_updated: "2026-04-07T02:29:29.104Z"
+stopped_at: Completed 06-language-foundation-03-PLAN.md
+last_updated: "2026-04-07T04:15:00.000Z"
 last_activity: 2026-04-05 — v2.0 roadmap created (Phases 6-11)
 progress:
   total_phases: 6
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-04-05)
 
 ## Current Position
 
-Phase: 6 — Language Foundation (not started)
-Plan: —
-Status: Roadmap ready; awaiting Phase 6 planning
-Last activity: 2026-04-05 — v2.0 roadmap created (Phases 6-11)
+Phase: 6 — Language Foundation
+Plan: 3 of 3 (complete)
+Status: All Phase 6 plans executed
+Last activity: 2026-04-07 — Phase 6 Plan 03 complete (D-12 full-sweep audit + landing page fixes)
 
 ## Performance Metrics
 
@@ -60,6 +60,7 @@ Last activity: 2026-04-05 — v2.0 roadmap created (Phases 6-11)
 | Phase 05 P02 | 133 | 2 tasks | 5 files |
 | Phase 06-language-foundation P01 | 342 | 2 tasks | 2 files |
 | Phase 06-language-foundation P02 | 595 | 2 tasks | 4 files |
+| Phase 06-language-foundation P03 | 900 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -93,6 +94,7 @@ Recent decisions affecting current work:
 - [Phase 06-language-foundation]: Copy glossary exports both COPY and type Copy for compile-time key checking in consuming components
 - [Phase 06-language-foundation]: Sync button demoted to icon-only (ghost/size=icon) with aria-label={COPY.sync.iconAriaLabel}, no visible text per D-05/D-07
 - [Phase 06-language-foundation]: All variant:destructive removed from sync and disconnect toasts per D-08 low-urgency pattern
+- [Phase 06-language-foundation P03]: Inline literals used in Hero.tsx and Features.tsx (not glossary imports) — isolated marketing copy never reused elsewhere; 18 borderline strings flagged to Phase 7/8/9, none replaced without a locked decision
 
 ### Pending Todos
 
@@ -109,6 +111,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-07T02:29:29.100Z
-Stopped at: Completed 06-language-foundation-02-PLAN.md
+Last session: 2026-04-07T04:15:00.000Z
+Stopped at: Completed 06-language-foundation-03-PLAN.md
 Resume file: None
