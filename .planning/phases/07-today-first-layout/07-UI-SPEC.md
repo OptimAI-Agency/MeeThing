@@ -52,11 +52,13 @@ Source: Tailwind defaults (4px grid), existing CalendarHub patterns (`p-8 sm:p-1
 | Role | Size | Weight | Line Height | Usage in This Phase |
 |------|------|--------|-------------|---------------------|
 | Body | 16px (text-base) | 400 (normal) | 1.5 | Meeting card body text, empty state body |
-| Label | 14px (text-sm) | 500 (medium) | 1.5 | Toggle item labels, meta text, subheadings |
+| Label | 14px (text-sm) | 400 (normal) | 1.5 | Toggle item labels, meta text, subheadings |
 | Heading | 24px (text-2xl) | 600 (semibold) | 1.2 | Section headers ("Today" / "This week") |
 | Display | 20px (text-xl) | 600 (semibold) | 1.2 | MeetingsList header (view-specific title) |
 
 Font family: `'Inter', system-ui, -apple-system, sans-serif` (existing, declared in `src/index.css` body rule).
+
+Two weights only: 400 (normal) for Body and Label, 600 (semibold) for Heading and Display. The visual distinction between Label (14px) and Body (16px) is maintained through size, not weight.
 
 Source: Existing MeetingsList header uses `text-xl sm:text-2xl font-semibold`. CalendarHub heading uses `text-5xl sm:text-6xl` (unchanged in this phase).
 
@@ -69,15 +71,16 @@ This phase introduces no new colors. All values come from the existing design sy
 | Role | Value | Usage |
 |------|-------|-------|
 | Dominant (60%) | `rgb(247, 248, 250)` / `--background` | Page background surface |
-| Secondary (30%) | `rgba(255, 255, 255, 0.72)` / `.glass-panel` | Main content panel, toggle group container |
-| Accent (10%) | `rgb(34, 120, 95)` / `--primary` (forest-green) | Active toggle item background, focus ring |
+| Secondary (30%) | `rgba(255, 255, 255, 0.72)` / `.glass-panel` | Main content panel, toggle group container, active toggle item surface (`bg-white`) |
+| Accent (10%) | `rgb(34, 120, 95)` / `--primary` (forest-green) | Focus ring on toggle group |
 | Destructive | `rgb(220, 38, 38)` / `--destructive` | Not used in this phase (no destructive actions) |
 
 Accent reserved for:
-- Active toggle item (today/week selected state)
 - Focus ring on toggle group (`--ring`)
 
-Toggle active state uses `bg-white text-blue-600 shadow-lg` to match the existing tab navigation pattern in CalendarHub (line 122-125). The inactive toggle state uses `text-gray-700 hover:bg-white/50` to match the existing tab ghost pattern.
+Note: The active toggle item uses `bg-white text-gray-900 shadow-sm` -- a secondary surface treatment, not accent. This matches the existing tab navigation pattern in CalendarHub.
+
+Toggle active state uses `bg-white text-gray-900 shadow-sm` to match the existing tab navigation pattern in CalendarHub (line 122-125). The inactive toggle state uses `text-gray-600 hover:bg-white/40` to match the existing tab ghost pattern.
 
 Source: `src/index.css` `:root` variables, CalendarHub tab styling
 
@@ -188,13 +191,13 @@ Source: RESEARCH.md Open Question 2 recommends adding these to the glossary now.
 
 ## ViewToggle Visual Specification
 
-The ViewToggle renders as a compact pill-shaped toggle group inside the overview tab, positioned between the sync button row and the meeting list.
+The ViewToggle is the primary new focal element in this phase -- it is the entry point for view switching and draws the eye first after this change. It renders as a compact pill-shaped toggle group inside the overview tab, positioned between the sync button row and the meeting list.
 
 ### Layout
 
 ```
 [Sync icon button ................ right-aligned]
-[  Today  |  This week  ]  <-- ViewToggle, center-aligned
+[  Today  |  This week  ]  <-- ViewToggle (primary focal point), center-aligned
 [Meeting list / empty state below]
 ```
 
@@ -203,8 +206,8 @@ The ViewToggle renders as a compact pill-shaped toggle group inside the overview
 | Property | Value | Source |
 |----------|-------|--------|
 | Container | `glass-light rounded-2xl p-1` | Lighter glass than the parent panel for visual nesting |
-| Toggle item (inactive) | `text-gray-600 hover:text-gray-900 hover:bg-white/40 rounded-xl px-4 py-2 text-sm font-medium` | Matches existing tab ghost pattern |
-| Toggle item (active) | `bg-white text-gray-900 shadow-sm rounded-xl px-4 py-2 text-sm font-medium` | Matches existing active tab pattern (white bg + shadow) |
+| Toggle item (inactive) | `text-gray-600 hover:text-gray-900 hover:bg-white/40 rounded-xl px-4 py-2 text-sm font-normal` | Matches existing tab ghost pattern |
+| Toggle item (active) | `bg-white text-gray-900 shadow-sm rounded-xl px-4 py-2 text-sm font-normal` | Matches existing active tab pattern (white bg + shadow); secondary surface, not accent |
 | Min touch target | `min-h-[36px]` per item | Compact but accessible; parent container padding brings total to 44px tap zone |
 | Transition | `spring-smooth` (existing utility: `all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)`) | Matches existing UI motion |
 | Alignment | Centered in the overview area, below sync button row | Visually anchored to content, not header |
