@@ -7,9 +7,9 @@ const Features = () => {
   const features = [
     {
       icon: Calendar,
-      title: "Calendar Integration",
-      description: "Connect with Google Calendar, Outlook, and other popular calendar applications to automatically analyze your meeting schedule.",
-      badge: "Core Feature",
+      title: "Your Calendar",
+      description: "Connect Google Calendar to see your meetings in a calmer, more human way.",
+      badge: "Core",
       color: "text-blue-600"
     },
     {

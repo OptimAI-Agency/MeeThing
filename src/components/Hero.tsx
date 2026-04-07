@@ -34,9 +34,9 @@ const Hero = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
             <div className="flex flex-col items-center p-6 bg-white/60 backdrop-blur-sm rounded-lg wellness-shadow">
               <Calendar className="h-12 w-12 text-primary mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Calendar Integration</h3>
+              <h3 className="text-lg font-semibold mb-2">Your Calendar</h3>
               <p className="text-muted-foreground text-center">
-                Seamlessly connect with your existing calendar apps
+                A calmer view of your week, synced from your existing calendar
               </p>
             </div>
             
