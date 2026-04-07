@@ -136,8 +136,12 @@ Plans:
   2. A user can toggle between today-only and full week; the active view is reflected in the URL (`?view=today` | `?view=week`) and survives refresh, back/forward, and link sharing
   3. The underlying `useTodayMeetings` hook is always filtered to today regardless of the active view toggle — the greeting, rhythm, and wind-down never show week-scoped counts
   4. Switching views preserves scroll position and does not cause layout flicker
-**Plans**: TBD
+**Plans**: 2 plans
 **UI hint**: yes
+
+Plans:
+- [ ] 07-01-PLAN.md — Glossary view entries, useViewMode + useTodayMeetings hooks, ViewToggle component
+- [ ] 07-02-PLAN.md — Wire ViewToggle into CalendarHub, view-aware MeetingsList + EmptyStates, human verification
 
 ### Phase 8: Ambient Beauty Foundation
 **Goal**: MeeThing's visual and typographic atmosphere matches its calm voice — warm serif on emotional surfaces, a slow breathing background, and a legible glassmorphism depth hierarchy
@@ -204,7 +208,7 @@ v2.0 phases execute: 6 -> 7 -> 8 -> 9 -> 10, with 11 running in parallel any tim
 | 4. Wellness Engine | 2/3 | Gap closure | - |
 | 5. Auth Hardening | 1/2 | In Progress|  |
 | 6. Language Foundation | 2/3 | In Progress|  |
-| 7. Today-First Layout | 0/0 | Not started | - |
+| 7. Today-First Layout | 0/2 | Not started | - |
 | 8. Ambient Beauty Foundation | 0/0 | Not started | - |
 | 9. Companion UI Components | 0/0 | Not started | - |
 | 10. Wind-Down Experience | 0/0 | Not started | - |
