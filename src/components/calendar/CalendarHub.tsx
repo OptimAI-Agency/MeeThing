@@ -12,7 +12,9 @@ import { useMeetings } from "@/hooks/useMeetings";
 import { useUserSettings } from "@/hooks/useUserSettings";
 import { useBreathingReminder } from "@/hooks/useBreathingReminder";
 import CalendarConnections from "./CalendarConnections";
+import ViewToggle from "./ViewToggle";
 import MeetingsList from "./MeetingsList";
+import { useViewMode } from "@/hooks/useViewMode";
 import MeetingCardSkeleton from "./MeetingCardSkeleton";
 import CalendarSettings from "./CalendarSettings";
 import BreathingOverlay from "@/components/wellness/BreathingOverlay";
@@ -34,13 +36,18 @@ const CalendarHub = () => {
   const { data: meetings = [] } = useMeetings();
   const { data: settings } = useUserSettings();
   const breathing = useBreathingReminder(meetings, settings);
+  const { viewMode } = useViewMode();
 
   const connectedProviders = connections.map((c) => c.provider);
 
   // Clear the ?tab query param after applying it on first render
   useEffect(() => {
     if (searchParams.get("tab")) {
-      setSearchParams({}, { replace: true });
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev);
+        next.delete("tab");
+        return next;
+      }, { replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     // Intentionally run once on mount to consume the ?tab param and clear it.
@@ -138,7 +145,7 @@ const CalendarHub = () => {
 
         {/* Content */}
         <div className="max-w-4xl mx-auto">
-          <div className="relative glass-panel rounded-3xl p-8 sm:p-10 space-y-8 animate-scale-in">
+          <div className="relative glass-panel rounded-3xl p-8 sm:p-10 space-y-8 animate-scale-in min-h-[400px]">
             {breathing.showBanner && (
               <MissedReminderBanner
                 meetingTitle={breathing.meetingTitle}
@@ -188,7 +195,8 @@ const CalendarHub = () => {
                         <RefreshCw className={`w-4 h-4 ${syncing ? "animate-spin" : ""}`} aria-hidden="true" />
                       </Button>
                     </div>
-                    <MeetingsList />
+                    <ViewToggle />
+                    <MeetingsList viewMode={viewMode} />
                   </>
                 )}
               </div>
