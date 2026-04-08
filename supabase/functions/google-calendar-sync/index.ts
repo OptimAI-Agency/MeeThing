@@ -31,6 +31,8 @@ serve(async (req) => {
   const preflightResponse = handleCorsPreflightIfNeeded(req);
   if (preflightResponse) return preflightResponse;
 
+  const origin = req.headers.get("origin");
+
   try {
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) throw new Error("Missing Authorization header");
@@ -171,7 +173,7 @@ serve(async (req) => {
       .eq("id", connection.id);
 
     return new Response(JSON.stringify({ success: true, synced: meetings.length }), {
-      headers: { ...getCorsHeaders(), "Content-Type": "application/json" },
+      headers: { ...getCorsHeaders(origin), "Content-Type": "application/json" },
     });
   } catch (err: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
     console.error("google-calendar-sync error:", err);
@@ -190,7 +192,7 @@ serve(async (req) => {
       }),
       {
         status: isAuthError ? 401 : 400,
-        headers: { ...getCorsHeaders(), "Content-Type": "application/json" },
+        headers: { ...getCorsHeaders(origin), "Content-Type": "application/json" },
       },
     );
   }

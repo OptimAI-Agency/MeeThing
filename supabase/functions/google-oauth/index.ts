@@ -7,6 +7,8 @@ serve(async (req) => {
   const preflightResponse = handleCorsPreflightIfNeeded(req);
   if (preflightResponse) return preflightResponse;
 
+  const origin = req.headers.get("origin");
+
   try {
     const { code } = await req.json();
     if (!code) throw new Error("Missing authorization code");
@@ -78,13 +80,13 @@ serve(async (req) => {
     if (dbError) throw dbError;
 
     return new Response(JSON.stringify({ success: true }), {
-      headers: { ...getCorsHeaders(), "Content-Type": "application/json" },
+      headers: { ...getCorsHeaders(origin), "Content-Type": "application/json" },
     });
   } catch (err) {
     console.error("google-oauth error:", err);
     return new Response(JSON.stringify({ error: err.message }), {
       status: 400,
-      headers: { ...getCorsHeaders(), "Content-Type": "application/json" },
+      headers: { ...getCorsHeaders(origin), "Content-Type": "application/json" },
     });
   }
 });

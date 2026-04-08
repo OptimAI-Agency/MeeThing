@@ -7,6 +7,8 @@ serve(async (req) => {
   const preflightResponse = handleCorsPreflightIfNeeded(req);
   if (preflightResponse) return preflightResponse;
 
+  const origin = req.headers.get("origin");
+
   try {
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) throw new Error("Missing Authorization header");
@@ -70,13 +72,13 @@ serve(async (req) => {
     }
 
     return new Response(JSON.stringify({ success: true }), {
-      headers: { ...getCorsHeaders(), "Content-Type": "application/json" },
+      headers: { ...getCorsHeaders(origin), "Content-Type": "application/json" },
     });
   } catch (err) {
     console.error("google-calendar-disconnect error:", err);
     return new Response(JSON.stringify({ error: (err as Error).message }), {
       status: 400,
-      headers: { ...getCorsHeaders(), "Content-Type": "application/json" },
+      headers: { ...getCorsHeaders(origin), "Content-Type": "application/json" },
     });
   }
 });
