@@ -42,6 +42,8 @@ const CalendarHub = () => {
     if (searchParams.get("tab")) {
       setSearchParams({}, { replace: true });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Intentionally run once on mount to consume the ?tab param and clear it.
   }, []);
 
   const handleSync = async () => {
