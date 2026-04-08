@@ -52,6 +52,16 @@ export const COPY = {
     errorTitle: "Couldn't disconnect",
     errorBody: "Try again in a moment.",
   },
+  view: {
+    today: "Today",
+    week: "This week",
+    todayHeading: "Today",
+    todaySubheading: "Your meetings for today",
+    weekHeading: "This week",
+    weekSubheading: "Your next 7 days",
+    todayEmptyWithWeek: "You have {count} meetings later this week",
+    toggleAriaLabel: "Switch between today and week view",
+  },
 } as const;
 
 export type Copy = typeof COPY;
