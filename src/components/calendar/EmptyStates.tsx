@@ -2,7 +2,11 @@ import { Calendar, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { COPY } from "@/copy/glossary";
 
-export const NoMeetingsEmpty = () => {
+interface NoMeetingsEmptyProps {
+  weekMeetingCount?: number;
+}
+
+export const NoMeetingsEmpty = ({ weekMeetingCount }: NoMeetingsEmptyProps) => {
   return (
     <div className="text-center py-12 space-y-4">
       <Calendar className="w-16 h-16 text-green-500/40 mx-auto" />
@@ -11,6 +15,11 @@ export const NoMeetingsEmpty = () => {
         <p className="text-gray-500 text-sm max-w-sm mx-auto">
           {COPY.empty.noMeetingsBody}
         </p>
+        {weekMeetingCount != null && weekMeetingCount > 0 && (
+          <p className="text-gray-400 text-xs mt-2">
+            {COPY.view.todayEmptyWithWeek.replace("{count}", String(weekMeetingCount))}
+          </p>
+        )}
       </div>
     </div>
   );

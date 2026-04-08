@@ -1,10 +1,12 @@
-import { Fragment } from "react";
+import { Fragment, useRef, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, Users, Lightbulb, MapPin } from "lucide-react";
 import { useMeetings } from "@/hooks/useMeetings";
 import { useUserSettings } from "@/hooks/useUserSettings";
-import { format, formatDuration, intervalToDuration, differenceInMinutes } from "date-fns";
+import { format, formatDuration, intervalToDuration, differenceInMinutes, isToday } from "date-fns";
+import { COPY } from "@/copy/glossary";
+import type { ViewMode } from "@/hooks/useViewMode";
 import MeetingCardSkeleton from "./MeetingCardSkeleton";
 import { NoMeetingsEmpty, MeetingsError } from "./EmptyStates";
 import TransitionBufferWarning from "@/components/wellness/TransitionBufferWarning";
@@ -33,19 +35,41 @@ function getSafeHref(metadata: Record<string, unknown> | null): string | null {
   return null;
 }
 
-const MeetingsList = () => {
+interface MeetingsListProps {
+  viewMode: ViewMode;
+}
+
+const MeetingsList = ({ viewMode }: MeetingsListProps) => {
   const { data: meetings = [], isLoading, error, refetch } = useMeetings();
   const { data: settings } = useUserSettings();
   const transitionBufferEnabled = settings?.transition_buffer_enabled ?? false;
+
+  const displayMeetings = viewMode === "today"
+    ? meetings.filter((m) => isToday(new Date(m.start_time)))
+    : meetings;
+
+  const prevViewRef = useRef(viewMode);
+
+  useEffect(() => {
+    if (prevViewRef.current !== viewMode) {
+      const scrollY = window.scrollY;
+      prevViewRef.current = viewMode;
+      requestAnimationFrame(() => {
+        window.scrollTo(0, Math.min(scrollY, document.body.scrollHeight - window.innerHeight));
+      });
+    }
+  }, [viewMode]);
 
   const header = (
     <div className="text-center space-y-3 px-4">
       <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-green-500 to-teal-600 mb-2 sm:mb-4">
         <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
       </div>
-      <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 tracking-tight">Upcoming Meetings</h2>
+      <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 tracking-tight">
+        {viewMode === "today" ? COPY.view.todayHeading : COPY.view.weekHeading}
+      </h2>
       <p className="text-gray-600 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
-        Your next 7 days of events
+        {viewMode === "today" ? COPY.view.todaySubheading : COPY.view.weekSubheading}
       </p>
     </div>
   );
@@ -77,11 +101,13 @@ const MeetingsList = () => {
       {/* Header */}
       {header}
 
-      {meetings.length === 0 ? (
-        <NoMeetingsEmpty />
+      {displayMeetings.length === 0 ? (
+        <NoMeetingsEmpty
+          weekMeetingCount={viewMode === "today" ? meetings.length : undefined}
+        />
       ) : (
         <div className="space-y-4">
-          {meetings.map((meeting, index) => {
+          {displayMeetings.map((meeting, index) => {
             const start = new Date(meeting.start_time);
             const end = new Date(meeting.end_time);
             const duration = intervalToDuration({ start, end });
@@ -90,7 +116,7 @@ const MeetingsList = () => {
             const attendees = Array.isArray(meeting.attendees) ? meeting.attendees : [];
 
             // Compute gap to next meeting for transition buffer warning
-            const nextMeeting = meetings[index + 1];
+            const nextMeeting = displayMeetings[index + 1];
             const gapToNext =
               nextMeeting && transitionBufferEnabled
                 ? differenceInMinutes(new Date(nextMeeting.start_time), end)
