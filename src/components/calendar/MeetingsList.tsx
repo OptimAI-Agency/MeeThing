@@ -21,6 +21,18 @@ const providerColor: Record<string, string> = {
   apple: "bg-gray-500",
 };
 
+function getSafeHref(metadata: Record<string, unknown> | null): string | null {
+  const link = metadata?.htmlLink;
+  if (typeof link !== "string") return null;
+  try {
+    const url = new URL(link);
+    if (url.protocol === "https:" || url.protocol === "http:") return link;
+  } catch {
+    // not a valid URL
+  }
+  return null;
+}
+
 const MeetingsList = () => {
   const { data: meetings = [], isLoading, error, refetch } = useMeetings();
   const { data: settings } = useUserSettings();
@@ -119,18 +131,21 @@ const MeetingsList = () => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
-                      {(meeting.metadata as Record<string, unknown> | null)?.htmlLink && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          asChild
-                          className="rounded-xl px-4 py-2.5 min-h-[44px] spring-smooth active:scale-95 bg-white/50 hover:bg-white/80 border-white/30"
-                        >
-                          <a href={(meeting.metadata as Record<string, unknown> | null).htmlLink} target="_blank" rel="noopener noreferrer">
-                            Open
-                          </a>
-                        </Button>
-                      )}
+                      {(() => {
+                        const safeHref = getSafeHref(meeting.metadata as Record<string, unknown> | null);
+                        return safeHref ? (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            asChild
+                            className="rounded-xl px-4 py-2.5 min-h-[44px] spring-smooth active:scale-95 bg-white/50 hover:bg-white/80 border-white/30"
+                          >
+                            <a href={safeHref} target="_blank" rel="noopener noreferrer">
+                              Open
+                            </a>
+                          </Button>
+                        ) : null;
+                      })()}
                     </div>
                   </div>
                 </div>
