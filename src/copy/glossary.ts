@@ -59,7 +59,8 @@ export const COPY = {
     todaySubheading: "Your meetings for today",
     weekHeading: "This week",
     weekSubheading: "Your next 7 days",
-    todayEmptyWithWeek: "You have {count} meetings later this week",
+    todayEmptyWithWeek: (count: number) =>
+      `You have ${count} meeting${count !== 1 ? "s" : ""} later this week`,
     toggleAriaLabel: "Switch between today and week view",
   },
 } as const;
